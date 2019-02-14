@@ -1,0 +1,20 @@
+{
+    "SingleKeyJump": {
+        "ShowPrefix": false
+    },
+    "Keymap": {
+        "C-i": "peco.Finish",
+        "C-s": "peco.ToggleSingleKeyJump",
+        "C-g": "peco.Cancel",
+        "C-v": "peco.ScrollPageDown",
+        "M-v": "peco.ScrollPageUp",
+        "C-l": "peco.RefreshScreen",
+        "C-x,h": "peco.SelectAll",
+        "C-x,u": "peco.SelectNone",
+        "M-f": "peco.ForwardWord",
+        "M-b": "peco.BackwardWord",
+        "M-d": "peco.DeleteForwardWord",
+        "Pgup": "peco.ScrollPageUp",
+        "Pgdn": "peco.ScrollPageDown"
+    }
+}

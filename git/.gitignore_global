@@ -1,0 +1,13 @@
+*~
+.DS_Store
+.idea
+*.iml
+nb-configuration.xml
+nbactions.xml
+node_modules
+GTAGS
+GRTAGS
+GPATH
+vendor/
+*.retry
+njlib-private.gemspec

@@ -1,0 +1,48 @@
+#!/bin/sh
+# http://klabgames.tech.blog.jp.klab.com/archives/1033121546.html
+
+PREVIOUS_HEAD=$1
+NEW_HEAD=$2
+BRANCH_SWITCH=$3
+Z40="0000000000000000000000000000000000000000"
+
+# Continue only when "git clone" has been executed.
+if [ "$PREVIOUS_HEAD" != "$Z40" -o "$BRANCH_SWITCH" != "1" ]; then
+  exit
+fi
+
+origin_name="$(git remote | head -1)"
+current_remote_url="$(git config --get --local remote.$origin_name.url)"
+default_name="$(git config --get user.name)"
+default_email="$(git config --get user.email)"
+local_name="$(git config --local --get user.name)"
+local_email="$(git config --local --get user.email)"
+
+if [ "$current_remote_url" ]; then
+    case $current_remote_url in
+        *://*)
+            # Normalize URL: remove leading "git+"
+            #   e.g. "git+ssh://user@host/path/" ==> "ssh://user@host/path/"
+            current_remote_url=$(echo $current_remote_url | sed 's/^git\+//')
+            ;;
+        *:*)
+            # Convert scp-style URL to normal-form
+            #   e.g. "user@host:path/" ==> "ssh://user@host/path/"
+            current_remote_url=$(echo $current_remote_url | sed 's/\(.*\):/ssh:\/\/\1\//')
+            ;;
+    esac
+    if [ -z "$local_name" ]; then
+        name="$(git config --get-urlmatch user.name $current_remote_url)"
+        if [ "$name" != "$default_name" ]; then
+            git config --local user.name "$name"
+        fi
+    fi
+    if [ -z "$local_email" ]; then
+        email="$(git config --get-urlmatch user.email $current_remote_url)"
+        if [ "$email" != "$default_email" ]; then
+            git config --local user.email "$email"
+        fi
+    fi
+else
+    echo "No remote URL"
+fi
