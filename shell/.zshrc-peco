@@ -1,0 +1,107 @@
+# # peco の候補を下から表示する
+# alias peco='peco --layout=bottom-up'
+
+# Ctrl-r で peco が起動するようにする (& 重複排除)
+# http://qiita.com/wada811/items/78b14181a4de0fd5b497
+function peco-select-history() {
+    local tac
+    if which tac > /dev/null; then
+        tac="tac"
+    else
+        tac="tail -r"
+    fi
+    BUFFER=$(\history -n 1 | eval $tac | awk '!a[$0]++' | peco --query "$LBUFFER")
+    CURSOR=$#BUFFER
+    # zle clear-screen
+}
+zle -N peco-select-history
+bindkey '^r' peco-select-history
+
+# Ctrl-o で最近訪れたディレクトリに移動 (要 autoload -Uz cdr)
+function peco-cdr () {
+    local selected_dir=$(cdr -l | awk '{ print $2 }' | peco --prompt "${PWD/#$HOME/~}>$LBUFFER")
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+    # zle clear-screen
+}
+zle -N peco-cdr
+bindkey '^o' peco-cdr
+
+# C-] で ghq ディレクトリに移動
+# http://qiita.com/strsk/items/9151cef7e68f0746820d
+function peco-src () {
+  local selected_dir=$(ghq list -p | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
+
+# peco の結果をコマンドラインにインサートする関数
+function peco-insert() {
+    local result="$*"
+    if [ -n "$result" ]; then
+        if [ -n "$LBUFFER" ]; then
+            local cmd="${LBUFFER%\ } $result "
+        else
+            local cmd="$result "
+        fi
+        BUFFER=$cmd$RBUFFER
+        CURSOR=$#cmd
+    fi
+}
+
+# C-x C-b でブランチ選択
+# http://qiita.com/sachaos/items/34946c0085e4e391628c
+function peco-branch () {
+    peco-insert $(git branch -av | peco --prompt ">$LBUFFER" | head -n 1 | sed -e "s/^\*\s*//g" | awk '{print $1}')
+}
+zle -N peco-branch
+bindkey '^x^b' peco-branch
+
+# C-x b でローカルのブランチを更新順に表示
+function peco-branch-local () {
+    peco-insert $(git for-each-ref --format='%(refname:short)' --sort=-committerdate refs/heads | peco --prompt ">$LBUFFER")
+}
+zle -N peco-branch-local
+bindkey '^xb' peco-branch-local
+
+# C-x C-r で git log からリビジョンID選択
+function peco-commitid () {
+    peco-insert $(git log --oneline --decorate | peco --prompt ">$LBUFFER" | awk '{print $1}')
+}
+zle -N peco-commitid
+bindkey '^x^r' peco-commitid
+
+# C-x C-f で ls -la から選択
+function peco-select-file () {
+    peco-insert $(ls -laF | peco --prompt "${PWD/#$HOME/~}>$LBUFFER" | sed -e 's/[*@=%|]$//g' | awk '{print $NF}')
+}
+zle -N peco-select-file
+bindkey '^x^f' peco-select-file
+
+# C-s で ls -l から選択 (要 stty stop undef)
+function peco-select-file-simple () {
+    peco-insert $(ls -lF | peco --prompt "${PWD/#$HOME/~}>$LBUFFER" | sed -e 's/[*@=%|]$//g' | awk '{print $NF}')
+}
+zle -N peco-select-file-simple
+bindkey '^s' peco-select-file-simple
+
+# C-x k で process を kill
+function peco-kill-process () {
+    peco-insert $(ps aux | peco --prompt ">$LBUFFER" | awk '{print "kill " $2}')
+}
+zle -N peco-kill-process
+bindkey '^xk' peco-kill-process
+
+# ag の結果を Emacs で開く
+if type ag > /dev/null 2>&1; then
+    function emg () {
+        ag $@ | peco --query "$LBUFFER" | awk -F : '{print "+" $2 " " $1}' | xargs emacsclient -nw
+    }
+fi
