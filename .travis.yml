@@ -8,7 +8,7 @@ env:
     - DOTPATH=~/.dotfiles
 
 install:
-    - curl -L dot.b4b4r07.com | bash
+    - curl -L raw.githubusercontent.com/sfus/dotfiles/master/etc/install | bash
 
 before_script:
     - cd $(dotpath)
