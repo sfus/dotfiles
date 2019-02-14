@@ -1,0 +1,39 @@
+--- .globalrc.orig	2018-10-15 18:33:32.000000000 +0900
++++ .globalrc	2018-11-02 23:07:27.000000000 +0900
+@@ -35,7 +35,8 @@
+ # Please refer to gtags.conf(5) for details.
+ #
+ default:\
+-	:tc=native:
++	:tc=native:tc=pygments:
++#	:tc=native:
+ native:\
+ 	:tc=gtags:tc=htags:
+ user:\
+@@ -113,7 +114,7 @@
+ 	:langmap=MatLab\:.m:\
+ 	:langmap=OCaml\:.ml.mli:\
+ 	:langmap=Pascal\:.p.pas:\
+-	:langmap=Perl\:.pl.pm.plx.perl:\
++	:langmap=Perl\:.pl.pm.plx.perl.psgi:\
+ 	:langmap=PHP\:.php.php3.phtml:\
+ 	:langmap=Python\:.py.pyx.pxd.pxi.scons:\
+ 	:langmap=REXX\:.cmd.rexx.rx:\
+@@ -233,7 +234,7 @@
+ 	:langmap=OCaml\:.ml.mli.aug:\
+ 	:langmap=passwd\:(passwd):\
+ 	:langmap=Pascal\:.p.pas:\
+-	:langmap=Perl\:.pl.pm.ph.plx.perl:\
++	:langmap=Perl\:.pl.pm.ph.plx.perl.psgi:\
+ 	:langmap=Perl6\:.p6.pm6.pm.pl6:\
+ 	:langmap=PHP\:.php.php3.php4.php5.php7.phtml:\
+ 	:langmap=pod\:.pod:\
+@@ -478,7 +479,7 @@
+ 	:langmap=OpenEdge\:.p.cls:\
+ 	:langmap=PHP\:.php.php3.phtml:\
+ 	:langmap=Pascal\:.pas:\
+-	:langmap=Perl\:.pl.pm:\
++	:langmap=Perl\:.pl.pm.psgi:\
+ 	:langmap=PostScript\:.ps.eps:\
+ 	:langmap=PowerShell\:.ps1:\
+ 	:langmap=Prolog\:.prolog.pro.pl:\
