@@ -30,6 +30,7 @@
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [mergetool]
 	prompt = false
+	keepBackup = false
 [merge]
 	tool = ediff
     conflictStyle = diff3
