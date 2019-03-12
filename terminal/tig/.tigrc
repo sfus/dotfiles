@@ -333,15 +333,15 @@ bind refs    <Esc>= ?git checkout %(commit)
 # - で直前のブランチに戻る (checkout -)
 bind generic -      ?git checkout -
 
-# B でブランチを作成してそのブランチに移動 (checkout -b)
-bind main    B      ?git checkout -b "%(prompt Enter branch name: )" %(commit)
-bind refs    B      ?git checkout -b "%(prompt Enter branch name: )" %(branch)
+# B でブランチを作成
+bind main    B      ?git branch "%(prompt Enter branch name: )" %(commit)
+bind refs    B      ?git branch "%(prompt Enter branch name: )" %(branch)
 
-# Alt-b でブランチを作成
-bind main    <Esc>b ?git branch "%(prompt Enter branch name: )" %(commit)
-bind refs    <Esc>b ?git branch "%(prompt Enter branch name: )" %(branch)
+# Alt-b でブランチを作成してそのブランチに移動 (checkout -b)
+bind main    <Esc>b ?git checkout -b "%(prompt Enter branch name: )" %(commit)
+bind refs    <Esc>b ?git checkout -b "%(prompt Enter branch name: )" %(branch)
 
-# Alt-B でブランチ名を変更
+# Alt-Shift-b でブランチ名を変更
 bind main    <Esc>B ?git branch -m %(branch) "%(prompt Enter new branch name: )"
 bind refs    <Esc>B ?git branch -m %(branch) "%(prompt Enter new branch name: )"
 
@@ -383,6 +383,9 @@ bind generic Z      ?git rebase --abort
 # Alt-z で git cherry-pick --abort
 bind generic <Esc>z ?git cherry-pick --abort
 
+# Alt-Z で git merge --abort
+bind generic <Esc>Z ?git merge --abort
+
 # O で rebase --onto (default: maximize)
 # %(prompt) で指定した派生元ブランチ or コミットIDからカレントブランチの HEAD までを、現在行のブランチに乗せる
 bind main    O      ?git rebase --onto %(commit) "%(prompt Enter beginning of branch/commit: )" %(repo:head)
@@ -407,7 +410,9 @@ bind status  <Hash> ?sh -c "echo %(file) >> .gitignore"
 bind tree    <Hash> ?sh -c "echo %(file) >> .gitignore"
 
 # '&' で git mergetool
-bind generic & !git mergetool
+bind generic &      !git mergetool --prompt
+bind stage   &      !git mergetool --prompt %(file)
+bind status  &      !git mergetool --prompt %(file)
 
 ## Hub
 
