@@ -78,6 +78,17 @@ function peco-commitid () {
 zle -N peco-commitid
 bindkey '^x^r' peco-commitid
 
+# C-x C-l で git worktree 一覧表示 & 移動
+function peco-git-worktree () {
+    local selected_dir=$(git worktree list | awk '{ print $1}' | peco --query "$LBUFFER")
+    if [ -n "$selected_dir" ]; then
+        BUFFER="cd ${selected_dir}"
+        zle accept-line
+    fi
+}
+zle -N peco-git-worktree
+bindkey '^x^l' peco-git-worktree
+
 # C-x C-f で ls -la から選択
 function peco-select-file () {
     peco-insert $(ls -laF | peco --prompt "${PWD/#$HOME/~}>$LBUFFER" | sed -e 's/[*@=%|]$//g' | awk '{print $NF}')
