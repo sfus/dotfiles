@@ -67,6 +67,7 @@
 	di = diff --cached
 	gr = log --graph --decorate --oneline
     re = remote -vv
+    wt = worktree
 
 	# https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4%E3%81%AE%E9%96%B2%E8%A6%A7
 	# http://qiita.com/peccul/items/90dd469e2f72babbc106
