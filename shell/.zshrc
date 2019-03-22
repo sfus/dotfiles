@@ -342,7 +342,8 @@ alias gll='git --no-pager ll -20'
 alias gla='git --no-pager lla -20'
 alias glla='git --no-pager lla -20'
 alias ginit='git init && git commit --allow-empty -m "Initial revision"'
-alias gv='git remote -v'
+alias gr='git remote -v'
+alias gw='git worktree'
 
 alias t='tig'
 alias ti='tig'
@@ -452,16 +453,16 @@ function open-pull-request () {
 
 # check conflicted commit by git rebase
 # http://labs.timedia.co.jp/2015/05/show-what-commit-is-conflicted-while-git-rebase.html
-function what-conflict() {
+function show-conflict() {
     f="$(git rev-parse --git-dir)/rebase-apply/patch"
     if [ -f "$f" ]
     then
         git show $(head -n1 "$f")
     else
-        echo "Heh?"
+        echo "No conflict."
     fi
 }
-alias gw=what-conflict
+alias conflict=show-conflict
 
 # replace git history completely (** NEED TO CHANGE THE FOLLOWING <> **)
 # http://qiita.com/muran001/items/dea2bbbaea1260098051
