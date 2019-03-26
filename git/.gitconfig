@@ -14,15 +14,17 @@
 # Use Emacs Ediff for merge tool
 # -> https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
 [mergetool "ediff"]
-	trustExitCode = true
+#	trustExitCode = true
 	cmd = emacsclient -nw -a \"\" --eval \"\
 (progn\
   (defun ediff-write-merge-buffer ()\
     (let ((file ediff-merge-store-file))\
       (set-buffer ediff-buffer-C)\
-      (write-region (point-min) (point-max) file)\
-      (message \\\"Merge buffer saved in: %s\\\" file)\
+      (when (y-or-n-p (format \\\"Save buffer? : %s\\\" file))\
+        (write-region (point-min) (point-max) file)\
+        (message \\\"Merge buffer saved in: %s\\\" file))\
       (set-buffer-modified-p nil)\
+      (kill-buffer ediff-buffer-C)\
       (sit-for 1)))\
   (setq ediff-quit-hook 'save-buffers-kill-terminal\
         ediff-quit-merge-hook 'ediff-write-merge-buffer)\
