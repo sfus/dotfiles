@@ -480,6 +480,26 @@ function my-git-change-history() {
         fi' HEAD
 }
 
+function gco-remote() {
+    if [ $# -lt 1 ]; then
+        echo "USAGE: gco-remote USER:BRANCH"
+        return 1
+    fi
+    ARG=$1
+    USER=$(echo $ARG | cut -d: -f1)
+    BRANCH=$(echo $ARG | cut -d: -f2)
+    REMOTE=$(git remote -v | grep origin | grep fetch | awk -F'[ \t:/]' '{ print $2":'$USER'/"$4 }')
+    echo git remote add $USER $REMOTE
+    git remote add $USER $REMOTE
+    echo git fetch $USER $BRANCH
+    git fetch $USER $BRANCH
+
+    if [ $# -gt 1 ]; then
+        echo git checkout $USER/$BRANCH -b ${USER}__${BRANCH}
+        git checkout $USER/$BRANCH -b ${USER}__${BRANCH}
+    fi
+}
+
 # optimize repository after git filter-branch
 # http://qiita.com/go_astrayer/items/6e39d3ab16ae8094496c
 alias my-git-gc-prune='git gc --aggressive --prune=now'
