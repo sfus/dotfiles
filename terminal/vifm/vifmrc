@@ -584,8 +584,12 @@ nnoremap rs :rsync
 " `S' to Display sorting dialog
 nnoremap S :sort<cr>
 
-" `s' to invert sort order
-nnoremap s :invert o<cr>
+" `ss' to invert sort order
+nnoremap ss :invert o<cr>
+
+" 'se' to select files for 1 month
+" https://vifm.info/vimdoc.shtml#vifm-%3Aselect
+nnoremap se :select !Y=2019 M=01 && find . -newermt ${Y}${M}01 ! -newermt $(date -v${Y}y -v${M}m -v01d -v+1m +%Y%m01)<c-a><m-f><m-f><m-f>
 
 " `T' to tree view
 nnoremap T :tree<cr>
@@ -675,6 +679,9 @@ nnoremap <c-o> :history<cr>
 nnoremap <c-s> /
 mmap <c-s> /
 
+" `Ctrl-a' to invert selection (default: "increment first number in file name by [count]")
+nnoremap <c-a> :invert s<cr>
+
 " `Ctrl-g' to cancel
 map <c-g> <c-c>
 cmap <c-g> <c-c>
@@ -682,6 +689,9 @@ mmap <c-g> <c-c>
 nmap <c-g> <c-c>
 vmap <c-g> <c-c>
 qmap <c-g> <c-c>
+
+" `m-g' to original Ctrl-g
+nnoremap <m-g> <c-g>
 
 " == Mark
 " :mark mark /full/directory/path [filename]
