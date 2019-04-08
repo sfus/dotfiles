@@ -484,15 +484,15 @@ nnoremap as :!pngpaste<space>.png<c-b><c-b><c-b><c-b>
 " " `b' to vimdiff
 " nnoremap b :diff<cr>
 
-" `b' to ediff
-nnoremap b :ediff<cr>
+" `b' to compare. (= ":compare bycontents listall ofboth grouppaths")
+nnoremap b :compare<cr>
 
-" `B' to compare
-nnoremap B :compare<cr>
+" `B' to ediff
+nnoremap B :ediff<cr>
 
 " <m-b> to compare with args
-nnoremap <m-b> :compare ofboth listunique bysize
-" @see https://vifm.info/manual.shtml#Compare%20views
+" -> https://vifm.info/vimdoc.shtml#vifm-compare-views
+nnoremap <m-b> :compare bysize listunique ofboth grouppaths<cr>
 
 " `C' to copy to other pane
 nnoremap C :copy
