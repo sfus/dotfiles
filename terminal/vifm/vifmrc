@@ -460,6 +460,7 @@ command! em emacsclient -nw -a "" %a
 command! emacsclient emacsclient -nw -a "" %f
 command! emacspane tmux split-window -h "emacsclient -nw -a '' %f"
 command! lesspane tmux split-window -h "less -N %f"
+command! shellpane tmux split-window -v "sh -c 'cd %d; exec "${SHELL:-sh}"'"
 command! idea idea %f
 command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
@@ -605,8 +606,11 @@ vnoremap w :view<cr>gv
 " `W' to clone
 nnoremap W :clone<cr>
 
-" `x' to shell
-nnoremap x :shell<cr>
+" " `x' to shell
+" nnoremap x :shell<cr>
+
+" `x' to shell in other pane
+nnoremap x :shellpane<cr>
 
 " " 'x' to View preview in Quick Look
 " nnoremap x :!qlmanage -p %f > /dev/null 2>&1 &<cr>
