@@ -458,8 +458,8 @@ filetype *.ftp FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINA
 
 command! em emacsclient -nw -a "" %a
 command! emacsclient emacsclient -nw -a "" %f
-command! emacspane tmux split-window -h "emacsclient -nw -a '' %f"
-command! lesspane tmux split-window -h "less -N %f"
+command! emacspane tmux split-window -v "emacsclient -nw -a '' %f"
+command! lesspane tmux split-window -v "less -N %f"
 command! shellpane tmux split-window -v "sh -c 'cd %d; exec "${SHELL:-sh}"'"
 command! idea idea %f
 command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
