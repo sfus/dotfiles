@@ -204,8 +204,8 @@ compinit -u
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
 
-# ignore EOF (Ctrl+D)
-setopt IGNOREEOF
+# # ignore EOF (Ctrl+D)
+# setopt IGNOREEOF
 
 # word delimiter for Ctrl-w
 #export WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
