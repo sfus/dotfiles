@@ -258,9 +258,9 @@ filetype *.sha512
        \ {Check SHA512 hash sum}
        \ sha512sum -c %f %S,
 
-" Torrent
-filextype *.torrent open -a Transmission.app
-fileviewer *.torrent dumptorrent -v %c
+" " Torrent
+" filextype *.torrent open -a Transmission.app
+" fileviewer *.torrent dumptorrent -v %c
 
 " " Extract zip files
 " filetype *.zip unzip %f
@@ -685,3 +685,4 @@ mark g ~/Git
 mark l ~/Downloads
 mark t ~/Desktop
 mark w ~/workspaces
+mark v /Volumes
