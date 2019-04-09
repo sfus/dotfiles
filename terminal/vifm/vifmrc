@@ -470,6 +470,7 @@ command! rsync rsync -av --ignore-existing --exclude=".git" %d/ %D %m
 command! rsyncw rsync -av --exclude=".git" %d/ %D %m
 command! rsyncdel rsync -av --delete --backup --backup-dir=".del" %d/ %D %m
 command! hlink ln %f %D/
+command! vim vim %f
 
 " == Key Mapping
 
@@ -609,12 +610,15 @@ nnoremap U :!unzip %f -d %D
 " 'V' to open with Preview
 nnoremap V :preview<cr>
 
-" `w' to Open file by CotEditor
-if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
-  nnoremap w :coteditor<cr>
-else
-  nnoremap w :edit<cr>
-endif
+" `w' to edit by vim
+nnoremap w :vim<cr>
+
+" " `w' to Open file by CotEditor
+" if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
+"   nnoremap w :coteditor<cr>
+" else
+"   nnoremap w :edit<cr>
+" endif
 
 " " `w' Open file by IntelliJ IDEA
 " if executable('idea')
