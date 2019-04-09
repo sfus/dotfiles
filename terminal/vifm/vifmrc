@@ -519,10 +519,21 @@ nnoremap gr :grep<space>
 " `H' to history
 nnoremap H :history<cr>
 
+" <m-h> to leave any view
+nnoremap <m-h> gh<cr>
+
+" `i' to Toggle visibility of preview window
+nnoremap i :view<cr>
+vnoremap i :view<cr>gv
+
+" " `i' to sync with cursor position
+" nnoremap i :sync!<cr>
+
 " " `i' to intern the directory in other pane
 " nnoremap i :sync %c<cr>
 
-nnoremap i :lesspane<cr>
+" `i' to view by less in other pane
+" nnoremap i :lesspane<cr>
 
 " `I' to zip
 nnoremap I :!zip -r %D/%c:r.zip %f
@@ -536,35 +547,30 @@ nnoremap <m-i> :tig<cr>
 " `J' to go to boookmark
 nnoremap J :bmarks<cr>
 
+" <m-j> to page down
+nnoremap <m-j> <c-d>
+
 " `K' to make directory (`mkdir`)
 "nnoremap K :mkcd<space>
 nnoremap K :mkdir<space>
 
+" <m-k> to pageup
+nnoremap <m-k> <c-u>
+
 " `L' to symlink by absolute path (default: `a l')
 nnoremap L :alink
 
-" <m-l> to symlink by relative path (default: `r l')
-nnoremap <m-l> :rlink
+" " <m-l> to symlink by relative path (default: `r l')
+" nnoremap <m-l> :rlink
+
+" <m-l> to tree view
+nnoremap <m-l> :tree<cr>
 
 " `M' to move (`mv`)
 nnoremap M :move
 
 " o to switch pane
 nnoremap o <tab>
-
-" " `O' to Open file by CotEditor
-" if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
-"   nnoremap O :coteditor<cr>
-" else
-"   nnoremap O :edit<cr>
-" endif
-
-" `O' Open file by IntelliJ IDEA
-if executable('idea')
-  nnoremap O :idea<cr>
-else
-  nnoremap O :edit<cr>
-endif
 
 " `q' to quit with current directory
 nnoremap q :quit<cr>
@@ -581,6 +587,9 @@ nnoremap rr cw<m-b><c-b>
 " `r s' to rsync
 nnoremap rs :rsync
 
+" `r e' to show registers
+nnoremap re :reg<cr>
+
 " `S' to Display sorting dialog
 nnoremap S :sort<cr>
 
@@ -589,13 +598,10 @@ nnoremap ss :invert o<cr>
 
 " 'se' to select files for 1 month
 " https://vifm.info/vimdoc.shtml#vifm-%3Aselect
-nnoremap se :select !Y=2019 M=01 && find . -newermt ${Y}${M}01 ! -newermt $(date -v${Y}y -v${M}m -v01d -v+1m +%Y%m01)<c-a><m-f><m-f><m-f>
+nnoremap se :select !FROM=201901 TO=201902 && find . -type f -d 1 -newermt ${FROM}01 -not -newermt ${TO}01<c-a><m-f><m-f>
 
-" `T' to tree view
-nnoremap T :tree<cr>
-
-" `<m-t>' to lstrash
-nnoremap <m-t> :lstrash<cr>
+" T to lstrash
+nnoremap T :lstrash<cr>
 
 " `U' tu unpack
 nnoremap U :!unzip %f -d %D
@@ -603,9 +609,19 @@ nnoremap U :!unzip %f -d %D
 " 'V' to open with Preview
 nnoremap V :preview<cr>
 
-" `w' to Toggle visibility of preview window
-nnoremap w :view<cr>
-vnoremap w :view<cr>gv
+" `w' to Open file by CotEditor
+if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
+  nnoremap w :coteditor<cr>
+else
+  nnoremap w :edit<cr>
+endif
+
+" " `w' Open file by IntelliJ IDEA
+" if executable('idea')
+"   nnoremap w :idea<cr>
+" else
+"   nnoremap w :edit<cr>
+" endif
 
 " `W' to clone
 nnoremap W :clone<cr>
@@ -649,9 +665,6 @@ nnoremap + :bmark<space>
 " `<space>' to mark
 nnoremap <space> t<down>
 
-" <c-j> to open and down
-nnoremap <c-j> lj
-
 " `~' to go to home directory
 nnoremap ~ :cd<cr>
 
@@ -671,6 +684,9 @@ nnoremap <c-b> :cd ..<cr>
 
 " `Ctrl-f' to enter
 nnoremap <c-f> <cr>
+
+" `Ctrl-j' to open and down
+nnoremap <c-j> lj
 
 " `Ctrl-o' to history
 nnoremap <c-o> :history<cr>
