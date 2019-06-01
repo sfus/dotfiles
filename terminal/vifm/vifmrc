@@ -466,9 +466,10 @@ command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
 command! preview open -g -a Preview %f
 command! tig tig -- %d
-command! rsync rsync -av --ignore-existing --exclude=".git" %d/ %D %m
-command! rsyncw rsync -av --exclude=".git" %d/ %D %m
-command! rsyncdel rsync -av --delete --backup --backup-dir=".del" %d/ %D %m
+command! rsync rsync -ahv --progress --ignore-existing --exclude=".git" %d/ %D
+command! rsyncn rsync --dry-run -ahv --progress --exclude=".git" %d/ %D
+command! rsyncw rsync -ahv --progress --exclude=".git" %d/ %D
+command! rsyncdel rsync -ahv --progress --delete --backup --backup-dir=".del" %d/ %D
 command! hlink ln %f %D/
 command! vim vim %f
 
