@@ -445,6 +445,9 @@ filetype *.ssh FUSE_MOUNT2|sshfs %PARAM %DESTINATION_DIR
 " $ brew install curlftpfs
 filetype *.ftp FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %CLEAR,
 
+" $ echo "-i afp://USER@SERVER/dir" > someserver.afp
+filetype *.afp FUSE_MOUNT2|mount_afp %PARAM %DESTINATION_DIR
+
 " https://wiki.vifm.info/index.php/How_to_preview_images
 " https://github.com/vifm/vifm/issues/299
 "
