@@ -356,18 +356,18 @@ bind diff    <Esc>m ?git merge --no-ff %(branch)
 bind refs    <Esc>m ?git merge --no-ff %(branch)
 
 # R で rebase
-bind main    R      ?git rebase %(branch)
-bind diff    R      ?git rebase %(branch)
-bind refs    R      ?git rebase %(branch)
-bind main    <Esc>r ?git rebase %(commit)
-bind diff    <Esc>r ?git rebase %(commit)
+bind main    R      ?git rebase --allow-empty %(branch)
+bind diff    R      ?git rebase --allow-empty %(branch)
+bind refs    R      ?git rebase --allow-empty %(branch)
+bind main    <Esc>r ?git rebase --allow-empty %(commit)
+bind diff    <Esc>r ?git rebase --allow-empty %(commit)
 
 # I で rebase -i
-bind main    I      ?git rebase -i %(branch)
-bind diff    I      ?git rebase -i %(branch)
-bind refs    I      ?git rebase -i %(branch)
-bind main    <Esc>i ?git rebase -i %(commit)
-bind diff    <Esc>i ?git rebase -i %(commit)
+bind main    I      ?git rebase -i --allow-empty %(branch)
+bind diff    I      ?git rebase -i --allow-empty %(branch)
+bind refs    I      ?git rebase -i --allow-empty %(branch)
+bind main    <Esc>i ?git rebase -i --allow-empty %(commit)
+bind diff    <Esc>i ?git rebase -i --allow-empty %(commit)
 
 ## その他
 
