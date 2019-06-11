@@ -269,6 +269,9 @@ fi
 
 unset SSH_ASKPASS
 
+# disable !{number} expansion
+unsetopt hist_expand
+
 # export MAVEN_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
 
 #JAVA_VERSION=1.8
