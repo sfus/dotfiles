@@ -279,6 +279,7 @@ JAVA_VERSION=11
 if [ -x /usr/libexec/java_home ]; then
    export JAVA_HOME=`/usr/libexec/java_home -v $JAVA_VERSION`
 fi
+alias java-home-8='export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'
 
 export PERL5_DEBUG_ROLE='server'
 export PERL5_DEBUG_HOST=localhost
@@ -336,6 +337,8 @@ alias ht='htop'
 alias dok='docker'
 alias doco='docker-compose'
 alias docod='docker-compose -d'
+alias doi='docker image'
+alias doc='docker container'
 
 alias g='git'
 alias gst='git status'
