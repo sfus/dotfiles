@@ -469,10 +469,11 @@ command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
 command! preview open -g -a Preview %f
 command! tig tig -- %d
-command! rsync rsync -ahv --progress --ignore-existing --exclude=".git" %d/ %D
-command! rsyncn rsync --dry-run -ahv --progress --exclude=".git" %d/ %D
-command! rsyncw rsync -ahv --progress --exclude=".git" %d/ %D
-command! rsyncdel rsync -ahv --progress --delete --backup --backup-dir=".del" %d/ %D
+command! rsync            rsync -ahv --progress --exclude=".git" --exclude="node_modules" %d/ %D
+command! rsyncignoreexist rsync -ahv --progress --exclude=".git" --exclude="node_modules" --ignore-existing %d/ %D
+command! rsynccurrent     rsync -ahv --progress --exclude="node_modules" %f/ %D/%f
+command! rsyncn           rsync -ahv --dry-run  --exclude="node_modules" %d/ %D
+command! rsyncdel         rsync -ahv --progress --delete --backup --backup-dir=".del" --exclude="node_modules" %d/ %D
 command! hlink ln %f %D/
 command! vim vim %f
 
@@ -502,6 +503,9 @@ nnoremap <m-b> :compare bysize listunique ofboth grouppaths<cr>
 
 " `C' to copy to other pane
 nnoremap C :copy
+
+" <m-c> to rsync under current cursor
+nnoremap <m-c> :rsynccurrent
 
 " `e' to Open file by Emacs
 if executable('emacsclient')
@@ -591,6 +595,18 @@ nnoremap rr cw<m-b><c-b>
 
 " `r s' to rsync
 nnoremap rs :rsync
+
+" `r c' to rsync under cursor
+nnoremap rc :rsynccurrent
+
+" `r i' to rsync --ignore-existing
+nnoremap ri :rsyncignoreexist
+
+" `r n' to rsync --dry-run
+nnoremap rn :rsyncn
+
+" `r d' to rsync --delete
+nnoremap rD :rsyncdel
 
 " `r e' to show registers
 nnoremap re :reg<cr>
