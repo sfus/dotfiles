@@ -465,6 +465,7 @@ command! emacspane tmux split-window -v "emacsclient -nw -a '' %f"
 command! lesspane tmux split-window -v "less -N %f"
 command! shellpane tmux split-window -v "sh -c 'cd %d; exec "${SHELL:-sh}"'"
 command! idea idea %f
+command! code code %f
 command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
 command! preview open -g -a Preview %f
@@ -630,8 +631,15 @@ nnoremap U :!unzip %f -d %D
 " 'V' to open with Preview
 nnoremap V :preview<cr>
 
-" `w' to edit by vim
-nnoremap w :vim<cr>
+" `w' Open file by VS Code
+if executable('code')
+  nnoremap w :code<cr>
+else
+  nnoremap w :edit<cr>
+endif
+
+" " `w' to edit by vim
+" nnoremap w :vim<cr>
 
 " " `w' to Open file by CotEditor
 " if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
