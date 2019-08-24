@@ -72,6 +72,8 @@ PATH="$HOME/.cargo/bin:$PATH"
 # icu4c
 PATH="/usr/local/opt/icu4c/bin:$PATH"
 PATH="/usr/local/opt/icu4c/sbin:$PATH"
+# gnu-time
+PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 
 # for makepkg
 PATH="/usr/local/opt/libarchive/bin:$PATH"
