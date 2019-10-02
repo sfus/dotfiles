@@ -205,6 +205,9 @@ bind generic +      !git commit --amend --allow-empty
 #bind generic L      :!git reflog
 bind generic L      !sh -c "git reflog --pretty=raw | tig --pretty=raw"
 
+# Alt-l でファイル単体のコミットツリーを tig で開き直す
+bind generic <Esc>l !sh -c "tig %(file)"
+
 # _ で指定 reflog 番号にリセット (--hard)
 bind generic _      ?git reset --hard HEAD@{"%(prompt Enter HEAD@{} number: )"}
 
