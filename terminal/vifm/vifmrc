@@ -470,6 +470,7 @@ command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
 command! preview open -g -a Preview %f
 command! tig tig -- %d
+command! tigf tig -- %f
 command! rsync            rsync -ahv --progress --exclude=".git" --exclude="node_modules" %d/ %D
 command! rsyncignoreexist rsync -ahv --progress --exclude=".git" --exclude="node_modules" --ignore-existing %d/ %D
 command! rsynccurrent     rsync -ahv --progress --exclude="node_modules" %f/ %D/%f
@@ -532,6 +533,9 @@ nnoremap H :history<cr>
 " <m-h> to leave any view
 nnoremap <m-h> gh<cr>
 
+" I to tree view
+nnoremap I :tree<cr>
+
 " `i' to Toggle visibility of preview window
 nnoremap i :view<cr>
 vnoremap i :view<cr>gv
@@ -545,14 +549,14 @@ vnoremap i :view<cr>gv
 " `i' to view by less in other pane
 " nnoremap i :lesspane<cr>
 
-" `I' to zip
-nnoremap I :!zip -r %D/%c:r.zip %f
-
 " " <m-i> to switch pane
 " nnoremap <m-i> <tab>
 
 " <m-i> to call tig
 nnoremap <m-i> :tig<cr>
+
+" <m-l> to call tig (for pointed file only)
+nnoremap <m-l> :tigf<cr>
 
 " `J' to go to boookmark
 nnoremap J :bmarks<cr>
@@ -572,9 +576,6 @@ nnoremap L :alink
 
 " " <m-l> to symlink by relative path (default: `r l')
 " nnoremap <m-l> :rlink
-
-" <m-l> to tree view
-nnoremap <m-l> :tree<cr>
 
 " `M' to move (`mv`)
 nnoremap M :move
@@ -687,6 +688,9 @@ nnoremap yd :!printf %d | pbcopy<cr>
 
 " `yf' to Yank all selected file path into the clipboard
 nnoremap yf :!printf "%f:p" | pbcopy<cr>
+
+" `Z' to zip (default: ZZ or ZQ to exit like vim)
+nnoremap Z :!zip -r %D/%c:r.zip %f
 
 " `-' to Yank current file path into the clipboard
 nnoremap - :!printf %c:p | pbcopy<cr>
