@@ -489,6 +489,7 @@ nnoremap a4 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth 400<cr>
 nnoremap a6 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth 600<cr>
 nnoremap a0 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth<space>
 nnoremap as :!pngpaste<space>.png<c-b><c-b><c-b><c-b>
+nnoremap am :!ffmpeg -i %f -b:a 192k -ar 44100 %D/%c:r.mp3<cr>
 
 " " `b' to vimdiff
 " nnoremap b :diff<cr>
