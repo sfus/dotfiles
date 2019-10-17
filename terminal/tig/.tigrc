@@ -369,6 +369,9 @@ bind refs    R      ?git rebase --allow-empty %(branch)
 bind main    <Esc>r ?git rebase --allow-empty %(commit)
 bind diff    <Esc>r ?git rebase --allow-empty %(commit)
 
+# Alt-Shift-r で pull --rebase
+bind generic <Esc>R ?git pull --rebase %(remote)
+
 # I で rebase -i
 bind main    I      ?git rebase -i --allow-empty %(branch)
 bind diff    I      ?git rebase -i --allow-empty %(branch)
