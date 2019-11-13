@@ -478,6 +478,8 @@ command! rsyncn           rsync -ahv --dry-run  --exclude="node_modules" %d/ %D
 command! rsyncdel         rsync -ahv --progress --delete --backup --backup-dir=".del" --exclude="node_modules" %d/ %D
 command! hlink ln %f %D/
 command! vim vim %f
+"command! ffmpeg -i %f -b:a 192k -ar 44100 %D/%c:r.mp3
+command! ffmpeg for i in %f; do ffmpeg -i $i -b:a 192k -ar 44100 %D/${i%%.*}.mp3; done
 
 " == Key Mapping
 
@@ -489,7 +491,7 @@ nnoremap a4 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth 400<cr>
 nnoremap a6 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth 600<cr>
 nnoremap a0 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth<space>
 nnoremap as :!pngpaste<space>.png<c-b><c-b><c-b><c-b>
-nnoremap am :!ffmpeg -i %f -b:a 192k -ar 44100 %D/%c:r.mp3<cr>
+nnoremap am :ffmpeg<cr>
 
 " " `b' to vimdiff
 " nnoremap b :diff<cr>
