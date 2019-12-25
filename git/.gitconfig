@@ -1,58 +1,29 @@
 [init]
     templatedir = ~/.git_templates/
+
 [commit]
     template = ~/.gitconfig_commit_template
+
 [include]
     path = ~/.gitconfig_private
+
 [core]
     excludesfile = ~/.gitignore_global
     #editor = /usr/bin/vim
     editor = "/usr/local/bin/emacsclient -nw -a \"\""
+
+[fetch]
+    prune = true
+
+[push]
+    # default = simple
+
+[color]
+    ui = auto
+
 [diff]
     compactionHeuristic = true
 
-# Use Emacs Ediff for merge tool
-# -> https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
-[mergetool "ediff"]
-#   trustExitCode = true
-    cmd = emacsclient -nw -a \"\" --eval \"\
-(progn\
-  (defun ediff-write-merge-buffer ()\
-    (let ((file ediff-merge-store-file))\
-      (set-buffer ediff-buffer-C)\
-      (when (y-or-n-p (format \\\"Save buffer? : %s\\\" file))\
-        (write-region (point-min) (point-max) file)\
-        (message \\\"Merge buffer saved in: %s\\\" file))\
-      (set-buffer-modified-p nil)\
-      (kill-buffer ediff-buffer-C)\
-      (sit-for 1)))\
-  (setq ediff-quit-hook 'save-buffers-kill-terminal\
-        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
-  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
-                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
-[mergetool]
-    prompt = false
-    keepBackup = false
-[merge]
-    tool = ediff
-    conflictStyle = diff3
-
-# [difftool "sourcetree"]
-#   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-#   path =
-# [mergetool "sourcetree"]
-#   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-#   trustExitCode = true
-[filter "lfs"]
-    clean = git lfs clean %f
-    smudge = git lfs smudge %f
-    required = true
-[fetch]
-    prune = true
-[push]
-    # default = simple
-[color]
-    ui = auto
 [alias]
     co = checkout
     ci = commit --allow-empty
@@ -113,6 +84,47 @@
     # History change/delete
     # -> http://qiita.com/muran001/items/dea2bbbaea1260098051
     # -> http://qiita.com/go_astrayer/items/6e39d3ab16ae8094496c
+
+
+# Use Emacs Ediff for merge tool
+# -> https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
+[mergetool "ediff"]
+    #trustExitCode = true
+    cmd = emacsclient -nw -a \"\" --eval \"\
+(progn\
+  (defun ediff-write-merge-buffer ()\
+    (let ((file ediff-merge-store-file))\
+      (set-buffer ediff-buffer-C)\
+      (when (y-or-n-p (format \\\"Save buffer? : %s\\\" file))\
+        (write-region (point-min) (point-max) file)\
+        (message \\\"Merge buffer saved in: %s\\\" file))\
+      (set-buffer-modified-p nil)\
+      (kill-buffer ediff-buffer-C)\
+      (sit-for 1)))\
+  (setq ediff-quit-hook 'save-buffers-kill-terminal\
+        ediff-quit-merge-hook 'ediff-write-merge-buffer)\
+  (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
+                                   \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
+
+[mergetool]
+    prompt = false
+    keepBackup = false
+
+[merge]
+    tool = ediff
+    conflictStyle = diff3
+
+# [difftool "sourcetree"]
+#   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+#   path =
+# [mergetool "sourcetree"]
+#   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+#   trustExitCode = true
+
+[filter "lfs"]
+    clean = git lfs clean %f
+    smudge = git lfs smudge %f
+    required = true
 
 [ghq]
     root = ~/.ghq
