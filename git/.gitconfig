@@ -1,21 +1,21 @@
 [init]
-	templatedir = ~/.git_templates/
+    templatedir = ~/.git_templates/
 [commit]
-	template = ~/.gitconfig_commit_template
+    template = ~/.gitconfig_commit_template
 [include]
-	path = ~/.gitconfig_private
+    path = ~/.gitconfig_private
 [core]
-	excludesfile = ~/.gitignore_global
-	#editor = /usr/bin/vim
-	editor = "/usr/local/bin/emacsclient -nw -a \"\""
+    excludesfile = ~/.gitignore_global
+    #editor = /usr/bin/vim
+    editor = "/usr/local/bin/emacsclient -nw -a \"\""
 [diff]
-	compactionHeuristic = true
+    compactionHeuristic = true
 
 # Use Emacs Ediff for merge tool
 # -> https://stackoverflow.com/questions/1817370/using-ediff-as-git-mergetool
 [mergetool "ediff"]
-#	trustExitCode = true
-	cmd = emacsclient -nw -a \"\" --eval \"\
+#   trustExitCode = true
+    cmd = emacsclient -nw -a \"\" --eval \"\
 (progn\
   (defun ediff-write-merge-buffer ()\
     (let ((file ediff-merge-store-file))\
@@ -31,93 +31,93 @@
   (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 [mergetool]
-	prompt = false
-	keepBackup = false
+    prompt = false
+    keepBackup = false
 [merge]
-	tool = ediff
+    tool = ediff
     conflictStyle = diff3
 
 # [difftool "sourcetree"]
-#	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-#	path =
+#   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+#   path =
 # [mergetool "sourcetree"]
-#	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-#	trustExitCode = true
+#   cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+#   trustExitCode = true
 [filter "lfs"]
-	clean = git lfs clean %f
-	smudge = git lfs smudge %f
-	required = true
+    clean = git lfs clean %f
+    smudge = git lfs smudge %f
+    required = true
 [fetch]
-	prune = true
+    prune = true
 [push]
-	# default = simple
+    # default = simple
 [color]
-	ui = auto
+    ui = auto
 [alias]
-	co = checkout
-	ci = commit --allow-empty
-	br = branch
-	st = status
-	ss = status -s
-	fe = fetch
-	pu = pull
-	rb = rebase --keep-empty
-	ri = rebase -i --keep-empty
-	cp = cherry-pick
-	am = commit --amend
-	d  = diff
-	di = diff --cached
-	gr = log --graph --decorate --oneline
+    co = checkout
+    ci = commit --allow-empty
+    br = branch
+    st = status
+    ss = status -s
+    fe = fetch
+    pu = pull
+    rb = rebase --keep-empty
+    ri = rebase -i --keep-empty
+    cp = cherry-pick
+    am = commit --amend
+    d  = diff
+    di = diff --cached
+    gr = log --graph --decorate --oneline
     re = remote -vv
     wt = worktree
 
-	# https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4%E3%81%AE%E9%96%B2%E8%A6%A7
-	# http://qiita.com/peccul/items/90dd469e2f72babbc106
-	ll = log --graph --date=iso --decorate=short --pretty=format:'%x09%Cgreen%h %Creset%cd %C(blue)<%cn> %C(magenta reverse)%d%Creset %s'
-	lla = log --graph --all --date=iso --decorate=short --pretty=format:'%x09%C(green)%h %Creset%cd %C(blue)<%cn> %C(magenta reverse)%d%Creset %s'
+    # https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4%E3%81%AE%E9%96%B2%E8%A6%A7
+    # http://qiita.com/peccul/items/90dd469e2f72babbc106
+    ll = log --graph --date=iso --decorate=short --pretty=format:'%x09%Cgreen%h %Creset%cd %C(blue)<%cn> %C(magenta reverse)%d%Creset %s'
+    lla = log --graph --all --date=iso --decorate=short --pretty=format:'%x09%C(green)%h %Creset%cd %C(blue)<%cn> %C(magenta reverse)%d%Creset %s'
 
-	# Confirm current user setting
-	mail = config user.email
-	name  = config user.name
+    # Confirm current user setting
+    mail = config user.email
+    name  = config user.name
 
-	# Cancel commands
-	# http://labs.timedia.co.jp/2011/08/git-undo-999.html
-	# http://qiita.com/muran001/items/dea2bbbaea1260098051
-	#
-	# Need file name argument
-	cancel-staged-file = reset HEAD --
-	cancel-add-file = reset HEAD --
-	cancel-work-file = checkout HEAD --
-	cancel-tracking-file = rm --cached --
+    # Cancel commands
+    # http://labs.timedia.co.jp/2011/08/git-undo-999.html
+    # http://qiita.com/muran001/items/dea2bbbaea1260098051
     #
-	# Not need file name argument
-	cancel-commit = reset --soft HEAD~
-	cancel-merge = reset --hard ORIG_HEAD
-	cancel-rebase = reset --hard ORIG_HEAD
-	cancel-resolve = checkout --merge
+    # Need file name argument
+    cancel-staged-file = reset HEAD --
+    cancel-add-file = reset HEAD --
+    cancel-work-file = checkout HEAD --
+    cancel-tracking-file = rm --cached --
     #
-	# Hard reset with temporary commit
-	# http://thinca.hatenablog.com/entry/20120924/1348491052
-	cancel-with-commit = !git commit -a -m 'Temporary commit for cancel' && git reset --hard HEAD~
+    # Not need file name argument
+    cancel-commit = reset --soft HEAD~
+    cancel-merge = reset --hard ORIG_HEAD
+    cancel-rebase = reset --hard ORIG_HEAD
+    cancel-resolve = checkout --merge
+    #
+    # Hard reset with temporary commit
+    # http://thinca.hatenablog.com/entry/20120924/1348491052
+    cancel-with-commit = !git commit -a -m 'Temporary commit for cancel' && git reset --hard HEAD~
 
-	# Delete all merged branches (except for `master', `develop')
-	# http://qiita.com/kyanny/items/10a57a4f1d2806e3a3b8
-	delete-merged-branches = !git branch --merged | grep -vE '^\\*|master$|develop$' | xargs -I % git branch -d %
+    # Delete all merged branches (except for `master', `develop')
+    # http://qiita.com/kyanny/items/10a57a4f1d2806e3a3b8
+    delete-merged-branches = !git branch --merged | grep -vE '^\\*|master$|develop$' | xargs -I % git branch -d %
 
-	# Delete all untracked files
-	delete-untracked-files = clean -d -f
+    # Delete all untracked files
+    delete-untracked-files = clean -d -f
 
-	# push dist/* to heroku
-	heroku-push-dist = subtree push --prefix dist heroku master
+    # push dist/* to heroku
+    heroku-push-dist = subtree push --prefix dist heroku master
 
-	# History change/delete
-	# -> http://qiita.com/muran001/items/dea2bbbaea1260098051
-	# -> http://qiita.com/go_astrayer/items/6e39d3ab16ae8094496c
+    # History change/delete
+    # -> http://qiita.com/muran001/items/dea2bbbaea1260098051
+    # -> http://qiita.com/go_astrayer/items/6e39d3ab16ae8094496c
 
 [ghq]
-	root = ~/.ghq
-	root = ~/.go/src
-	root = ~/dev/src
+    root = ~/.ghq
+    root = ~/.go/src
+    root = ~/dev/src
 
 ## diff-highlight (* Need to set `diff-highlight' to $PATH *)
 # export PATH=$PATH:/usr/local/share/git-core/contrib/diff-highlight
@@ -126,9 +126,9 @@
 # http://qiita.com/takyam/items/d6afacc7934de9b0e85e
 
 # [pager]
-#	log  = diff-highlight | less
-#	show = diff-highlight | less
-#	diff = diff-highlight | less
+#   log  = diff-highlight | less
+#   show = diff-highlight | less
+#   diff = diff-highlight | less
 #
 # [interactive]
-#	diffFilter = diff-highlight
+#   diffFilter = diff-highlight
