@@ -427,7 +427,7 @@ if executable('ag')
   set grepprg=ag\ --line-numbers\ %i\ %a\ %s
 endif
 
-windo set viewcolumns=-45%{name}..,-{ext},10{size},12{perms},21{mtime}
+set viewcolumns=-45%{name}..,-{ext},10{size},12{perms},21{mtime}
 
 set sizefmt=units:iec,precision:3
 
