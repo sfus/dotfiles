@@ -151,6 +151,7 @@ fi
 # fi
 
 export GRADLE_HOME=/usr/local/opt/gradle/libexec
+export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 

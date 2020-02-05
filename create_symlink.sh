@@ -46,6 +46,9 @@ ln -sf $DIR/tool/aspell/.aspell.conf ~/.aspell.conf
 # GNU global
 ln -sf $DIR/tool/global/.globalrc ~/.globalrc
 
+# Gradle
+ln -sf $DIR/tool/gradle/gradle.properties ~/.gradle/gradle.properties
+
 # vim
 ln -sf $DIR/vim/.vimrc ~/.vimrc
 
