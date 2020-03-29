@@ -695,6 +695,9 @@ nnoremap yf :!printf "%f:p" | pbcopy<cr>
 " `Z' to zip (default: ZZ or ZQ to exit like vim)
 nnoremap Z :!zip -r %D/%c:r.zip %f
 
+" `*' to select files by pattern
+nnoremap * :select *.
+
 " `-' to Yank current file path into the clipboard
 nnoremap - :!printf %c:p | pbcopy<cr>
 
@@ -735,7 +738,10 @@ nnoremap <c-s> /
 mmap <c-s> /
 
 " `Ctrl-a' to invert selection (default: "increment first number in file name by [count]")
-nnoremap <c-a> :invert s<cr>
+"nnoremap <c-a> :invert s<cr>
+
+" `Ctrl-a' to select only file (default: "increment first number in file name by [count]")
+nnoremap <c-a> :select! */ | invert s<cr>
 
 " `Ctrl-g' to cancel
 map <c-g> <c-c>
