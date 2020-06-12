@@ -47,6 +47,7 @@ ln -sf $DIR/tool/aspell/.aspell.conf ~/.aspell.conf
 ln -sf $DIR/tool/global/.globalrc ~/.globalrc
 
 # Gradle
+install -d ~/.gradle
 ln -sf $DIR/tool/gradle/gradle.properties ~/.gradle/gradle.properties
 
 # vim
