@@ -12,6 +12,9 @@ ln -sf $DIR/shell/.zshrc ~/.zshrc
 ln -sf $DIR/shell/.zshrc-peco ~/.zshrc-peco
 ln -shf $DIR/shell/functions ~/.zsh/
 
+install -d ~/.oh-my-zsh/themes
+ln -sf $DIR/shell/zsh-theme/my-dpoggi.zsh-theme ~/.oh-my-zsh/themes/
+
 # git
 ln -sf $DIR/git/.gitconfig ~/.gitconfig
 ln -sf $DIR/git/.gitconfig_commit_template ~/.gitconfig_commit_template
