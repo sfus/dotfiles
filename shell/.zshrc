@@ -153,6 +153,21 @@ fi
 export GRADLE_HOME=/usr/local/opt/gradle/libexec
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
+## sdkman
+SDKMAN_DIR="$HOME/.sdkman"
+if [ -e "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
+    export SDKMAN_DIR
+    source "$SDKMAN_DIR/bin/sdkman-init.sh"
+fi
+
+## homebrew java
+# #JAVA_VERSION=1.8
+# JAVA_VERSION=11
+# if [ -x /usr/libexec/java_home ]; then
+#    export JAVA_HOME=`/usr/libexec/java_home -v $JAVA_VERSION`
+# fi
+# alias java-home-8='export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'
+
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
@@ -276,13 +291,6 @@ unset SSH_ASKPASS
 unsetopt hist_expand
 
 # export MAVEN_OPTS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005
-
-#JAVA_VERSION=1.8
-JAVA_VERSION=11
-if [ -x /usr/libexec/java_home ]; then
-   export JAVA_HOME=`/usr/libexec/java_home -v $JAVA_VERSION`
-fi
-alias java-home-8='export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'
 
 export PERL5_DEBUG_ROLE='server'
 export PERL5_DEBUG_HOST=localhost
