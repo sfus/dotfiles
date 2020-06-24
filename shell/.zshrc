@@ -329,12 +329,13 @@ alias e='emacsclient -nw -a ""'
 alias em='emacsclient -nw -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
 
-# Use emacsclient onclick `v' on less (or others)
-if [ -x '/usr/local/bin/emacsclient' ]; then
-   export VISUAL='emacsclient -nw -a ""'
-else
-   export VISUAL="vim"
-fi
+# # Use emacsclient onclick `v' on less (or others)
+# if [ -x '/usr/local/bin/emacsclient' ]; then
+#    export VISUAL='emacsclient -nw -a ""'
+# else
+#    export VISUAL="vim"
+# fi
+export VISUAL="vim"
 
 # alias pd=perldoc
 alias pd=cpandoc -i
