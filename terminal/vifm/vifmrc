@@ -502,7 +502,7 @@ nnoremap b :diff<cr>
 " `B' to ediff
 nnoremap B :ediff<cr>
 
-" <m-b> to compare with args
+" <m-b> to compare by bysize with unique file only
 " -> https://vifm.info/vimdoc.shtml#vifm-compare-views
 nnoremap <m-b> :compare bysize listunique ofboth grouppaths<cr>
 
@@ -512,23 +512,58 @@ nnoremap C :copy
 " <m-c> to rsync under current cursor
 nnoremap <m-c> :rsynccurrent
 
-" `e' to Open file by Emacs
+" `e' key is defined as an editor command prefix, but opens with view mode forcely in some seconds if the next key is not typed...
+" Therefore use `E' key to see the following keys.
+
+" `ee' to edit with Emacs
 if executable('emacsclient')
-  nnoremap e :emacsclient<cr>
-  " nnoremap <m-e> :emacspane<cr>
+  nnoremap ee :emacsclient<cr>
+  nnoremap Ee :emacsclient<cr>
 else
-  nnoremap e :edit<cr>
+  nnoremap ee :edit<cr>
+  nnoremap Ee :edit<cr>
 endif
 
-" `E' to create file by Emacs
+" `ea' to create file with Emacs
 if executable('emacsclient')
-  nnoremap E :em<space>
+  nnoremap ea :em<space>
+  nnoremap Ea :em<space>
 else
-  nnoremap E :edit<space>
+  nnoremap Ea :edit<space>
 endif
 
-" <m-e> to edit by vim
-nnoremap <m-e> :vim<cr>
+" `ew' to edit with vim
+nnoremap ew :vim<cr>
+nnoremap Ew :vim<cr>
+
+" `en' to create file with vim
+nnoremap en :vim<space>
+nnoremap En :vim<space>
+
+" `ec' to edit VS Code
+if executable('code')
+  nnoremap ec :code<cr>
+  nnoremap Ec :code<cr>
+endif
+
+" `eo' to edit with CotEditor
+if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
+  nnoremap eo :coteditor<cr>
+  nnoremap Eo :coteditor<cr>
+endif
+
+" `ei' to edit with IntelliJ IDEA
+if executable('idea')
+  nnoremap ei :idea<cr>
+  nnoremap Ei :idea<cr>
+endif
+
+" `ep' to edit with Emacs in the other pane
+if executable('emacsclient')
+  nnoremap ep :emacspane<cr>
+  nnoremap Ep :emacspane<cr>
+endif
+
 
 " 'gr' to run grep using `grepprog'
 nnoremap gr :grep<space>
@@ -637,30 +672,6 @@ nnoremap v av
 " `V' to Toggle visibility of preview window
 nnoremap V :view<cr>
 vnoremap V :view<cr>gv
-
-" `w' Open file by VS Code
-if executable('code')
-  nnoremap w :code<cr>
-else
-  nnoremap w :edit<cr>
-endif
-
-" " `w' to edit by vim
-" nnoremap w :vim<cr>
-
-" " `w' to Open file by CotEditor
-" if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
-"   nnoremap w :coteditor<cr>
-" else
-"   nnoremap w :edit<cr>
-" endif
-
-" " `w' Open file by IntelliJ IDEA
-" if executable('idea')
-"   nnoremap w :idea<cr>
-" else
-"   nnoremap w :edit<cr>
-" endif
 
 " `W' to clone
 nnoremap W :clone<cr>
