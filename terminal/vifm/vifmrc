@@ -493,11 +493,11 @@ nnoremap a0 :!sips --out %D/%c:r_s.%c:e %f --resampleWidth<space>
 nnoremap as :!pngpaste<space>.png<c-b><c-b><c-b><c-b>
 nnoremap am :ffmpeg<cr>
 
-" " `b' to vimdiff
-" nnoremap b :diff<cr>
+" `b' to vimdiff
+nnoremap b :diff<cr>
 
-" `b' to compare. (= ":compare bycontents listall ofboth grouppaths")
-nnoremap b :compare<cr>
+" " `b' to compare. (= ":compare bycontents listall ofboth grouppaths")
+" nnoremap b :compare<cr>
 
 " `B' to ediff
 nnoremap B :ediff<cr>
@@ -515,7 +515,7 @@ nnoremap <m-c> :rsynccurrent
 " `e' to Open file by Emacs
 if executable('emacsclient')
   nnoremap e :emacsclient<cr>
-  nnoremap <m-e> :emacspane<cr>
+  " nnoremap <m-e> :emacspane<cr>
 else
   nnoremap e :edit<cr>
 endif
@@ -526,6 +526,9 @@ if executable('emacsclient')
 else
   nnoremap E :edit<space>
 endif
+
+" <m-e> to edit by vim
+nnoremap <m-e> :vim<cr>
 
 " 'gr' to run grep using `grepprog'
 nnoremap gr :grep<space>
@@ -539,15 +542,8 @@ nnoremap <m-h> gh<cr>
 " I to tree view
 nnoremap I :tree<cr>
 
-" `i' to Toggle visibility of preview window
-nnoremap i :view<cr>
-vnoremap i :view<cr>gv
-
-" " `i' to sync with cursor position
-" nnoremap i :sync!<cr>
-
-" " `i' to intern the directory in other pane
-" nnoremap i :sync %c<cr>
+" `i' to intern the directory in other pane
+nnoremap i :sync %c<cr>
 
 " `i' to view by less in other pane
 " nnoremap i :lesspane<cr>
@@ -632,8 +628,15 @@ nnoremap T :lstrash<cr>
 " `U' tu unpack
 nnoremap U :!unzip %f -d %D
 
-" 'V' to open with Preview
-nnoremap V :preview<cr>
+" `v' to `av' (always use visual mode with append scheme) (use <enter> key to save the region)
+nnoremap v av
+
+" " 'V' to open with Preview
+" nnoremap V :preview<cr>
+
+" `V' to Toggle visibility of preview window
+nnoremap V :view<cr>
+vnoremap V :view<cr>gv
 
 " `w' Open file by VS Code
 if executable('code')
