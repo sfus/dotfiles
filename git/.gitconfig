@@ -18,6 +18,9 @@
 [push]
     # default = simple
 
+[pull]
+    ff = only
+
 [color]
     ui = auto
 
