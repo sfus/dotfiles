@@ -135,13 +135,22 @@ if [ -d $RBENV_ROOT ]; then
     eval "$(rbenv init -)"
 fi
 
-# ndenv
-# https://github.com/riywo/ndenv
-NDENV_ROOT="$HOME/.ndenv"
-if [ -d $NDENV_ROOT ]; then
-    export NDENV_ROOT
-    export PATH=$NDENV_ROOT/bin:$PATH
-    eval "$(ndenv init -)"
+# # ndenv
+# # https://github.com/riywo/ndenv
+# NDENV_ROOT="$HOME/.ndenv"
+# if [ -d $NDENV_ROOT ]; then
+#     export NDENV_ROOT
+#     export PATH=$NDENV_ROOT/bin:$PATH
+#     eval "$(ndenv init -)"
+# fi
+
+# nodenv
+# https://github.com/nodenv/nodenv
+NODENV_ROOT="$HOME/.nodenv"
+if [ -d $NODENV_ROOT ]; then
+    export NODENV_ROOT
+    export PATH=$NODENV_ROOT/bin:$PATH
+    eval "$(nodenv init -)"
 fi
 
 # ## nodebrew
