@@ -386,6 +386,9 @@ alias srev='svn revert'
 alias sst='svn status'
 alias sup='svn update'
 
+alias lc='leetcode'
+alias lcgen='leetcode show -g -x'
+
 function svn-commit-id-pair () {
     if [ $# -lt 1 ]; then return 1; fi
     NUM=$1
