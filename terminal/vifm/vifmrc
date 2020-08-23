@@ -655,7 +655,7 @@ nnoremap ss :invert o<cr>
 
 " 'se' to select files for 1 month
 " https://vifm.info/vimdoc.shtml#vifm-%3Aselect
-nnoremap se :select !FROM=201901 TO=201902 && find . -type f -d 1 -newermt ${FROM}01 -not -newermt ${TO}01<c-a><m-f><m-f>
+nnoremap se :select !FROM=202001 TO=202002 && find . -name '*' -type f -d 1 -newermt ${FROM}01 -not -newermt ${TO}01<c-a><m-f><m-f>
 
 " T to lstrash
 nnoremap T :lstrash<cr>
