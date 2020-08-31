@@ -386,7 +386,8 @@ alias tma='tmux attach'
 alias tml='tmux ls'
 alias tmk='tmux kill-session -t'
 alias tmz='tmux set-option -g prefix C-z'
-alias tmo='/usr/local/Cellar/tmux/2.4/bin/tmux'
+
+alias lad='lazydocker'
 
 alias slog='svn log'
 alias sll='svn log -v -l 5'
