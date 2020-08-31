@@ -177,9 +177,12 @@ bind main    <Esc>u ?sh -c "git checkout %(branch) && git pull %(remote) --ff-on
 bind diff    <Esc>u ?sh -c "git checkout %(branch) && git pull %(remote) --ff-only && git checkout -"
 bind refs    <Esc>u ?sh -c "git checkout %(branch) && git pull %(remote) --ff-only && git checkout -"
 
-# Alt-Shift-u で --set-upstream-to (-u) を変更
-bind main    <Esc>U ?git branch -u "%(prompt Enter remote name: )"/%(branch) %(branch)
-bind refs    <Esc>U ?git branch -u "%(prompt Enter remote name: )"/%(branch) %(branch)
+# # Alt-Shift-u で --set-upstream-to (-u) を変更
+# bind main    <Esc>U ?git branch -u "%(prompt Enter remote name: )"/%(branch) %(branch)
+# bind refs    <Esc>U ?git branch -u "%(prompt Enter remote name: )"/%(branch) %(branch)
+
+# Alt-Shift-u で submodule update
+bind generic <Esc>U ?git submodule update --init --recursive
 
 # P で remote への push -u
 #bind generic P      ?sh -c "git push -u %(remote) `git rev-parse --abbrev-ref HEAD`"
