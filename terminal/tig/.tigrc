@@ -427,6 +427,13 @@ bind generic &      !git mergetool --prompt
 bind stage   &      !git mergetool --prompt %(file)
 bind status  &      !git mergetool --prompt %(file)
 
+# '*' で git format-patch
+bind generic *      ?git format-patch -"%(prompt Enter the number to create patches: )" %(commit)
+
+# Alt-* で git am
+bind generic <Esc>* ?sh -c "git am *.patch"
+
+
 ## Hub
 
 # ; で GitHub の該当コミットを開く ※要 hub インストール
