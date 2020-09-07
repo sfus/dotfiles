@@ -21,6 +21,9 @@
 [pull]
     ff = only
 
+[submodule]
+    recurse = true
+
 [color]
     ui = auto
 
