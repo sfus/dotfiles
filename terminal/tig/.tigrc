@@ -169,6 +169,9 @@ bind blob    l      :view-close
 bind generic F      ?git fetch %(remote)
 bind main    F      ?git fetch %(remote)
 
+# Alt-f で push --force-with-lease
+bind generic <Esc>f ?git push --force-with-lease
+
 # U で pull
 bind generic U      ?git pull %(remote)
 
