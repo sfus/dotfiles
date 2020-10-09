@@ -1,0 +1,3 @@
+#!/bin/sh
+
+gsed -r 's/(^|_)([a-z])/\U\2/g' | gsed -r 's/^(.)/\l\1/g'

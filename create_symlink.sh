@@ -64,3 +64,7 @@ ln -sf $DIR/script/openinemacs ~/bin/openinemacs
 ln -sf $DIR/script/imgls ~/bin/imgls
 # https://qiita.com/kiritex/items/786dbed4b7a2a22cbb89
 ln -sf $DIR/script/imgcat_tmux ~/bin/imgcat
+# convert snake_case to UpperCamelCase or lowerCamelCase
+ln -sf $DIR/script/_2U ~/bin/_2U
+ln -sf $DIR/script/_2l ~/bin/_2l
+ln -sf $DIR/script/c2_ ~/bin/c2_
