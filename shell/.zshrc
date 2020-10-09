@@ -355,11 +355,10 @@ alias makerule='make -p -f /dev/null'
 
 alias ht='htop'
 
-alias dok='docker'
+alias d='docker'
 alias doco='docker-compose'
-alias docod='docker-compose -d'
-alias doi='docker image'
-alias doc='docker container'
+alias lad='lazydocker'
+alias kk='k9s'
 
 alias g='git'
 alias gi='git'
@@ -387,8 +386,6 @@ alias tml='tmux ls'
 alias tmk='tmux kill-session -t'
 alias tmz='tmux set-option -g prefix C-z'
 
-alias lad='lazydocker'
-
 alias slog='svn log'
 alias sll='svn log -v -l 5'
 alias sdi='svn diff'
@@ -398,6 +395,11 @@ alias sup='svn update'
 
 alias lc='leetcode'
 alias lcgen='leetcode show -g -x'
+
+# requires GNU sed, `brew install gsed` to install
+alias c2s="gsed -r 's/([A-Z])/_\L\1/g'"
+alias s2C="gsed -r 's/(^|_)([a-z])/\U\2/g'"
+alias s2c="gsed -r 's/(^|_)([a-z])/\U\2/g' | gsed -r 's/^(.)/\l\1/g'"
 
 function svn-commit-id-pair () {
     if [ $# -lt 1 ]; then return 1; fi
