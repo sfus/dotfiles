@@ -188,7 +188,7 @@ bind refs    <Esc>u ?sh -c "git checkout %(branch) && git pull %(remote) --ff-on
 bind generic <Esc>U ?git submodule update --init --recursive
 
 # P で remote への push -u
-#bind generic P      ?sh -c "git push -u %(remote) `git rev-parse --abbrev-ref HEAD`"
+#bind generic P      ?sh -c "git push -u %(remote) $(git rev-parse --abbrev-ref HEAD)"
 bind generic P      ?git push -u %(remote) %(repo:head)
 bind refs    P      ?git push -u %(remote) %(branch)
 
@@ -446,11 +446,11 @@ bind generic ;      @hub browse -- commit/%(commit)
 # Alt-; で GitHub の該当ページを開く
 bind tree    <Esc>; @hub browse -- blob/%(commit)/%(file)
 
-# Alt-; で GitHub の該当行を開く ('#' を出すために `echo Iwo= | base64 --decode` している)
-bind diff    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)`echo Iwo= | base64 --decode`L%(lineno)"
-bind blame   <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)`echo Iwo= | base64 --decode`L%(lineno)"
-bind blob    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)`echo Iwo= | base64 --decode`L%(lineno)"
-bind grep    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)`echo Iwo= | base64 --decode`L%(lineno)"
+# Alt-; で GitHub の該当行を開く ('#' を出すために $(echo Iwo= | base64 --decode) している)
+bind diff    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind blame   <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind blob    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind grep    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
 
 # bind tree    <Esc>; @hub browse -- blob/"%(prompt Enter branch name: )"/%(file)
 # bind blob    <Esc>; @hub browse -- blob/"%(prompt Enter branch name: )"/%(file)
@@ -467,14 +467,14 @@ bind diff    <Esc>w @hub browse -- compare/develop...%(remote):%(branch)?expand=
 bind refs    <Esc>w @hub browse -- compare/develop...%(remote):%(branch)?expand=1
 
 # W で develop へのマージ Pull Request ページを開く ※要 hub インストール
-bind main    W      @sh -c "hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep 'Merge pull request '$(echo Iwo= | base64 --decode) | head -n 1 | cut -f5 -d' ' | sed -e 's%'$(echo Iwo= | base64 --decode)'%pull/%')"
-bind diff    W      @sh -c "hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep 'Merge pull request '$(echo Iwo= | base64 --decode) | head -n 1 | cut -f5 -d' ' | sed -e 's%'$(echo Iwo= | base64 --decode)'%pull/%')"
-bind refs    W      @sh -c "hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep 'Merge pull request '$(echo Iwo= | base64 --decode) | head -n 1 | cut -f5 -d' ' | sed -e 's%'$(echo Iwo= | base64 --decode)'%pull/%')"
+bind main    W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
+bind diff    W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
+bind refs    W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
 
 # A で GitHub の現在行コミットからHEADまでの差分ページを開く (default: :toggle-author) ※要 hub インストール
-bind main    A      @sh -c "hub compare %(commit)...`git rev-parse HEAD`"
-bind diff    A      @sh -c "hub compare %(commit)...`git rev-parse HEAD`"
-bind refs    A      @sh -c "hub compare %(commit)...`git rev-parse HEAD`"
+bind main    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
+bind diff    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
+bind refs    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
 
 # Alt-a で GitHub の現在行コミットから指定コミットまでの差分ページを開く ※要 hub インストール
 bind main    <Esc>a @hub compare %(commit)..."%(prompt Enter commit ID: )"
