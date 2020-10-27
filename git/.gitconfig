@@ -59,6 +59,11 @@
     mail = config user.email
     name  = config user.name
 
+    # open pull request
+    # https://qiita.com/awakia/items/f14dc6310e469964a8f7
+    showpr = !"f() { git log --merges --oneline --reverse --ancestry-path $1...master | grep 'Merge pull request #' | head -n 1; }; f"
+    pr = "!f() { hub browse -- `git log --merges --oneline --reverse --ancestry-path $1...develop | grep 'Merge pull request #' | head -n 1 | cut -f5 -d' ' | sed -e 's%#%pull/%'`; }; f"
+
     # Cancel commands
     # http://labs.timedia.co.jp/2011/08/git-undo-999.html
     # http://qiita.com/muran001/items/dea2bbbaea1260098051
