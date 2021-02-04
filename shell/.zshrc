@@ -74,6 +74,8 @@ PATH="/usr/local/opt/icu4c/bin:$PATH"
 PATH="/usr/local/opt/icu4c/sbin:$PATH"
 # gnu-time
 PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
+# td-agent
+PATH="/opt/td-agent/embedded/bin:$PATH"
 
 # for makepkg
 PATH="/usr/local/opt/libarchive/bin:$PATH"
@@ -223,6 +225,9 @@ for cmd in docker; do
     fpath=(~/.oh-my-zsh/plugins/$cmd $fpath)
 done
 
+## kubectl completion
+[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
 # enable completion
 autoload -Uz compinit
 compinit -u
@@ -358,6 +363,7 @@ alias ht='htop'
 alias d='docker'
 alias doco='docker-compose'
 alias lad='lazydocker'
+alias k='kubectl'
 alias kk='k9s'
 
 alias g='git'
