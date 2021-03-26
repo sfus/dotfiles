@@ -365,6 +365,10 @@ alias doco='docker-compose'
 alias lad='lazydocker'
 alias k='kubectl'
 alias kk='k9s'
+alias kr='k9s --readonly'
+alias kx='kubectx'
+# for kustomize 3.9~
+alias kus='kustomize --enable_kyaml=false'
 
 alias g='git'
 alias gi='git'
