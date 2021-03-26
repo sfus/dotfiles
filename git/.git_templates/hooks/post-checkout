@@ -1,5 +1,5 @@
 #!/bin/sh
-# http://klabgames.tech.blog.jp.klab.com/archives/1033121546.html
+# https://www.klab.com/jp/blog/tech/2015/1033121546.html
 
 PREVIOUS_HEAD=$1
 NEW_HEAD=$2
