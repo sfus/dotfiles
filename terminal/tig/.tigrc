@@ -51,8 +51,8 @@ set tab-size = 4
 # # 空白無視
 # set ignore-space = all
 
-# 空白無視 (status-view では表示するが diff-view では無視する) (W でトグル)
-set ignore-space = at-eol
+# # 空白無視 (status-view では表示するが diff-view では無視する) (W でトグル)
+# set ignore-space = at-eol
 
 # 検索時に大文字小文字を無視する (default: false)
 set ignore-case = true
