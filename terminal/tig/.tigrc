@@ -390,8 +390,10 @@ bind diff    <Esc>i ?git rebase -i --allow-empty %(commit)
 # > で git rebase --continue
 bind generic >      ?git rebase --continue
 
-# Alt-> で git cherry-pick --continue
-bind generic <Esc>> ?git cherry-pick --continue
+# Alt-> で git merge --continue
+bind generic <Esc>> ?git merge --continue
+# # Alt-> で git cherry-pick --continue
+# bind generic <Esc>> ?git cherry-pick --continue
 
 # Z で git rebase --abort
 bind generic Z      ?git rebase --abort
