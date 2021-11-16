@@ -216,7 +216,7 @@ export LANG=ja_JP.UTF-8
 
 ##############
 
-fpath=(~/.zsh-completions $fpath)
+fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions $fpath)
 
 ## docker completion
 # -> https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
