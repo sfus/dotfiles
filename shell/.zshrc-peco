@@ -89,7 +89,7 @@ function peco-git-worktree () {
 zle -N peco-git-worktree
 bindkey '^x^l' peco-git-worktree
 
-# C-x l で git worktree add
+# C-x wa で git worktree add
 function peco-git-worktree-add () {
     local remote_branch=$(git branch -av | peco --prompt ">$LBUFFER" | head -n 1 | sed -e "s/^\*\s*//g" | awk '{print $1}')
     local local_branch=$(echo ${remote_branch} | sed -e 's/^remotes\/[^/]*\/\(.*\)/\1/')
@@ -97,15 +97,15 @@ function peco-git-worktree-add () {
     peco-insert git worktree add -b ${local_branch} ${checkout_dir} ${remote_branch}
 }
 zle -N peco-git-worktree-add
-bindkey '^xl' peco-git-worktree-add
+bindkey '^xwa' peco-git-worktree-add
 
-# C-x L で git worktree remove
+# C-x wr で git worktree remove
 function peco-git-worktree-remove () {
     local selected_dir=$(git worktree list | awk '{print $1}' | peco --query "$LBUFFER")
     peco-insert git worktree remove ${selected_dir#$PWD/}
 }
 zle -N peco-git-worktree-remove
-bindkey '^xL' peco-git-worktree-remove
+bindkey '^xwr' peco-git-worktree-remove
 
 # C-x C-f で ls -la から選択
 function peco-select-file () {
