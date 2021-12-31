@@ -1,65 +1,63 @@
-## how to install oh-my-zsh
-# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-#   or
-# sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+bindkey -e
 
-# Path to your oh-my-zsh installation.
-export ZSH=~/.oh-my-zsh
+## how to install zplug
+# -> https://github.com/zplug/zplug
+# curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
-#ZSH_THEME="wedisagree"
-#ZSH_THEME="fishy"
-#ZSH_THEME="juanghurtado"
-#ZSH_THEME="gallois"
-#ZSH_THEME="agnoster" # echo "export DEFAULT_USER=`whoami`" >> ~/.zprofile
-ZSH_THEME="my-dpoggi"
+# zplug
+source ~/.zplug/init.zsh
+zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Async
+zplug "mafredri/zsh-async"
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Theme
+#zplug "sindresorhus/pure"
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# -> https://github.com/Powerlevel9k/powerlevel9k
+# $ brew install font-noto-mono-for-powerline
+zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
+#POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
+POWERLEVEL9K_SHORTEN_STRATEGY=truncate_middle
+POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# -> https://github.com/zsh-users/zsh-syntax-highlighting
+# zsh-syntax-highlighting must be loaded
+# after executing compinit command and sourcing other plugins
+# (If the defer tag is given 2 or above, run after compinit command)
+zplug "zsh-users/zsh-syntax-highlighting", defer:2
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
+# -> https://github.com/zsh-users/zsh-history-substring-search
+zplug "zsh-users/zsh-history-substring-search"
+bindkey -M emacs '^P' history-substring-search-up
+bindkey -M emacs '^N' history-substring-search-down
 
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
+zplug "zsh-users/zsh-autosuggestions"
 
-# Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+# -> https://github.com/zsh-users/zsh-completions
+zplug "zsh-users/zsh-completions"
 
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
+# oh-my-zsh
+zplug "plugins/git", from:oh-my-zsh
 
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
+# Others
+zplug "chrissicool/zsh-256color"
+zplug "mrowa44/emojify", as:command
 
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+# Install plugins if there are plugins that have not been installed
+if ! zplug check --verbose; then
+  printf "Install? [y/N]: "
+  if read -q; then
+    echo; zplug install
+  fi
+fi
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
-# Add wisely, as too many plugins slow down shell startup.
-plugins=(git themes)
+# source plugins and add commands to $PATH
+zplug load
+#zplug load --verbose
 
-# User configuration
-
+## PATH
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 # diff-highlight
 PATH="$PATH:/usr/local/share/git-core/contrib/diff-highlight"
@@ -179,8 +177,6 @@ fi
 # fi
 # alias java-home-8='export JAVA_HOME=`/usr/libexec/java_home -v 1.8`'
 
-[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
-
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
 #export LC_ALL=C
@@ -192,27 +188,6 @@ export LANG=ja_JP.UTF-8
 # $ cat /usr/local/etc/gtags/gtags.conf
 #export GTAGSLABEL=pygments
 
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# ssh
-# export SSH_KEY_PATH="~/.ssh/dsa_id"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
 
 ##############
 
@@ -285,6 +260,9 @@ setopt hist_no_store
 # append history incrementally
 setopt inc_append_history
 
+# enable auto-cd (`..' to parent dir, etc)
+setopt auto_cd
+
 # # incremental search
 # bindkey "^R" history-incremental-search-backward
 # bindkey "^S" history-incremental-search-forward
@@ -328,6 +306,7 @@ fi
 # fzf
 # /usr/local/opt/fzf/install => "~/.fzf.zsh" will be created.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
 # export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
 export FZF_DEFAULT_OPTS='--height 80% --reverse'
