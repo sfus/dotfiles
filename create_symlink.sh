@@ -10,6 +10,7 @@ set -x
 install -d ~/.zsh
 ln -sf $DIR/shell/.zshrc ~/.zshrc
 ln -sf $DIR/shell/.zshrc-peco ~/.zshrc-peco
+ln -sf $DIR/shell/.zshrc-fzf ~/.zshrc-fzf
 ln -shf $DIR/shell/functions ~/.zsh/
 
 install -d ~/.oh-my-zsh/themes
