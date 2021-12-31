@@ -12,15 +12,20 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "mafredri/zsh-async"
 
 # Theme
-#zplug "sindresorhus/pure"
+# -> https://github.com/sindresorhus/pure
+zplug "sindresorhus/pure"
+zstyle :prompt:pure:path color '#00ff00'
+zstyle :prompt:pure:git:branch color '#999999'
+zstyle :prompt:pure:prompt:success color '#00afd7'
+PURE_PROMPT_SYMBOL="%D{%H:%M} %F{#cccccc}❯%f"
 
-# -> https://github.com/Powerlevel9k/powerlevel9k
-# $ brew install font-noto-mono-for-powerline
-zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
-#POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
-POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
-POWERLEVEL9K_SHORTEN_STRATEGY=truncate_middle
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
+# # -> https://github.com/Powerlevel9k/powerlevel9k
+# # $ brew install font-noto-mono-for-powerline
+# zplug "bhilburn/powerlevel9k", use:powerlevel9k.zsh-theme, as:theme
+# #POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
+# POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-remotebranch git-tagname)
+# POWERLEVEL9K_SHORTEN_STRATEGY=truncate_middle
+# POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
 
 # -> https://github.com/zsh-users/zsh-syntax-highlighting
 # zsh-syntax-highlighting must be loaded
@@ -621,4 +626,5 @@ if [ -e "$KUBEPS1" ]; then
   source "$KUBEPS1"
   # to toggle: kubeon / kubeoff
   PS1='$(kube_ps1)'$PS1
+  kubeoff
 fi
