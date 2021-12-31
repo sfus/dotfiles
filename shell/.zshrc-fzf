@@ -1,0 +1,91 @@
+## -> https://github.com/junegunn/fzf
+# git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+# ~/.fzf/install
+
+# $ $(brew --prefix)/opt/fzf/install
+#   -> "~/.fzf.zsh" will be created.
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# Re-assign fzf-file-widget (C-t), as C-t has been bound in my tmux.conf
+bindkey '\e/' fzf-file-widget
+
+# Refs
+# -> https://qiita.com/sho-t/items/dca82d5e27b16da12318
+# -> https://petitviolet.hatenablog.com/entry/20190708/1562544000
+
+export FZF_COMPLETION_TRIGGER=\[
+export FZF_DEFAULT_OPTS='--height 40% --reverse --border --info=inline'
+
+if type "rg" > /dev/null 2>&1; then
+  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+  export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+fi
+if type "bat" > /dev/null 2>&1; then
+  export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
+fi
+
+# -> https://github.com/chitoku-k/fzf-zsh-completions
+# zplug "chitoku-k/fzf-zsh-completions"
+alias g='git'
+function _fzf_complete_g () {
+  _fzf_complete_git $@
+}
+alias d='docker'
+function _fzf_complete_d () {
+  _fzf_complete_docker $@
+}
+alias k='kubectl'
+function _fzf_complete_k () {
+  _fzf_complete_kubectl $@
+}
+
+# ZLE
+# -> https://zsh.sourceforge.io/Doc/Release/Zsh-Line-Editor.html
+# -> https://dev.classmethod.jp/articles/zsh-zle-introduction/
+
+# Argument insertion function to command-line
+function fzf-insert() {
+  local result="$*"
+  if [ -n "$result" ]; then
+    if [ -n "$LBUFFER" ]; then
+      local cmd="${LBUFFER%\ } $result "
+    else
+      local cmd="$result "
+    fi
+    BUFFER=$cmd$RBUFFER
+    CURSOR=$#cmd
+  fi
+  zle redisplay
+}
+
+# Ctrl-o: move to recently visited directory (requires `autoload -Uz cdr`)
+function fzf-cdr () {
+  local selected_dir=$(cdr -l | awk -v home="$HOME" '{ sub("^~", home, $2); print $2 }' | fzf --preview "ls -lG {}")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle redisplay
+}
+zle -N fzf-cdr
+bindkey '^o' fzf-cdr
+
+# C-x k: kill process
+function fzf-kill-process () {
+  fzf-insert $(ps aux | fzf | awk '{print "kill -9 " $2}')
+}
+zle -N fzf-kill-process
+bindkey '^xk' fzf-kill-process
+
+# Ctrl-]: move to ghq dirs
+# -> https://qiita.com/tomoyamachi/items/e51d2906a5bb24cf1684
+function fzf-ghq() {
+  local src=$(ghq list | fzf --preview "ls -laTp $(ghq root)/{} | tail -n+4 | awk '{print \$9\"/\"\$6\"/\"\$7 \" \" \$10}'")
+  if [ -n "$src" ]; then
+    BUFFER="cd $(ghq root)/$src"
+    zle accept-line
+  fi
+  zle redisplay
+}
+zle -N fzf-ghq
+bindkey '^]' fzf-ghq

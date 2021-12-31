@@ -308,14 +308,6 @@ if [ -e "$HOME/.lesskey" ]; then
    export LESSKEY=~/.lesskey
 fi
 
-# fzf
-# /usr/local/opt/fzf/install => "~/.fzf.zsh" will be created.
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# export FZF_DEFAULT_COMMAND='rg --files --hidden --glob "!.git"'
-# export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
-export FZF_DEFAULT_OPTS='--height 80% --reverse'
-
 # send to clipboard for each platform
 if which pbcopy >/dev/null 2>&1 ; then
     alias -g C='| pbcopy'
@@ -595,9 +587,14 @@ bindkey -s '\ei' '^a tig \n'
 # Esc \ -> exit
 bindkey -s '\e\\' '^a exit \n'
 
-# load peco setting for zsh
-if [ -f ~/.zshrc-peco ]; then
-   . ~/.zshrc-peco
+# ## peco
+# if [ -f ~/.zshrc-peco ]; then
+#    . ~/.zshrc-peco
+# fi
+
+## fzf
+if [ -f ~/.zshrc-fzf ]; then
+   . ~/.zshrc-fzf
 fi
 
 # load .zprofile
