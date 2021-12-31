@@ -228,6 +228,12 @@ done
 ## kubectl completion
 [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
 
+## GCP completion
+for inc in /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc \
+             /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc; do
+  if [ -e inc ]; then source inc; fi
+done
+
 # enable completion
 autoload -Uz compinit
 compinit -u
@@ -406,10 +412,15 @@ alias sup='svn update'
 alias lc='leetcode'
 alias lcgen='leetcode show -g -x'
 
+
 # requires GNU sed, `brew install gsed` to install
 alias c2s="gsed -r 's/([A-Z])/_\L\1/g'"
 alias s2C="gsed -r 's/(^|_)([a-z])/\U\2/g'"
 alias s2c="gsed -r 's/(^|_)([a-z])/\U\2/g' | gsed -r 's/^(.)/\l\1/g'"
+
+function bd () {
+  echo -n $1 | base64 -D
+}
 
 function svn-commit-id-pair () {
     if [ $# -lt 1 ]; then return 1; fi
@@ -588,6 +599,9 @@ function vicd() {
 # Esc j -> vifm from current directory
 bindkey -s '\ej' '^a vicd . \n'
 
+# v -> vicd()
+alias v=vicd
+
 # Esc e -> emacsclient
 bindkey -s '\ee' '^a emacsclient -nw -a "" \n'
 
@@ -622,3 +636,10 @@ fi
 # tmux-powerline prompt
 # -> https://matsu.teraren.com/blog/2013/02/10/moteru-tmux-powerline/
 PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
+KUBEPS1=/usr/local/opt/kube-ps1/share/kube-ps1.sh
+if [ -e "$KUBEPS1" ]; then
+  source "$KUBEPS1"
+  # to toggle: kubeon / kubeoff
+  PS1='$(kube_ps1)'$PS1
+fi
