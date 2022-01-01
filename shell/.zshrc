@@ -42,13 +42,21 @@ zplug "zsh-users/zsh-autosuggestions"
 
 # -> https://github.com/zsh-users/zsh-completions
 zplug "zsh-users/zsh-completions"
+zstyle ':completion:*' insert-tab false
 
-# oh-my-zsh
+# -> https://github.com/chitoku-k/fzf-zsh-completions
+zplug "chitoku-k/fzf-zsh-completions"
+
+# oh-my-zsh plugins
+# -> https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
 zplug "plugins/git", from:oh-my-zsh
+zplug "plugins/docker", from:oh-my-zsh
+zplug "plugins/kubectl", from:oh-my-zsh
+zplug "plugins/gcloud", from:oh-my-zsh
 
 # Others
 zplug "chrissicool/zsh-256color"
-zplug "mrowa44/emojify", as:command
+# zplug "mrowa44/emojify", as:command
 
 # Install plugins if there are plugins that have not been installed
 if ! zplug check --verbose; then
@@ -61,6 +69,18 @@ fi
 # source plugins and add commands to $PATH
 zplug load
 #zplug load --verbose
+
+
+# fpath
+fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions $fpath)
+
+# enable completion
+autoload -Uz compinit
+compinit -u
+
+# # kubectl completion (after compinit)
+# [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+
 
 ## PATH
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -193,30 +213,6 @@ export LANG=ja_JP.UTF-8
 # $ cat /usr/local/etc/gtags/gtags.conf
 #export GTAGSLABEL=pygments
 
-
-##############
-
-fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions $fpath)
-
-## docker completion
-# -> https://github.com/docker/cli/blob/master/contrib/completion/zsh/_docker
-# add fpath
-for cmd in docker; do
-    fpath=(~/.oh-my-zsh/plugins/$cmd $fpath)
-done
-
-## kubectl completion
-[[ $commands[kubectl] ]] && source <(kubectl completion zsh)
-
-## GCP completion
-for inc in /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc \
-             /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc; do
-  if [ -e inc ]; then source inc; fi
-done
-
-# enable completion
-autoload -Uz compinit
-compinit -u
 
 # enable zmv
 autoload -Uz zmv
@@ -586,6 +582,23 @@ bindkey -s '\ei' '^a tig \n'
 
 # Esc \ -> exit
 bindkey -s '\e\\' '^a exit \n'
+
+# -> https://unix.stackexchange.com/questions/14230/zsh-tab-completion-on-empty-line
+# # expand-or-complete-or-list-files
+# function expand-or-complete-or-list-files() {
+#     if [[ $#BUFFER == 0 ]]; then
+#         BUFFER="ls "
+#         CURSOR=3
+#         zle list-choices
+#         zle backward-kill-word
+#     else
+#         zle expand-or-complete
+#     fi
+# }
+# zle -N expand-or-complete-or-list-files
+# # bind to tab
+# bindkey '^I' expand-or-complete-or-list-files
+
 
 # ## peco
 # if [ -f ~/.zshrc-peco ]; then
