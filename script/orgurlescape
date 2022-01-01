@@ -1,3 +1,4 @@
 #!/bin/sh
 
-pbpaste | perl -ne 's/\]\[(.*?)\[/\]\[$1\{/g; s/\]\[(.*?)\]/\]\[$1\}/g; print' | pbcopy
+#pbpaste | perl -ne 's/\]\[(.*?)\[/\]\[$1\{/g; s/\]\[(.*?)\]/\]\[$1\}/g; print' | pbcopy
+pbpaste | perl -ne 's/\[/{/g; s/\]/}/g; s/^{{(.*)}{(.*)}}$/\[\[$1\]\[$2\]\]/g; print' | pbcopy
