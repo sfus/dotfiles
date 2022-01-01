@@ -107,38 +107,38 @@ if [ -e $GOROOT ]; then
     export PATH="$GOROOT/bin:$PATH"
 fi
 
-# plenv
-PLENV_ROOT="$HOME/.plenv"
-if [ -d $PLENV_ROOT ]; then
-   export PLENV_ROOT
-   export PATH=$PLENV_ROOT/bin:$PATH
-   eval "$(plenv init -)"
-fi
+# # plenv
+# PLENV_ROOT="$HOME/.plenv"
+# if [ -d $PLENV_ROOT ]; then
+#    export PLENV_ROOT
+#    export PATH=$PLENV_ROOT/bin:$PATH
+#    eval "$(plenv init -)"
+# fi
 
-# pyenv
-# https://qiita.com/Kodaira_/items/feadfef9add468e3a85b
-PYENV_ROOT="$HOME/.pyenv"
-if [ -d $PYENV_ROOT ]; then
-    export PYENV_ROOT
-    export PATH=$PYENV_ROOT/bin:$PATH
-    export PATH=$PYENV_ROOT/libexec:$PATH
-    eval "$(pyenv init -)"
-    # if [ -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
-    #     eval "$(pyenv virtualenv-init -)"
-    # fi
-fi
+# # pyenv
+# # https://qiita.com/Kodaira_/items/feadfef9add468e3a85b
+# PYENV_ROOT="$HOME/.pyenv"
+# if [ -d $PYENV_ROOT ]; then
+#     export PYENV_ROOT
+#     export PATH=$PYENV_ROOT/bin:$PATH
+#     export PATH=$PYENV_ROOT/libexec:$PATH
+#     eval "$(pyenv init -)"
+#     # if [ -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
+#     #     eval "$(pyenv virtualenv-init -)"
+#     # fi
+# fi
 
 # for `brew doctor`
 # https://qiita.com/takc923/items/45386905f70fde9af0e7
 alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
 
-# rbenv
-RBENV_ROOT="$HOME/.rbenv"
-if [ -d $RBENV_ROOT ]; then
-    export RBENV_ROOT
-    export PATH=$RBENV_ROOT/bin:$PATH
-    eval "$(rbenv init -)"
-fi
+# # rbenv
+# RBENV_ROOT="$HOME/.rbenv"
+# if [ -d $RBENV_ROOT ]; then
+#     export RBENV_ROOT
+#     export PATH=$RBENV_ROOT/bin:$PATH
+#     eval "$(rbenv init -)"
+# fi
 
 # # ndenv
 # # https://github.com/riywo/ndenv
@@ -167,7 +167,7 @@ fi
 export GRADLE_HOME=/usr/local/opt/gradle/libexec
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
 
-## sdkman
+# ## sdkman
 SDKMAN_DIR="$HOME/.sdkman"
 if [ -e "$SDKMAN_DIR/bin/sdkman-init.sh" ]; then
     export SDKMAN_DIR
