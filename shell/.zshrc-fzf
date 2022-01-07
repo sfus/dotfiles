@@ -9,19 +9,61 @@
 # Re-assign fzf-file-widget (C-t), as C-t has been bound in my tmux.conf
 bindkey '\e/' fzf-file-widget
 
-# Refs
+export FZF_COMPLETION_TRIGGER='['
+
+# Set FZF_DEFAULT_OPTS
+# export FZF_DEFAULT_OPTS='--height 40% --reverse --border --info=inline'
 # -> https://qiita.com/sho-t/items/dca82d5e27b16da12318
+typeset -Tgx FZF_DEFAULT_OPTS fzf_default_opts " "
+fzf_default_opts=(
+  '--height=90%'
+  '--reverse'
+  '--border'
+  '--inline-info'
+#  '--prompt="➜  "'
+  '--margin=0,2'
+  '--tiebreak=index'
+  '--no-mouse'
+  '--filepath-word'
+  '--ansi'
+)
+
+() {
+  local -a fzf_bind_opts=()
+  local -A bind_map=(
+    [ctrl-i]='accept'
+    [ctrl-space]='toggle+down'
+    [ctrl-g]='cancel'
+    [?]='toggle-preview'
+    [ctrl-a]='toggle-all'
+    ['ctrl-]']='replace-query'
+    [ctrl-w]='backward-kill-word'
+    [ctrl-x]='jump'
+    [ctrl-z]='ignore'
+    [up]='preview-page-up'
+    [alt-v]='preview-page-up'
+    [down]='preview-page-down'
+    [ctrl-v]='preview-page-down'
+  )
+
+  for x in "${(k)bind_map[@]}"; do
+    fzf_bind_opts+=("${x}:${bind_map[${x}]}")
+  done
+  fzf_default_opts+=( '--bind="'"${(j:,:)fzf_bind_opts}"'"' )
+}
+
+# Refs
 # -> https://petitviolet.hatenablog.com/entry/20190708/1562544000
 
-export FZF_COMPLETION_TRIGGER=\[
-export FZF_DEFAULT_OPTS='--height 40% --reverse --border --info=inline'
-
 if type "rg" > /dev/null 2>&1; then
-  export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
-  export FZF_CTRL_T_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+  fzf_tree_cmd='rg --files --hidden --follow --glob "!.git/*"'
+  export FZF_DEFAULT_COMMAND="$fzf_tree_cmd"
+  export FZF_CTRL_T_COMMAND="$fzf_tree_cmd"
 fi
 if type "bat" > /dev/null 2>&1; then
-  export FZF_CTRL_T_OPTS='--preview "bat --color=always --style=header,grid --line-range :100 {}"'
+  fzf_preview_cmd='bat --color=always --style=header,grid --line-range :100 {}'
+  export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview \"$fzf_preview_cmd\""
+  export FZF_CTRL_T_OPTS="--preview \"$fzf_preview_cmd\""
 fi
 
 # -> https://github.com/chitoku-k/fzf-zsh-completions
@@ -60,7 +102,7 @@ function fzf-insert() {
 
 # Ctrl-o: move to recently visited directory (requires `autoload -Uz cdr`)
 function fzf-cdr () {
-  local selected_dir=$(cdr -l | awk -v home="$HOME" '{ sub("^~", home, $2); print $2 }' | fzf --preview "ls -lG {}")
+  local selected_dir=$(cdr -l | awk -v home="$HOME" '{ sub("^~", home, $2); print $2 }' | fzf --preview "CLICOLOR_FORCE=true ls -lG {}" --ansi)
   if [ -n "$selected_dir" ]; then
     BUFFER="cd ${selected_dir}"
     zle accept-line
