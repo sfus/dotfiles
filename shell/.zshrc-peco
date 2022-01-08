@@ -18,6 +18,7 @@ zle -N peco-select-history
 bindkey '^r' peco-select-history
 
 # Ctrl-o で最近訪れたディレクトリに移動 (要 autoload -Uz cdr)
+# https://wada811.blogspot.com/2014/09/zsh-cdr.html
 function peco-cdr () {
     local selected_dir=$(cdr -l | awk '{ print $2 }' | peco --prompt "${PWD/#$HOME/~}>$LBUFFER")
     if [ -n "$selected_dir" ]; then
