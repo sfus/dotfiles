@@ -396,6 +396,25 @@ function bd () {
   echo -n $1 | base64 -D
 }
 
+function tmm () {
+  if [ "$#" -eq 0 ]; then
+    tmux split-window -v -p 30 -c "#{pane_current_path}"
+    tmux split-window -h -c "#{pane_current_path}"
+    tmux select-pane -t 0
+  else
+    case $1 in
+      /)
+        tmux split-window -h -c "#{pane_current_path}"
+        tmux split-window -v -c "#{pane_current_path}"
+        tmux select-pane -t 0
+        ;;
+      *)
+        echo [ERROR] "$1": undefined argument
+        ;;
+    esac
+  fi
+}
+
 function svn-commit-id-pair () {
     if [ $# -lt 1 ]; then return 1; fi
     NUM=$1
