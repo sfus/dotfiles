@@ -215,6 +215,8 @@ export LANG=ja_JP.UTF-8
 
 
 # enable zmv
+# -> https://mollifier.hatenablog.com/entry/20101227/p1
+# $ zmv *.txt file-*.txt
 autoload -Uz zmv
 alias zmv='noglob zmv -W'
 
