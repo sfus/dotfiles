@@ -314,8 +314,9 @@ elif which xsel >/dev/null 2>&1 ; then
     alias -g C='| xsel --input --clipboard'
 fi
 
-alias ll='ls -l'
-alias lla='ls -la'
+alias ls='ls -G'
+alias ll='ls -lG'
+alias lla='ls -laG'
 alias rm='rm -i'
 alias cp='cp -i'
 
@@ -392,6 +393,8 @@ alias c2s="gsed -r 's/([A-Z])/_\L\1/g'"
 alias s2C="gsed -r 's/(^|_)([a-z])/\U\2/g'"
 alias s2c="gsed -r 's/(^|_)([a-z])/\U\2/g' | gsed -r 's/^(.)/\l\1/g'"
 
+alias base=base64
+
 function bd () {
   echo -n $1 | base64 -D
 }
@@ -399,10 +402,14 @@ function bd () {
 function tmm () {
   if [ "$#" -eq 0 ]; then
     tmux split-window -v -p 30 -c "#{pane_current_path}"
-    tmux split-window -h -c "#{pane_current_path}"
     tmux select-pane -t 0
   else
     case $1 in
+      .)
+        tmux split-window -v -p 30 -c "#{pane_current_path}"
+        tmux split-window -h -c "#{pane_current_path}"
+        tmux select-pane -t 0
+        ;;
       /)
         tmux split-window -h -c "#{pane_current_path}"
         tmux split-window -v -c "#{pane_current_path}"
