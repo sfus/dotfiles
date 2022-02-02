@@ -16,7 +16,7 @@ export FZF_COMPLETION_TRIGGER='['
 # -> https://qiita.com/sho-t/items/dca82d5e27b16da12318
 typeset -Tgx FZF_DEFAULT_OPTS fzf_default_opts " "
 fzf_default_opts=(
-  '--height=90%'
+  '--height=40%'
   '--reverse'
   '--border'
   '--inline-info'
@@ -65,6 +65,7 @@ if type "bat" > /dev/null 2>&1; then
   export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --preview \"$fzf_preview_cmd\""
   export FZF_CTRL_T_OPTS="--preview \"$fzf_preview_cmd\""
 fi
+export FZF_CTRL_R_OPTS="--no-preview"
 
 # -> https://github.com/chitoku-k/fzf-zsh-completions
 # zplug "chitoku-k/fzf-zsh-completions"
