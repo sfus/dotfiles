@@ -31,6 +31,10 @@
 [diff]
     compactionHeuristic = true
 
+# https://git-scm.com/book/ja/v2/Git-%E3%81%AE%E3%81%95%E3%81%BE%E3%81%96%E3%81%BE%E3%81%AA%E3%83%84%E3%83%BC%E3%83%AB-Rerere
+[rerere]
+	enabled = true
+
 [alias]
     co = checkout
     ci = commit --allow-empty
