@@ -136,18 +136,18 @@ fi
 #    eval "$(plenv init -)"
 # fi
 
-# # pyenv
-# # https://qiita.com/Kodaira_/items/feadfef9add468e3a85b
-# PYENV_ROOT="$HOME/.pyenv"
-# if [ -d $PYENV_ROOT ]; then
-#     export PYENV_ROOT
-#     export PATH=$PYENV_ROOT/bin:$PATH
-#     export PATH=$PYENV_ROOT/libexec:$PATH
-#     eval "$(pyenv init -)"
-#     # if [ -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
-#     #     eval "$(pyenv virtualenv-init -)"
-#     # fi
-# fi
+# pyenv
+# https://qiita.com/Kodaira_/items/feadfef9add468e3a85b
+PYENV_ROOT="$HOME/.pyenv"
+if [ -d $PYENV_ROOT ]; then
+    export PYENV_ROOT
+    export PATH=$PYENV_ROOT/bin:$PATH
+    export PATH=$PYENV_ROOT/libexec:$PATH
+    eval "$(pyenv init -)"
+    # if [ -d "$PYENV_ROOT/plugins/pyenv-virtualenv" ]; then
+    #     eval "$(pyenv virtualenv-init -)"
+    # fi
+fi
 
 # for `brew doctor`
 # https://qiita.com/takc923/items/45386905f70fde9af0e7
