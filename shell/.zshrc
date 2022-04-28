@@ -41,7 +41,8 @@ bindkey -M emacs '^N' history-substring-search-down
 zplug "zsh-users/zsh-autosuggestions"
 
 # -> https://github.com/zsh-users/zsh-completions
-zplug "zsh-users/zsh-completions"
+# -> https://qiita.com/sei40kr/items/bce00d4b875a7119fff8
+zplug "zsh-users/zsh-completions", use:'src/_*', lazy:true
 zstyle ':completion:*' insert-tab false
 
 # -> https://github.com/chitoku-k/fzf-zsh-completions
@@ -49,10 +50,10 @@ zplug "chitoku-k/fzf-zsh-completions"
 
 # oh-my-zsh plugins
 # -> https://github.com/ohmyzsh/ohmyzsh/wiki/Plugins
-zplug "plugins/git", from:oh-my-zsh
-zplug "plugins/docker", from:oh-my-zsh
-zplug "plugins/kubectl", from:oh-my-zsh
-zplug "plugins/gcloud", from:oh-my-zsh
+# zplug "plugins/git", from:oh-my-zsh
+# zplug "plugins/docker", from:oh-my-zsh
+# zplug "plugins/kubectl", from:oh-my-zsh
+# zplug "plugins/gcloud", from:oh-my-zsh
 
 # Others
 zplug "chrissicool/zsh-256color"
