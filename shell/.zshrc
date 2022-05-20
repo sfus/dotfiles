@@ -11,13 +11,13 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # Async
 zplug "mafredri/zsh-async"
 
-# Theme
-# -> https://github.com/sindresorhus/pure
-zplug "sindresorhus/pure"
-zstyle :prompt:pure:path color '#00ff00'
-zstyle :prompt:pure:git:branch color '#999999'
-zstyle :prompt:pure:prompt:success color '#00afd7'
-PURE_PROMPT_SYMBOL="%D{%H:%M} %F{#cccccc}❯%f"
+# # Theme
+# # -> https://github.com/sindresorhus/pure
+# zplug "sindresorhus/pure"
+# zstyle :prompt:pure:path color '#00ff00'
+# zstyle :prompt:pure:git:branch color '#999999'
+# zstyle :prompt:pure:prompt:success color '#00afd7'
+# PURE_PROMPT_SYMBOL="%D{%H:%M} %F{#cccccc}❯%f"
 
 # # -> https://github.com/Powerlevel9k/powerlevel9k
 # # $ brew install font-noto-mono-for-powerline
