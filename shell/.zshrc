@@ -11,7 +11,16 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # Async
 zplug "mafredri/zsh-async"
 
-# # Theme
+# Theme (dracula)
+# -> https://github.com/dracula/zsh
+zplug 'dracula/zsh', as:theme
+DRACULA_DISPLAY_TIME=1
+TIME_FORMAT="%H:%M:%S"
+#DRACULA_DISPLAY_CONTEXT=1
+DRACULA_ARROW_ICON="»" # https://www.compart.com/en/unicode/U+00BB
+DRACULA_DISPLAY_NEW_LINE=1
+
+# # Theme (pure)
 # # -> https://github.com/sindresorhus/pure
 # zplug "sindresorhus/pure"
 # zstyle :prompt:pure:path color '#00ff00'
