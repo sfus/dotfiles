@@ -82,7 +82,7 @@ zplug load
 
 
 # fpath
-fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions $fpath)
+fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions /opt/homebrew/share/zsh/site-functions $fpath)
 
 # enable completion
 autoload -Uz compinit
@@ -94,8 +94,10 @@ compinit -u
 
 ## PATH
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+# homebrew
+PATH="/opt/homebrew/bin:$PATH"
 # diff-highlight
-PATH="$PATH:/usr/local/share/git-core/contrib/diff-highlight"
+PATH="$PATH:/usr/local/share/git-core/contrib/diff-highlight:/opt/homebrew/share/git-core/contrib/diff-highlight"
 # android-sdk
 PATH="$PATH:/Applications/android-sdk-macosx/platform-tools"
 # ~/bin
@@ -657,7 +659,6 @@ fi
 # export DEFAULT_USER=XXXXXX
 # export EMAIL=xxx@xxxxx.com
 # export MY_PROJ=XXXXXXXX
-
 
 # wget https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgcat
 # wget https://raw.githubusercontent.com/gnachman/iTerm2/master/tests/imgls
