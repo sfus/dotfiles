@@ -111,6 +111,8 @@ PATH="/usr/local/opt/icu4c/sbin:$PATH"
 PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 # td-agent
 PATH="/opt/td-agent/embedded/bin:$PATH"
+# krew
+PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 # for makepkg
 PATH="/usr/local/opt/libarchive/bin:$PATH"
