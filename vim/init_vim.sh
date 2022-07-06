@@ -1,4 +1,8 @@
 #!/bin/sh
 
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-vim +PluginInstall +qall
+VUNDLE_DIR=~/.vim/bundle/Vundle.vim
+
+if [ ! -e $VUNDLE_DIR ]; then
+  git clone https://github.com/VundleVim/Vundle.vim.git "$VUNDLE_DIR"
+  vim +PluginInstall +qall
+fi
