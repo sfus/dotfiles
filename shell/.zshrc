@@ -11,22 +11,22 @@ zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 # Async
 zplug "mafredri/zsh-async"
 
-# Theme (dracula)
-# -> https://github.com/dracula/zsh
-zplug 'dracula/zsh', as:theme
-DRACULA_DISPLAY_TIME=1
-TIME_FORMAT="%H:%M:%S"
-#DRACULA_DISPLAY_CONTEXT=1
-DRACULA_ARROW_ICON="»" # https://www.compart.com/en/unicode/U+00BB
-DRACULA_DISPLAY_NEW_LINE=1
+# # Theme (dracula)
+# # -> https://github.com/dracula/zsh
+# zplug 'dracula/zsh', as:theme
+# DRACULA_DISPLAY_TIME=1
+# TIME_FORMAT="%H:%M:%S"
+# #DRACULA_DISPLAY_CONTEXT=1
+# DRACULA_ARROW_ICON="»" # https://www.compart.com/en/unicode/U+00BB
+# DRACULA_DISPLAY_NEW_LINE=1
 
-# # Theme (pure)
-# # -> https://github.com/sindresorhus/pure
-# zplug "sindresorhus/pure"
-# zstyle :prompt:pure:path color '#00ff00'
-# zstyle :prompt:pure:git:branch color '#999999'
-# zstyle :prompt:pure:prompt:success color '#00afd7'
-# PURE_PROMPT_SYMBOL="%D{%H:%M} %F{#cccccc}❯%f"
+# Theme (pure)
+# -> https://github.com/sindresorhus/pure
+zplug "sindresorhus/pure"
+zstyle :prompt:pure:path color '#00ff00'
+zstyle :prompt:pure:git:branch color '#999999'
+zstyle :prompt:pure:prompt:success color '#00afd7'
+PURE_PROMPT_SYMBOL="%D{%H:%M} %F{#cccccc}❯%f"
 
 # # -> https://github.com/Powerlevel9k/powerlevel9k
 # # $ brew install font-noto-mono-for-powerline
