@@ -58,7 +58,7 @@
 # macos_notification_count.sh {
 	# App ids to query in notification center, separated by space
 	# To get the app id that is associated with a specific app run:
-	# sqlite3 -list "/var/folders/z9/ql758wmj0ldcf7b8gttwghz00000gp/0//com.apple.notificationcenter/db/db" 'select * from app_info'
+	# sqlite3 -list "/var/folders/fq/cg7vrffs14j475ybm_h2ps9m0000gp/0//com.apple.notificationcenter/db/db" 'select * from app_info'
 	# The first column contains the app ids
 	# "5" is the app id of Messages.app
 	# Only "banner" notifications are supported (see settings in the notification center)
@@ -100,7 +100,7 @@
 # }
 
 # now_playing.sh {
-	# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, rdio, rhythmbox, spotify, spotify_wine, file}.
+	# Music player to use. Can be any of {audacious, banshee, cmus, itunes, lastfm, mocp, mpd, mpd_simple, pithos, playerctl, rdio, rhythmbox, spotify, spotify_wine, file}.
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_MUSIC_PLAYER=""
 	# File to be read in case the song is being read from a file
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_FILE_NAME=""
@@ -117,6 +117,8 @@
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_PORT="6600"
 	# Song display format for mpd_simple. See mpc(1) for delimiters.
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_MPD_SIMPLE_FORMAT="%artist% - %title%"
+	# Song display format for playerctl. see "Format Strings" in playerctl(1).
+	export TMUX_POWERLINE_SEG_NOW_PLAYING_PLAYERCTL_FORMAT="{{ artist }} - {{ title }}"
 	# Song display format for rhythmbox. see "FORMATS" in rhythmbox-client(1).
 	export TMUX_POWERLINE_SEG_NOW_PLAYING_RHYTHMBOX_FORMAT="%aa - %tt"
 
@@ -138,24 +140,24 @@
 	export TMUX_POWERLINE_SEG_TIME_FORMAT="%H:%M"
 # }
 
-# uptime.sh {
-	# Name of GNU grep binary if in PATH, or path to it.
-	export TMUX_POWERLINE_SEG_UPTIME_GREP="/usr/local/bin/ggrep"
+# utc_time.sh {
+	# date(1) format for the UTC time.
+	export TMUX_POWERLINE_SEG_UTC_TIME_FORMAT="%H:%M %Z"
 # }
 
 # weather.sh {
 	# The data provider to use. Currently only "yahoo" is supported.
-	export TMUX_POWERLINE_SEG_WEATHER_DATA_PROVIDER="yahoo"
+	export TMUX_POWERLINE_SEG_WEATHER_DATA_PROVIDER="yrno"
 	# What unit to use. Can be any of {c,f,k}.
 	export TMUX_POWERLINE_SEG_WEATHER_UNIT="c"
 	# How often to update the weather in seconds.
 	export TMUX_POWERLINE_SEG_WEATHER_UPDATE_PERIOD="600"
 	# Name of GNU grep binary if in PATH, or path to it.
-	export TMUX_POWERLINE_SEG_WEATHER_GREP="/usr/local/bin/ggrep"
-
-	# Your location. Find a code that works for you:
-	# 1. Go to Yahoo weather http://weather.yahoo.com/
-	# 2. Find the weather for you location
-	# 3. Copy the last numbers in that URL. e.g. "http://weather.yahoo.com/united-states/california/newport-beach-12796587/" has the numbers "12796587"
-	export TMUX_POWERLINE_SEG_WEATHER_LOCATION="23388316"
+	export TMUX_POWERLINE_SEG_WEATHER_GREP="ggrep"
+	# Location of the JSON parser, jq
+	export TMUX_POWERLINE_SEG_WEATHER_JSON="jq"
+	# Your location
+	# Latitude and Longtitude for use with yr.no
+	TMUX_POWERLINE_SEG_WEATHER_LAT=""
+	TMUX_POWERLINE_SEG_WEATHER_LON=""
 # }
