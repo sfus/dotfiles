@@ -670,12 +670,13 @@ fi
 
 # tmux-powerline prompt
 # -> https://matsu.teraren.com/blog/2013/02/10/moteru-tmux-powerline/
-PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+# # For tmux versions < 2.1
+# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
-KUBEPS1=/usr/local/opt/kube-ps1/share/kube-ps1.sh
-if [ -e "$KUBEPS1" ]; then
-  source "$KUBEPS1"
-  # to toggle: kubeon / kubeoff
-  PS1='$(kube_ps1)'$PS1
-  kubeoff
-fi
+# KUBEPS1=/usr/local/opt/kube-ps1/share/kube-ps1.sh
+# if [ -e "$KUBEPS1" ]; then
+#   source "$KUBEPS1"
+#   # to toggle: kubeon / kubeoff
+#   PS1='$(kube_ps1)'$PS1
+#   kubeoff
+# fi
