@@ -245,8 +245,8 @@ bind refs    N      !sh -c "git diff --name-only %(branch) | tig"
 # ~ で親コミットに移動 (default: :toggle line-graphics)
 bind generic ~      :goto %(commit)^
 
-# S で stash save
-bind generic S      ?git stash save "%(prompt Enter stash comment: )"
+# S で stash save (--include-untracked)
+bind generic S      ?git stash save "%(prompt Enter stash comment: )" -u
 
 # Y で stash pop
 bind diff    Y      ?git stash pop %(stash)
