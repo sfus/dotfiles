@@ -88,8 +88,8 @@ fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions /opt/homebrew/shar
 autoload -Uz compinit
 compinit -u
 
-# # kubectl completion (after compinit)
-# [[ $commands[kubectl] ]] && source <(kubectl completion zsh)
+# kubectl completion (after compinit)
+[ $commands[kubectl] ] && source <(kubectl completion zsh)
 
 
 ## PATH
@@ -648,7 +648,7 @@ bindkey -s '\e\\' '^a exit \n'
 # fi
 
 ## fzf
-if [ -f ~/.zshrc-fzf ]; then
+if [ -f ~/.fzf.zsh -a -f ~/.zshrc-fzf ]; then
    . ~/.zshrc-fzf
 fi
 
