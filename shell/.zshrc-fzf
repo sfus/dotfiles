@@ -2,7 +2,7 @@
 # git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
 # ~/.fzf/install
 
-# $ $(brew --prefix)/opt/fzf/install
+# $ `brew --prefix`/opt/fzf/install
 #   -> "~/.fzf.zsh" will be created.
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -115,7 +115,7 @@ bindkey '^o' fzf-cdr
 
 # C-x k: kill process
 function fzf-kill-process () {
-  fzf-insert $(ps aux | fzf | awk '{print "kill -9 " $2}')
+  fzf-insert $(ps aux | fzf -e --no-preview | awk '{print "kill -9 " $2}')
 }
 zle -N fzf-kill-process
 bindkey '^xk' fzf-kill-process
