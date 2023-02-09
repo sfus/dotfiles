@@ -211,6 +211,11 @@ bind generic +      !git commit --amend --allow-empty
 #bind generic L      :!git reflog
 bind generic L      !sh -c "git reflog --pretty=raw | tig --pretty=raw"
 
+# L で git log -p
+bind status  L      !sh -c "git log --pretty=raw -p %(file) | tig --pretty=raw"
+bind diff    L      !sh -c "git log --pretty=raw -p %(file) | tig --pretty=raw"
+bind tree    L      !sh -c "git log --pretty=raw -p %(file) | tig --pretty=raw"
+
 # Alt-l でファイル単体のコミットツリーを tig で開き直す
 bind generic <Esc>l !sh -c "tig %(file)"
 
