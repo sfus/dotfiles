@@ -469,15 +469,15 @@ bind diff    w      @hub browse -- compare/%(branch)?expand=1
 bind refs    w      @hub browse -- compare/%(branch)?expand=1
 
 # # Alt-w で GitHub の該当ブランチの Pull Request 作成ページを開く ※要 hub インストール
-# bind main    <Esc>w @hub browse -- compare/develop...%(remote):%(branch)?expand=1
-# bind diff    <Esc>w @hub browse -- compare/develop...%(remote):%(branch)?expand=1
-# bind refs    <Esc>w @hub browse -- compare/develop...%(remote):%(branch)?expand=1
+# bind main    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
+# bind diff    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
+# bind refs    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
 
-# W で develop へのマージ Pull Request ページを開く ※要 hub インストール
-bind generic W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...develop | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
+# W で master へのマージ Pull Request ページを開く ※要 hub インストール
+bind generic W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...master | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
 
-# Alt-w で指定コミットの develop へのマージ Pull Request ページを開く ※要 hub インストール
-bind generic <Esc>w @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(prompt Enter commit ID: )...develop | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
+# Alt-w で特定ブランチへのマージ Pull Request ページを開く ※要 hub インストール
+bind generic <Esc>w @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...%(prompt Enter branch name: ) | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
 
 # A で GitHub の現在行コミットからHEADまでの差分ページを開く (default: :toggle-author) ※要 hub インストール
 bind main    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
