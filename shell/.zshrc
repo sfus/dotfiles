@@ -166,13 +166,13 @@ fi
 # https://qiita.com/takc923/items/45386905f70fde9af0e7
 alias brew="env PATH=${PATH/$HOME\/\.pyenv\/shims:/} brew"
 
-# # rbenv
-# RBENV_ROOT="$HOME/.rbenv"
-# if [ -d $RBENV_ROOT ]; then
-#     export RBENV_ROOT
-#     export PATH=$RBENV_ROOT/bin:$PATH
-#     eval "$(rbenv init -)"
-# fi
+# rbenv
+RBENV_ROOT="$HOME/.rbenv"
+if [ -d $RBENV_ROOT ]; then
+    export RBENV_ROOT
+    export PATH=$RBENV_ROOT/bin:$PATH
+    eval "$(rbenv init -)"
+fi
 
 # # ndenv
 # # https://github.com/riywo/ndenv
