@@ -162,3 +162,6 @@
 #
 # [interactive]
 #   diffFilter = diff-highlight
+
+[advice]
+    skippedCherryPicks = false
