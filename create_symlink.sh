@@ -57,6 +57,11 @@ ln -sf $DIR/tool/gradle/gradle.properties ~/.gradle/gradle.properties
 # vim
 ln -sf $DIR/vim/.vimrc ~/.vimrc
 
+# k9s
+# ($ k9s info)
+ln -sf $DIR/terminal/k9s/hotkeys.yaml ~/Library/Application\ Support/k9s/hotkeys.yaml
+
+
 # script
 install -d ~/bin
 # https://developer.atlassian.com/blog/2015/03/emacs-intellij/
