@@ -129,6 +129,8 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.local/lib"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
+export XDG_DATA_HOME="$HOME/.local/share"
+
 # golang
 GOPATH="$HOME/.go"
 if [ -d $GOPATH ]; then
@@ -183,14 +185,22 @@ fi
 #     eval "$(ndenv init -)"
 # fi
 
-# nodenv
-# https://github.com/nodenv/nodenv
-NODENV_ROOT="$HOME/.nodenv"
-if [ -d $NODENV_ROOT ]; then
-    export NODENV_ROOT
-    export PATH=$NODENV_ROOT/bin:$PATH
-    eval "$(nodenv init -)"
+# # nodenv
+# # https://github.com/nodenv/nodenv
+# NODENV_ROOT="$HOME/.nodenv"
+# if [ -d $NODENV_ROOT ]; then
+#     export NODENV_ROOT
+#     export PATH=$NODENV_ROOT/bin:$PATH
+#     eval "$(nodenv init -)"
+# fi
+
+# nvm
+NVM_ROOT="$HOME/.nvm"
+if [ -d $NVM_ROOT ]; then
+    export NVM_ROOT
+    source "$NVM_ROOT/nvm.sh"
 fi
+
 
 # ## nodebrew
 # NODEBREW_ROOT="$HOME/.nodebrew"
@@ -220,6 +230,7 @@ fi
 # export LANG=en_US.UTF-8
 #export LC_ALL=C
 export LANG=ja_JP.UTF-8
+export LC_CTYPE=en_US.UTF-8
 
 # gtags with pygments
 # -> https://qiita.com/yoshizow/items/9cc0236ac0249e0638ff
