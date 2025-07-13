@@ -4,7 +4,9 @@
 
 # $ `brew --prefix`/opt/fzf/install
 #   -> "~/.fzf.zsh" will be created.
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+source <(fzf --zsh)
 
 # Re-assign fzf-file-widget (C-t), as C-t has been bound in my tmux.conf
 bindkey '\e/' fzf-file-widget

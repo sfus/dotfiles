@@ -659,7 +659,7 @@ bindkey -s '\e\\' '^a exit \n'
 # fi
 
 ## fzf
-if [ -f ~/.fzf.zsh -a -f ~/.zshrc-fzf ]; then
+if [ -f ~/.zshrc-fzf ] && command -v fzf >/dev/null 2>&1; then
    . ~/.zshrc-fzf
 fi
 
