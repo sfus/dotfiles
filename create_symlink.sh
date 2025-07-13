@@ -32,10 +32,10 @@ ln -sf $DIR/terminal/peco/config.json ~/.peco/config.json
 ln -sf $DIR/terminal/tig/.tigrc ~/.tigrc
 
 # tmux
-install -d ~/.tmux-powerline/themes
+install -d ~/.config/tmux-powerline/themes
 ln -sf $DIR/terminal/tmux/.tmux.conf ~/.tmux.conf
-ln -sf $DIR/terminal/tmux/.tmux-powerlinerc ~/.tmux-powerlinerc
-ln -sf $DIR/terminal/tmux/mytheme.sh ~/.tmux-powerline/themes/mytheme.sh
+ln -sf $DIR/terminal/tmux/.tmux-powerlinerc ~/.config/tmux-powerline/config.sh
+ln -sf $DIR/terminal/tmux/mytheme.sh ~/.config/tmux-powerline/themes/mytheme.sh
 
 # vifm
 install -d ~/.vifm
