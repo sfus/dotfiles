@@ -356,6 +356,7 @@ alias ekill='emacsclient -e "(kill-emacs)"'
 #    export VISUAL="vim"
 # fi
 export VISUAL="vim"
+alias v="nvim"
 
 # alias pd=perldoc
 alias pd=cpandoc -i
@@ -623,9 +624,6 @@ function vicd() {
 
 # Esc j -> vifm from current directory
 bindkey -s '\ej' '^a vicd . \n'
-
-# v -> vicd()
-alias v=vicd
 
 # Esc e -> emacsclient
 bindkey -s '\ee' '^a emacsclient -nw -a "" \n'
