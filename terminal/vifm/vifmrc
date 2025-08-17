@@ -478,6 +478,7 @@ command! rsyncn           rsync -ahv --dry-run  --exclude="node_modules" %d/ %D
 command! rsyncdel         rsync -ahv --progress --delete --backup --backup-dir=".del" --exclude="node_modules" %d/ %D
 command! hlink ln %f %D/
 command! vim vim %f
+command! nvim nvim %f
 "command! ffmpeg -i %f -b:a 192k -ar 44100 %D/%c:r.mp3
 command! ffmpeg for i in %f; do ffmpeg -i $i -b:a 192k -ar 44100 %D/${i%%.*}.mp3; done
 
@@ -518,50 +519,48 @@ nnoremap <m-c> :rsynccurrent
 " `ee' to edit with Emacs
 if executable('emacsclient')
   nnoremap ee :emacsclient<cr>
-  nnoremap Ee :emacsclient<cr>
 else
   nnoremap ee :edit<cr>
-  nnoremap Ee :edit<cr>
 endif
 
 " `ea' to create file with Emacs
 if executable('emacsclient')
   nnoremap ea :em<space>
-  nnoremap Ea :em<space>
 else
-  nnoremap Ea :edit<space>
+  nnoremap ea :edit<space>
 endif
 
 " `ew' to edit with vim
 nnoremap ew :vim<cr>
-nnoremap Ew :vim<cr>
+
+" `E' to edit with nvim
+if executable('nvim')
+  nnoremap E :nvim<cr>
+else
+  nnoremap E :edit<cr>
+endif
 
 " `en' to create file with vim
 nnoremap en :vim<space>
-nnoremap En :vim<space>
 
 " `ec' to edit VS Code
 if executable('code')
   nnoremap ec :code<cr>
-  nnoremap Ec :code<cr>
 endif
 
 " `eo' to edit with CotEditor
 if executable('/Applications/CotEditor.app/Contents/MacOS/CotEditor')
   nnoremap eo :coteditor<cr>
-  nnoremap Eo :coteditor<cr>
 endif
 
 " `ei' to edit with IntelliJ IDEA
 if executable('idea')
   nnoremap ei :idea<cr>
-  nnoremap Ei :idea<cr>
 endif
 
 " `ep' to edit with Emacs in the other pane
 if executable('emacsclient')
   nnoremap ep :emacspane<cr>
-  nnoremap Ep :emacspane<cr>
 endif
 
 
