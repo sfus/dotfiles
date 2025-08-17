@@ -41,6 +41,9 @@ ln -sf $DIR/terminal/tmux/mytheme.sh ~/.config/tmux-powerline/themes/mytheme.sh
 install -d ~/.vifm
 ln -sf $DIR/terminal/vifm/vifmrc ~/.vifm/vifmrc
 
+# nvim
+ln -shf $DIR/nvim ~/.config/
+
 # lesskey
 ln -sf $DIR/terminal/less/.lesskey ~/.lesskey
 
