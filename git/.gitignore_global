@@ -11,3 +11,4 @@ GPATH
 vendor/
 *.retry
 njlib-private.gemspec
+kls_database.db
