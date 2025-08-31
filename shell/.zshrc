@@ -88,9 +88,6 @@ fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions /opt/homebrew/shar
 autoload -Uz compinit
 compinit -u
 
-# kubectl completion (after compinit)
-[ $commands[kubectl] ] && source <(kubectl completion zsh)
-
 
 ## PATH
 PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
@@ -689,3 +686,6 @@ fi
 #   PS1='$(kube_ps1)'$PS1
 #   kubeoff
 # fi
+
+# # kubectl completion (after compinit)
+# [ $commands[kubectl] ] && source <(kubectl completion zsh)
