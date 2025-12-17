@@ -98,7 +98,7 @@ PATH="$PATH:/usr/local/share/git-core/contrib/diff-highlight:/opt/homebrew/share
 # android-sdk
 PATH="$PATH:/Applications/android-sdk-macosx/platform-tools"
 # ~/bin
-PATH="$HOME/bin:$PATH"
+PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 # cargo
 PATH="$HOME/.cargo/bin:$PATH"
 # icu4c
@@ -489,7 +489,7 @@ alias mog8='mogrify -strip -verbose -quality 96 -resize 800x'
 
 # http://qiita.com/itkrt2y/items/0671d1f48e66f21241e2
 #alias g='cd $(ghq root)/$(ghq list | peco)'
-alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
+#alias gh='hub browse $(ghq list | peco | cut -d "/" -f 2,3)'
 
 # echo Ctrl-V Esc c (echo ^[c) ≒ reset
 # http://orangeclover.hatenablog.com/entry/20110201/1296511181
