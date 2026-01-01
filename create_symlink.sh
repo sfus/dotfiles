@@ -59,6 +59,7 @@ ln -sf $DIR/vim/.vimrc ~/.vimrc
 
 # k9s
 # ($ k9s info)
+install -d ~/Library/Application\ Support/k9s
 ln -sf $DIR/terminal/k9s/hotkeys.yaml ~/Library/Application\ Support/k9s/hotkeys.yaml
 
 
