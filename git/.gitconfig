@@ -130,7 +130,7 @@
 
 [merge]
     tool = ediff
-    conflictStyle = diff3
+    conflictStyle = zdiff3
 
 # [difftool "sourcetree"]
 #   cmd = opendiff \"$LOCAL\" \"$REMOTE\"
