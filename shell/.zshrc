@@ -110,6 +110,8 @@ PATH="/usr/local/opt/gnu-time/libexec/gnubin:$PATH"
 PATH="/opt/td-agent/embedded/bin:$PATH"
 # krew
 PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+# Rancher Desktop
+PATH="$HOME/.rd/bin:$PATH"
 
 # for makepkg
 PATH="/usr/local/opt/libarchive/bin:$PATH"
@@ -204,6 +206,13 @@ fi
 # if [ -d $NODEBREW_ROOT ]; then
 #     export PATH=$NODEBREW_ROOT/current/bin:$PATH
 # fi
+
+# Volta
+# $ curl https://get.volta.sh | bash
+VOLTA_HOME="$HOME/.volta"
+if [ -d $VOLTA_HOME ]; then
+  export PATH="$VOLTA_HOME/bin:$PATH"
+fi
 
 export GRADLE_HOME=/usr/local/opt/gradle/libexec
 export GRADLE_OPTS=-Dorg.gradle.daemon=false
