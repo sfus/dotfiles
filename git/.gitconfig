@@ -1,6 +1,6 @@
 [init]
     templatedir = ~/.git_templates/
-    defaultBranch = master
+    defaultBranch = main
 
 [commit]
     template = ~/.gitconfig_commit_template
