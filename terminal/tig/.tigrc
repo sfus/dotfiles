@@ -390,6 +390,14 @@ bind refs    I      ?git rebase -i --allow-empty %(branch)
 bind main    <Esc>i ?git rebase -i --allow-empty %(commit)
 bind diff    <Esc>i ?git rebase -i --allow-empty %(commit)
 
+# W で worktree 追加 (worktree add)
+bind main    <Esc>w ?git worktree add ../"%(prompt Enter worktree name: )" %(commit)
+bind refs    <Esc>w ?git worktree add ../"%(prompt Enter worktree name: )" %(branch)
+
+# Alt-w でブランチを新規作成して worktree 追加 (worktree add -b)
+bind main    <Esc>w ?git worktree add -b ../"%(prompt Enter worktree name: )" %(commit)
+bind refs    <Esc>w ?git worktree add -b ../"%(prompt Enter worktree name: )" %(branch)
+
 ## その他
 
 # > で git rebase --continue
@@ -444,50 +452,34 @@ bind generic *      ?git format-patch -"%(prompt Enter the number to create patc
 bind generic <Esc>* ?sh -c "git am *.patch"
 
 
-## Hub
+## gh (GitHub CLI)
 
-# ; で GitHub の該当コミットを開く ※要 hub インストール
-# http://blog.kyanny.me/entry/2012/07/22/033134
-bind generic ;      @hub browse -- commit/%(commit)
+# ; で GitHub の該当コミットを開く ※要 gh インストール
+bind generic ;      @gh browse %(commit)
 
 # Alt-; で GitHub の該当ページを開く
-bind tree    <Esc>; @hub browse -- blob/%(commit)/%(file)
+bind tree    <Esc>; @gh browse %(commit):%(file)
 
 # Alt-; で GitHub の該当行を開く ('#' を出すために $(echo Iwo= | base64 --decode) している)
-bind diff    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
-bind blame   <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
-bind blob    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
-bind grep    <Esc>; @sh -c "hub browse -- blob/%(commit)/%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind diff    <Esc>; @sh -c "gh browse %(commit):%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind blame   <Esc>; @sh -c "gh browse %(commit):%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind blob    <Esc>; @sh -c "gh browse %(commit):%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
+bind grep    <Esc>; @sh -c "gh browse %(commit):%(file)$(echo Iwo= | base64 --decode)L%(lineno)"
 
-# bind tree    <Esc>; @hub browse -- blob/"%(prompt Enter branch name: )"/%(file)
-# bind blob    <Esc>; @hub browse -- blob/"%(prompt Enter branch name: )"/%(file)
-# bind grep    <Esc>; @hub browse -- blob/"%(prompt Enter branch name: )"/%(file)
+# w で GitHub の該当ブランチの Pull Request 作成ページを開く ※要 gh インストール
+bind main    w      @sh -c 'open "$(gh repo view --json url -q .url)/compare/%(branch)?expand=1"'
+bind diff    w      @sh -c 'open "$(gh repo view --json url -q .url)/compare/%(branch)?expand=1"'
+bind refs    w      @sh -c 'open "$(gh repo view --json url -q .url)/compare/%(branch)?expand=1"'
 
-# w で GitHub の該当ブランチの Pull Request 作成ページを開く ※要 hub インストール
-bind main    w      @hub browse -- compare/%(branch)?expand=1
-bind diff    w      @hub browse -- compare/%(branch)?expand=1
-bind refs    w      @hub browse -- compare/%(branch)?expand=1
+# A で GitHub の現在行コミットからHEADまでの差分ページを開く (default: :toggle-author) ※要 gh インストール
+bind main    A      @sh -c "gh browse %(commit)...$(git rev-parse HEAD)"
+bind diff    A      @sh -c "gh browse %(commit)...$(git rev-parse HEAD)"
+bind refs    A      @sh -c "gh browse %(commit)...$(git rev-parse HEAD)"
 
-# # Alt-w で GitHub の該当ブランチの Pull Request 作成ページを開く ※要 hub インストール
-# bind main    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
-# bind diff    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
-# bind refs    <Esc>w @hub browse -- compare/master...%(remote):%(branch)?expand=1
-
-# W で master へのマージ Pull Request ページを開く ※要 hub インストール
-bind generic W      @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...master | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
-
-# Alt-w で特定ブランチへのマージ Pull Request ページを開く ※要 hub インストール
-bind generic <Esc>w @sh -c 'hub browse -- $(git log --merges --oneline --reverse --ancestry-path %(commit)...%(prompt Enter branch name: ) | grep "Merge pull request $(echo Iwo= | base64 --decode)" | head -n 1 | cut -f5 -d" " | sed -e "s%$(echo Iwo= | base64 --decode)%pull/%")'
-
-# A で GitHub の現在行コミットからHEADまでの差分ページを開く (default: :toggle-author) ※要 hub インストール
-bind main    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
-bind diff    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
-bind refs    A      @sh -c "hub compare %(commit)...$(git rev-parse HEAD)"
-
-# Alt-a で GitHub の現在行コミットから指定コミットまでの差分ページを開く ※要 hub インストール
-bind main    <Esc>a @hub compare %(commit)..."%(prompt Enter commit ID: )"
-bind diff    <Esc>a @hub compare %(commit)..."%(prompt Enter commit ID: )"
-bind refs    <Esc>a @hub compare %(commit)..."%(prompt Enter commit ID: )"
+# Alt-a で GitHub の現在行コミットから指定コミットまでの差分ページを開く ※要 gh インストール
+bind main    <Esc>a @gh browse %(commit)..."%(prompt Enter commit ID: )"
+bind diff    <Esc>a @gh browse %(commit)..."%(prompt Enter commit ID: )"
+bind refs    <Esc>a @gh browse %(commit)..."%(prompt Enter commit ID: )"
 
 ## GitHub Enterprise の場合、.gitconfig に以下の様な設定を追加してカスタマイズする
 # [hub]
