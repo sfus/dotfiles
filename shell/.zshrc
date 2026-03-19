@@ -364,6 +364,11 @@ alias ekill='emacsclient -e "(kill-emacs)"'
 export VISUAL="vim"
 alias v="nvim"
 
+alias cc=claude
+alias ccc=claude --continue
+alias ccr=claude --resume
+alias ccd=claude --dangerously-skip-permissions
+
 # alias pd=perldoc
 alias pd=cpandoc -i
 alias ce=carton exec
