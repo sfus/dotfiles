@@ -466,6 +466,7 @@ command! lesspane tmux split-window -v "less -N %f"
 command! shellpane tmux split-window -v "sh -c 'cd %d; exec "${SHELL:-sh}"'"
 command! idea idea %f
 command! code code %f
+command! cursor cursor %f
 command! ediff emacsclient -nw -a "" --eval "(ediff-files \"%f\" \"%F\")"
 command! coteditor open -a CotEditor %f
 command! preview open -g -a Preview %f
@@ -543,9 +544,14 @@ endif
 " `en' to create file with vim
 nnoremap en :vim<space>
 
-" `ec' to edit VS Code
-if executable('code')
-  nnoremap ec :code<cr>
+" " `ec' to edit with VS Code
+" if executable('code')
+"   nnoremap ec :code<cr>
+" endif
+
+" `ec' to edit with Cursor
+if executable('cursor')
+  nnoremap ec :cursor<cr>
 endif
 
 " `eo' to edit with CotEditor
@@ -771,6 +777,7 @@ nnoremap <m-g> <c-g>
 " :mark mark /full/directory/path [filename]
 mark g ~/Git
 mark l ~/Downloads
+mark r ~/GDrive
 mark t ~/Desktop
 mark w ~/workspaces
 mark v /Volumes
