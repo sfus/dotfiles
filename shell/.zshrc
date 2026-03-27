@@ -131,7 +131,7 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$HOME/.local/lib"
 export XDG_DATA_HOME="$HOME/.local/share"
 
 # golang
-GOPATH="$HOME/.go"
+GOPATH="$HOME/go"
 if [ -d $GOPATH ]; then
     export GOPATH
     export PATH="$GOPATH/bin:$PATH"
@@ -355,13 +355,15 @@ alias e='emacsclient -nw -a ""'
 alias em='emacsclient -nw -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
 
-# # Use emacsclient onclick `v' on less (or others)
-# if [ -x '/usr/local/bin/emacsclient' ]; then
-#    export VISUAL='emacsclient -nw -a ""'
-# else
-#    export VISUAL="vim"
-# fi
-export VISUAL="vim"
+# Use emacsclient onclick `v' on less (or others)
+if command -v emacsclient >/dev/null 2>&1; then
+  export VISUAL='emacsclient -nw -a ""'
+elif command -v nvim >/dev/null 2>&1; then
+  export VISUAL="nvim"
+else
+  export VISUAL="vim"
+fi
+
 alias v="nvim"
 
 alias cc=claude
