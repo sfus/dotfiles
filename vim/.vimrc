@@ -71,9 +71,9 @@ set clipboard=unnamed,unnamedplus   " Enable yank/put from OS clipboard without 
 "" Key Settings
 ""
 
-" Swap colon and semi-colon
-nnoremap ; :
-nnoremap : ;
+" " Swap colon and semi-colon
+" nnoremap ; :
+" nnoremap : ;
 
 " Enable visual line move when the line is wrapped
 nnoremap j gj
