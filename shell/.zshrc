@@ -647,6 +647,10 @@ bindkey -s '\ei' '^a tig \n'
 # Esc \ -> exit
 bindkey -s '\e\\' '^a exit \n'
 
+# Bind PageUp / PageDown
+bindkey '\e[5~' up-line-or-history    # PageUp
+bindkey '\e[6~' down-line-or-history  # PageDown
+
 # -> https://unix.stackexchange.com/questions/14230/zsh-tab-completion-on-empty-line
 # # expand-or-complete-or-list-files
 # function expand-or-complete-or-list-files() {
