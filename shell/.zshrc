@@ -76,17 +76,19 @@ if ! zplug check --verbose; then
   fi
 fi
 
-# source plugins and add commands to $PATH
-zplug load
-#zplug load --verbose
-
-
 # fpath
 fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions /opt/homebrew/share/zsh/site-functions $fpath)
 
 # enable completion
 autoload -Uz compinit
 compinit -u
+
+# load after compinit
+zplug "Aloxaf/fzf-tab"
+
+# source plugins and add commands to $PATH
+zplug load
+#zplug load --verbose
 
 
 ## PATH
@@ -370,6 +372,9 @@ alias cc=claude
 alias ccc='claude --continue'
 alias ccr='claude --resume'
 alias ccd='claude --dangerously-skip-permissions'
+alias yoloclaude='claude --dangerously-skip-permissions'
+alias yolocodex='codex --yolo'
+alias yologemini='gemini --approval-mode=yolo'
 
 # alias pd=perldoc
 alias pd=cpandoc -i
