@@ -15,7 +15,6 @@ export FZF_COMPLETION_TRIGGER=',' # default: '**'
 
 # Set FZF_DEFAULT_OPTS
 # export FZF_DEFAULT_OPTS='--height 40% --reverse --border --info=inline'
-# -> https://qiita.com/sho-t/items/dca82d5e27b16da12318
 typeset -Tgx FZF_DEFAULT_OPTS fzf_default_opts " "
 fzf_default_opts=(
   '--height=40%'
@@ -30,29 +29,25 @@ fzf_default_opts=(
   '--ansi'
 )
 
-() {
-  local -a fzf_bind_opts=()
-  local -A bind_map=(
-    [ctrl-i]='accept'
-    [ctrl-space]='toggle+down'
-    [ctrl-g]='cancel'
-    [?]='toggle-preview'
-    [ctrl-a]='toggle-all'
-    ['ctrl-]']='replace-query'
-    [ctrl-w]='backward-kill-word'
-    [ctrl-x]='jump'
-    [ctrl-z]='ignore'
-    [up]='preview-page-up'
-    [alt-v]='preview-page-up'
-    [down]='preview-page-down'
-    [ctrl-v]='preview-page-down'
-  )
+fzf_shared_bindings=(
+  'ctrl-i:accept'
+  'ctrl-space:toggle+down'
+  'ctrl-g:cancel'
+  '?:toggle-preview'
+  'ctrl-a:toggle-all'
+  'ctrl-]:replace-query'
+  'ctrl-w:backward-kill-word'
+  'ctrl-x:jump'
+  'ctrl-z:ignore'
+  'up:preview-page-up'
+  'alt-v:preview-page-up'
+  'down:preview-page-down'
+  'ctrl-v:preview-page-down'
+)
+fzf_default_opts+=("--bind=${(j:,:)fzf_shared_bindings}")
 
-  for x in "${(k)bind_map[@]}"; do
-    fzf_bind_opts+=("${x}:${bind_map[${x}]}")
-  done
-  fzf_default_opts+=( '--bind="'"${(j:,:)fzf_bind_opts}"'"' )
-}
+# fzf-tab uses the same bindings
+zstyle ':fzf-tab:*' fzf-bindings $fzf_shared_bindings
 
 # Refs
 # -> https://petitviolet.hatenablog.com/entry/20190708/1562544000
