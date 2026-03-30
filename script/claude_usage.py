@@ -524,9 +524,23 @@ def fmt_age(fetched_at):
     return f" [{int(age/86400)}d ago]"
 
 
-def pct_bar(v, width=8):
-    filled = round(v * width)
-    return "X" * filled + "." * (width - filled)
+def pct_bar(v, width=10):
+    """Block-character progress bar (e.g. '███░░░░░░░')."""
+    filled = round(max(0.0, min(1.0, v)) * width)
+    return "█" * filled + "░" * (width - filled)
+
+
+def tmux_color(v):
+    """Return tmux #[fg=…] directive based on utilization ratio.
+
+    Matches the statusline.sh colour thresholds:
+      green  < 70 %
+      yellow  70–89 %
+      red    >= 90 %
+    """
+    if v >= 0.90: return "#[fg=red]"
+    if v >= 0.70: return "#[fg=yellow]"
+    return "#[fg=green]"
 
 
 def status_ind(status):
@@ -535,11 +549,11 @@ def status_ind(status):
     return ""
 
 
-def progress_bar(ratio, width=20, fill='#', empty='.'):
-    """Render a fixed-width ASCII progress bar."""
+def progress_bar(ratio, width=20, fill='█', empty='░'):
+    """Render a fixed-width block progress bar."""
     ratio = max(0.0, min(1.0, ratio))
     filled = round(ratio * width)
-    return f"[{fill * filled}{empty * (width - filled)}]"
+    return f"{fill * filled}{empty * (width - filled)}"
 
 
 # -- Output formatters --------------------------------------------------------
@@ -554,16 +568,18 @@ def short_percent(rl):
     age  = fmt_age(rl.get("fetched_at", 0))
     ind5 = status_ind(rl["status_5h"])
     r5   = fmt_reset(rl["reset_5h"])
+    bar5 = f"{tmux_color(u5)}{pct_bar(u5)}#[default]"
     if has_7d_limit(rl):
         u7   = rl["util_7d"]
         ind7 = status_ind(rl["status_7d"])
+        bar7 = f"{tmux_color(u7)}{pct_bar(u7)}#[default]"
         return (
-            f"5h:{fmt_pct(u5)}{ind5}({r5}) "
-            f"7d:{fmt_pct(u7)}{ind7}"
+            f"5h:{bar5} {fmt_pct(u5)}{ind5}({r5}) "
+            f"7d:{bar7} {fmt_pct(u7)}{ind7}"
             f"{age}"
         )
     # 5h-only plan (no weekly limit)
-    return f"5h:{fmt_pct(u5)}{ind5}({r5}){age}"
+    return f"5h:{bar5} {fmt_pct(u5)}{ind5}({r5}){age}"
 
 
 def short_cost(records):
