@@ -63,14 +63,14 @@ ln -sf $DIR/terminal/k9s/hotkeys.yaml ~/Library/Application\ Support/k9s/hotkeys
 
 
 # script
-install -d ~/bin
+install -d ~/.local/bin
 # https://developer.atlassian.com/blog/2015/03/emacs-intellij/
-ln -sf $DIR/script/openinemacs ~/bin/openinemacs
+ln -sf $DIR/script/openinemacs ~/.local/bin/openinemacs
 # https://www.iterm2.com/documentation-images.html
-ln -sf $DIR/script/imgls ~/bin/imgls
+ln -sf $DIR/script/imgls ~/.local/bin/imgls
 # https://qiita.com/kiritex/items/786dbed4b7a2a22cbb89
-ln -sf $DIR/script/imgcat_tmux ~/bin/imgcat
+ln -sf $DIR/script/imgcat_tmux ~/.local/bin/imgcat
 # convert snake_case to UpperCamelCase or lowerCamelCase
-ln -sf $DIR/script/_2U ~/bin/_2U
-ln -sf $DIR/script/_2l ~/bin/_2l
-ln -sf $DIR/script/c2_ ~/bin/c2_
+ln -sf $DIR/script/_2U ~/.local/bin/_2U
+ln -sf $DIR/script/_2l ~/.local/bin/_2l
+ln -sf $DIR/script/c2_ ~/.local/bin/c2_

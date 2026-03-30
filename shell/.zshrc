@@ -97,8 +97,8 @@ PATH="/opt/homebrew/bin:$PATH"
 PATH="$PATH:/usr/local/share/git-core/contrib/diff-highlight:/opt/homebrew/share/git-core/contrib/diff-highlight"
 # android-sdk
 PATH="$PATH:/Applications/android-sdk-macosx/platform-tools"
-# ~/bin
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
+# ~/.local/bin
+PATH="$HOME/.local/bin:$PATH"
 # cargo
 PATH="$HOME/.cargo/bin:$PATH"
 # icu4c
