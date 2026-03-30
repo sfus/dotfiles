@@ -38,6 +38,8 @@ Settings: ~/.claude/tmux-claude-status.json
 import json
 import os
 import glob
+import platform
+import subprocess
 import sys
 import time
 import urllib.request
@@ -51,7 +53,15 @@ CACHE_FILE       = os.path.expanduser("~/.claude/tmux-rate-limit-cache.json")
 CLAUDE_PROJECTS  = os.path.expanduser("~/.claude/projects")
 CLAUDE_SETTINGS  = os.path.expanduser("~/.claude/settings.json")
 
-DEFAULT_SETTINGS = {"realtime": False, "cache_ttl": 300, "provider": "auto"}
+DEFAULT_SETTINGS = {
+    "realtime": False,
+    "cache_ttl": 300,
+    "provider": "auto",
+    # Claude Code stores credentials as JSON in the OS keychain under this service name.
+    # The account defaults to the OS login name (same as Claude Code's behavior).
+    "keychain_service": "Claude Code-credentials",
+    "keychain_account": os.getenv("USER", os.getenv("LOGNAME", "")),
+}
 
 PRICING = {"input": 3.00, "output": 15.00, "cache_read": 0.30, "cache_create": 3.75}
 
@@ -69,6 +79,76 @@ def load_settings():
         return dict(DEFAULT_SETTINGS)
 
 
+def _keychain_json(service, account):
+    """Read and parse a JSON secret from the OS keychain.
+
+    Claude Code stores credentials as a JSON blob (not a raw token string), so
+    this helper returns the parsed dict rather than the raw string.
+
+    macOS  – delegates to the built-in `security` CLI (no extra deps).
+    Linux  – delegates to `secret-tool` (libsecret); returns None if absent.
+    Other  – not supported; returns None.
+    """
+    system = platform.system()
+    raw = None
+    try:
+        if system == "Darwin":
+            result = subprocess.run(
+                ["security", "find-generic-password", "-s", service, "-a", account, "-w"],
+                capture_output=True, text=True, timeout=5,
+            )
+            if result.returncode == 0:
+                raw = result.stdout.strip()
+        elif system == "Linux":
+            result = subprocess.run(
+                ["secret-tool", "lookup", "service", service, "account", account],
+                capture_output=True, text=True, timeout=5,
+            )
+            if result.returncode == 0:
+                raw = result.stdout.strip()
+    except Exception:
+        return None
+
+    if not raw:
+        return None
+    try:
+        return json.loads(raw)
+    except Exception:
+        return None
+
+
+def get_access_token(settings=None):
+    """Return the Claude OAuth access token.
+
+    Resolution order:
+      1. OS keychain  – Claude Code stores a JSON blob under service
+                        "Claude Code-credentials" / account = OS username.
+      2. ~/.claude/.credentials.json  – legacy / non-keychain fallback.
+
+    Keychain keys (override in tmux-claude-status.json if needed):
+      keychain_service  – default: "Claude Code-credentials"
+      keychain_account  – default: current OS login name
+    """
+    if settings is None:
+        settings = load_settings()
+
+    service = settings.get("keychain_service", DEFAULT_SETTINGS["keychain_service"])
+    account = settings.get("keychain_account", DEFAULT_SETTINGS["keychain_account"])
+
+    creds = _keychain_json(service, account)
+    if creds:
+        token = creds.get("claudeAiOauth", {}).get("accessToken")
+        if token:
+            return token
+
+    # Fall back to the JSON credentials file
+    try:
+        with open(CREDENTIALS_FILE) as f:
+            return json.load(f)["claudeAiOauth"]["accessToken"]
+    except Exception:
+        return None
+
+
 def detect_provider(settings):
     """Detect the Claude provider.
 
@@ -82,13 +162,8 @@ def detect_provider(settings):
     if override != "auto":
         return "anthropic" if override == "anthropic" else "other"
 
-    try:
-        with open(CREDENTIALS_FILE) as f:
-            creds = json.load(f)
-        if creds.get("claudeAiOauth", {}).get("accessToken"):
-            return "anthropic"
-    except Exception:
-        pass
+    if get_access_token(settings):
+        return "anthropic"
     return "other"
 
 
@@ -146,10 +221,8 @@ def fetch_rate_limit():
     """One minimal API call (claude-haiku, 1 output token) to get rate-limit headers.
     Cost: ~$0.0000046 per call (8 input + 1 output tokens at Haiku pricing).
     """
-    try:
-        with open(CREDENTIALS_FILE) as f:
-            token = json.load(f)["claudeAiOauth"]["accessToken"]
-    except Exception:
+    token = get_access_token()
+    if not token:
         return None
 
     body = json.dumps({

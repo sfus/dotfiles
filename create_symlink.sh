@@ -74,3 +74,6 @@ ln -sf $DIR/script/imgcat_tmux ~/.local/bin/imgcat
 ln -sf $DIR/script/_2U ~/.local/bin/_2U
 ln -sf $DIR/script/_2l ~/.local/bin/_2l
 ln -sf $DIR/script/c2_ ~/.local/bin/c2_
+ln -sf $DIR/script/c2_ ~/.local/bin/c2_
+
+ln -sf $DIR/script/claude_usage.py ~/.local/bin/claude-usage
