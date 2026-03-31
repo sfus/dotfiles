@@ -77,7 +77,7 @@ if ! zplug check --verbose; then
 fi
 
 # fpath
-fpath=(~/.zsh-completions /usr/local/share/zsh/site-functions /opt/homebrew/share/zsh/site-functions $fpath)
+fpath=(~/.zsh-completions ~/.zsh/completions ~/.zsh/functions /usr/local/share/zsh/site-functions /opt/homebrew/share/zsh/site-functions $fpath)
 
 # enable completion
 autoload -Uz compinit
