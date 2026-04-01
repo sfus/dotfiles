@@ -357,7 +357,7 @@ alias e='emacsclient -nw -a ""'
 alias em='emacsclient -nw -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
 
-# Use emacsclient onclick `v' on less (or others)
+# Use visual editor onclick `v' on less (or others)
 if command -v emacsclient >/dev/null 2>&1; then
   export VISUAL='emacsclient -nw -a ""'
 elif command -v nvim >/dev/null 2>&1; then
@@ -368,10 +368,16 @@ fi
 
 alias v="nvim"
 
-alias cc=claude
-alias ccc='claude --continue'
-alias ccr='claude --resume'
-alias ccd='claude --dangerously-skip-permissions'
+# alias claude to claude-code if claude is missing (via npm)
+if ! command -v claude >/dev/null 2>&1; then
+  if command -v claude-code >/dev/null 2>&1; then
+    alias claude="claude-code"
+  fi
+fi
+
+alias c='claude'
+alias cc='claude --continue'
+alias ccd='claude --continue --dangerously-skip-permissions'
 alias yoloclaude='claude --dangerously-skip-permissions'
 alias yolocodex='codex --yolo'
 alias yologemini='gemini --approval-mode=yolo'
