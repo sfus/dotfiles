@@ -409,8 +409,8 @@ nnoremap <f8> :delete<cr>
 
 " ================================
 
-" set vicmd='less -N'
-set vicmd='bat --style=plain'
+set vicmd='less -N'
+"set vicmd='bat --style=plain'
 
 set timefmt=" %Y/%m/%d %H:%M:%S"
 
@@ -463,8 +463,8 @@ filetype *.afp FUSE_MOUNT2|mount_afp %PARAM %DESTINATION_DIR
 command! em emacsclient -nw -a "" %a
 command! emacsclient emacsclient -nw -a "" %f
 command! emacspane tmux split-window -v "emacsclient -nw -a '' %f"
-" command! lesspane tmux split-window -v "less -N %f"
-command! lesspane tmux split-window -v "bat --style=plain %f"
+command! lesspane tmux split-window -v "less -N %f"
+"command! lesspane tmux split-window -v "bat --style=plain %f"
 command! shellpane tmux split-window -v "sh -c 'cd %d; exec "${SHELL:-sh}"'"
 command! idea idea %f
 command! code code %f

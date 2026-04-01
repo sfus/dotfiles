@@ -629,9 +629,13 @@ elif command -v batcat >/dev/null 2>&1; then
 fi
 
 if [ -n "$BAT_CMD" ]; then
-  unset LESSOPEN
-  export BAT_PAGER="less -R"
-  alias less="$BAT_CMD --paging=auto --style=plain"
+  # unset LESSOPEN
+  # export BAT_PAGER="less -R"
+  # alias less="$BAT_CMD --paging=auto --style=plain"
+
+  # for editor open by `v` (use $VISUAL)
+  export LESS='-R'
+  export LESSOPEN="| bat --color=always --style=plain %s"
 elif [ -x /opt/homebrew/bin/src-hilite-lesspipe.sh ]; then
    # brew install source-highlight
    export LESS='-R'
