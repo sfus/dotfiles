@@ -615,13 +615,21 @@ alias push-gh-pages='git push gh-pages `git subtree split --prefix public master
 # ignore stop screen (Ctrl-S)
 stty stop undef
 
-# # replace git to hub command
-# function git(){hub "$@"}
+# brew install bat
+if command -v bat >/dev/null 2>&1; then
+  BAT_CMD="bat"
+elif command -v batcat >/dev/null 2>&1; then
+  BAT_CMD="batcat"
+fi
 
-# brew install source-highlight
-if [ -x /usr/local/bin/src-hilite-lesspipe.sh ]; then
+if [ -n "$BAT_CMD" ]; then
+  unset LESSOPEN
+  export BAT_PAGER="less -R"
+  alias less="$BAT_CMD --paging=auto --style=plain"
+elif [ -x /opt/homebrew/bin/src-hilite-lesspipe.sh ]; then
+   # brew install source-highlight
    export LESS='-R'
-   export LESSOPEN='| /usr/local/bin/src-hilite-lesspipe.sh %s'
+   export LESSOPEN='| /opt/homebrew/bin/src-hilite-lesspipe.sh %s'
 fi
 
 # Keep current directory on leaving vifm
