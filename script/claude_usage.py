@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+#
+# Original: https://github.com/long-910/tmux-claude-status
+# (MIT License)
+# Doc: https://zenn.dev/long910/articles/2026-02-23-claude-tmux-status
+
 """claude_usage.py - Claude Code usage for tmux status bar
 
 Default mode (no API calls):
