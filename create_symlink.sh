@@ -77,3 +77,4 @@ ln -sf $DIR/script/c2_ ~/.local/bin/c2_
 ln -sf $DIR/script/c2_ ~/.local/bin/c2_
 
 ln -sf $DIR/script/claude_usage.py ~/.local/bin/claude-usage
+ln -sf $DIR/script/cursor_usage.py ~/.local/bin/cursor-usage
