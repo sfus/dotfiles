@@ -511,11 +511,15 @@ def fmt_pct(v):
 
 
 def fmt_reset(ts):
-    secs = max(0, ts - time.time())
+    secs = int(max(0, ts - time.time()))
     if secs < 86400:
-        h, m = divmod(int(secs / 60), 60)
+        h, m = divmod(secs // 60, 60)
         return f"{h}h{m:02d}m"
-    return f"{secs/86400:.1f}d"
+    d = secs // 86400
+    h = (secs % 86400) // 3600
+    if h:
+        return f"{d}d{h}h"
+    return f"{d}d"
 
 
 def fmt_age(fetched_at):
@@ -577,10 +581,11 @@ def short_percent(rl):
     if has_7d_limit(rl):
         u7   = rl["util_7d"]
         ind7 = status_ind(rl["status_7d"])
+        r7   = fmt_reset(rl["reset_7d"])
         bar7 = f"{tmux_color(u7)}{pct_bar(u7)}#[default]"
         return (
             f"5h:{bar5} {fmt_pct(u5)}{ind5}({r5}) "
-            f"7d:{bar7} {fmt_pct(u7)}{ind7}"
+            f"7d:{bar7} {fmt_pct(u7)}{ind7}({r7})"
             f"{age}"
         )
     # 5h-only plan (no weekly limit)
