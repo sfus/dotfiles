@@ -390,13 +390,17 @@ bind refs    I      ?git rebase -i --allow-empty %(branch)
 bind main    <Esc>i ?git rebase -i --allow-empty %(commit)
 bind diff    <Esc>i ?git rebase -i --allow-empty %(commit)
 
-# W で worktree 追加 (worktree add)
-bind main    <Esc>w ?git worktree add ../"%(prompt Enter worktree name: )" %(commit)
-bind refs    <Esc>w ?git worktree add ../"%(prompt Enter worktree name: )" %(branch)
+# W で worktree ディレクトリに移動
+bind main    W      !sh -c "dir=$(git worktree list --porcelain | awk -v b=\"%(branch)\" '\$1==\"worktree\"{p=\$2} \$1==\"branch\" && \$2==\"refs/heads/\"b {print p}'); [ -n \"$dir\" ] && cd \"$dir\" && exec $SHELL"
+bind refs    W      !sh -c "dir=$(git worktree list --porcelain | awk -v b=\"%(branch)\" '\$1==\"worktree\"{p=\$2} \$1==\"branch\" && \$2==\"refs/heads/\"b {print p}'); [ -n \"$dir\" ] && cd \"$dir\" && exec $SHELL"
 
-# Alt-w でブランチを新規作成して worktree 追加 (worktree add -b)
-bind main    <Esc>w ?git worktree add -b ../"%(prompt Enter worktree name: )" %(commit)
-bind refs    <Esc>w ?git worktree add -b ../"%(prompt Enter worktree name: )" %(branch)
+# Alt-w で一時的に worktree 移動 (tig 終了でもとのディレクトリに戻る)
+bind main    <Esc>w !sh -c "dir=$(git worktree list --porcelain | awk -v b=\"%(branch)\" '\$1==\"worktree\"{p=\$2} \$1==\"branch\" && \$2==\"refs/heads/\"b {print p}'); [ -n \"$dir\" ] && cd \"$dir\" && exec tig"
+bind refs    <Esc>w !sh -c "dir=$(git worktree list --porcelain | awk -v b=\"%(branch)\" '\$1==\"worktree\"{p=\$2} \$1==\"branch\" && \$2==\"refs/heads/\"b {print p}'); [ -n \"$dir\" ] && cd \"$dir\" && exec tig"
+
+# Alt-Shift-w でブランチを新規作成して worktree 追加 (worktree add -b)
+bind main    <Esc>W ?git worktree add -b ../"%(prompt Enter worktree name: )" %(commit)
+bind refs    <Esc>W ?git worktree add -b ../"%(prompt Enter worktree name: )" %(branch)
 
 ## その他
 
