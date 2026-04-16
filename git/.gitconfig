@@ -12,6 +12,23 @@
     excludesfile = ~/.gitignore_global
     #editor = /usr/bin/vim
     editor = "/opt/homebrew/bin/emacsclient -nw -a \"\""
+    pager = delta
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = false
+    # side-by-side = true
+    line-numbers = true
+    syntax-theme = Dracula
+    features = decorations
+
+[delta "decorations"]
+    commit-decoration-style = bold yellow box ul
+    file-style = bold yellow ul
+    hunk-header-decoration-style = cyan box
 
 [fetch]
     prune = true

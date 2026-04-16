@@ -269,6 +269,9 @@ bind refs    H      ?git reset --hard %(commit)
 # H で reset --hard HEAD (status-view)
 bind status  H      ?git reset --hard HEAD
 
+# D で delta で差分を表示
+bind diff    D      !sh -c "git diff %(commit)^! -- '%(file)' | delta --paging=always"
+
 # D でブランチを強制削除 (main-view, refs-view)
 bind main    D      ?git branch -D %(branch)
 bind refs    D      ?git branch -D %(branch) # (default: !)
