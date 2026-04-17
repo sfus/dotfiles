@@ -22,8 +22,8 @@
     light = false
     # side-by-side = true
     line-numbers = true
-    syntax-theme = Dracula
-    features = decorations
+    decorations = true
+    syntax-theme = gruvbox-dark
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul

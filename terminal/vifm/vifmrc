@@ -409,8 +409,8 @@ nnoremap <f8> :delete<cr>
 
 " ================================
 
-set vicmd='less -N'
-"set vicmd='bat --style=plain'
+"set vicmd='less -i -q -x4 -R -N'
+set vicmd='bat --number --color=always --style=plain --paging=always --theme=gruvbox-dark'
 
 set timefmt=" %Y/%m/%d %H:%M:%S"
 
