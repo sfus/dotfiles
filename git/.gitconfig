@@ -22,8 +22,8 @@
     light = false
     # side-by-side = true
     line-numbers = true
+    decorations = true
     syntax-theme = Dracula
-    features = decorations
 
 [delta "decorations"]
     commit-decoration-style = bold yellow box ul
