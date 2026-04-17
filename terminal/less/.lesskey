@@ -2,4 +2,4 @@
 h   quit
 #line-edit
 #env
-LESS = -i -q -x4 -N -R
+LESS = -i -q -x4 -R
