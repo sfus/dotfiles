@@ -1,0 +1,3 @@
+#!/bin/sh
+# Remove "Made-with: ..." trailers injected by editors/tools (e.g. Cursor)
+sed -i '' '/^Made-with:/d' "$1"
