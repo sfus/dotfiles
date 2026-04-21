@@ -44,6 +44,7 @@ import json
 import os
 import glob
 import platform
+import ssl
 import subprocess
 import sys
 import time
@@ -248,7 +249,10 @@ def fetch_rate_limit():
             "https://api.anthropic.com/v1/messages",
             data=body, headers=headers, method="POST",
         )
-        with urllib.request.urlopen(req, timeout=10) as r:
+        _ctx = ssl.create_default_context()
+        if hasattr(ssl, "VERIFY_X509_STRICT"):
+            _ctx.verify_flags &= ~ssl.VERIFY_X509_STRICT
+        with urllib.request.urlopen(req, timeout=10, context=_ctx) as r:
             rl = {k.lower(): v for k, v in r.headers.items()
                   if "ratelimit-unified" in k.lower()}
             return {
