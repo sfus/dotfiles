@@ -381,6 +381,7 @@ alias ccd='claude --continue --dangerously-skip-permissions'
 alias yoloclaude='claude --dangerously-skip-permissions'
 alias yolocodex='codex --yolo'
 alias yologemini='gemini --approval-mode=yolo'
+alias ca='agent'
 
 # alias pd=perldoc
 alias pd=cpandoc -i
