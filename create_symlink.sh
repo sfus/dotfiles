@@ -22,6 +22,7 @@ ln -sf $DIR/git/.gitignore_global ~/.gitignore_global
 
 install -d ~/.git_templates/hooks
 ln -sf $DIR/git/.git_templates/hooks/post-checkout ~/.git_templates/hooks/post-checkout
+ln -sf $DIR/git/.git_templates/hooks/commit-msg ~/.git_templates/hooks/commit-msg
 
 # peco
 install -d ~/.peco
