@@ -48,6 +48,7 @@ import subprocess
 import sys
 import time
 import urllib.request
+import re
 import urllib.error
 from datetime import datetime, date, timedelta, timezone
 
@@ -260,8 +261,17 @@ def fetch_rate_limit():
                 "status_7d":  rl.get("anthropic-ratelimit-unified-7d-status", ""),
                 "overall":    rl.get("anthropic-ratelimit-unified-status", ""),
             }
-    except Exception:
-        return None
+    except urllib.error.HTTPError as e:
+        err_body = ""
+        try:
+            err_body = e.read().decode()[:200]
+        except Exception:
+            pass
+        return {"_error": f"HTTP {e.code} {e.reason}", "_body": err_body}
+    except urllib.error.URLError as e:
+        return {"_error": f"URL error: {e.reason}"}
+    except Exception as e:
+        return {"_error": str(e)}
 
 
 def get_rate_limit(force=False):
@@ -286,7 +296,7 @@ def get_rate_limit(force=False):
 
     if force:
         data = fetch_rate_limit()
-        if data:
+        if data and "_error" not in data:
             save_cache(data)
         return data or cache
 
@@ -296,7 +306,7 @@ def get_rate_limit(force=False):
     if realtime:
         # Realtime mode: refresh on TTL expiry regardless of Claude activity
         data = fetch_rate_limit()
-        if data:
+        if data and "_error" not in data:
             save_cache(data)
             return data
         return cache
@@ -901,12 +911,15 @@ MORE INFO
 
     if cmd == "--refresh":
         data = fetch_rate_limit()
-        if data:
+        if data and "_error" not in data:
             save_cache(data)
-            sys.stdout.write(f"[ok] 5h={fmt_pct(data['util_5h'])} 7d={fmt_pct(data['util_7d'])}\n")
+            sys.stdout.write(f"5h={fmt_pct(data['util_5h'])} 7d={fmt_pct(data['util_7d'])}\n")
             sys.stdout.flush()
         else:
-            sys.stderr.write("[err] API fetch failed\n")
+            err = data.get("_error", "unknown") if data else "no token (check: claude auth status)"
+            body = data.get("_body", "") if data else ""
+            detail = f"\n       {body}" if body else ""
+            sys.stderr.write(f"[ERROR] API fetch failed: {err}{detail}\n")
         return
 
     if cmd == "--install-hook":
@@ -935,10 +948,14 @@ MORE INFO
                 out = "[cost] " + short_cost(load_jsonl_records())
             else:
                 rl = get_rate_limit()
-                if rl:
+                if rl and "_error" not in rl:
                     out = short_percent(rl)
+                elif rl and "_error" in rl:
+                    code = re.search(r'\b(\d{3})\b', rl["_error"])
+                    tag = code.group(1) if code else "ERR"
+                    out = f"[ERR:{tag}]"
                 else:
-                    out = "[--] run: claude-usage --refresh"
+                    out = "[ERR:NO_DATA]"
         sys.stdout.write(out + "\n")
         sys.stdout.flush()
         return
