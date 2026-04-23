@@ -1,0 +1,64 @@
+# Treat the macOS Option (Alt) key as a Meta/Alt modifier instead of inputting special characters
+macos-option-as-alt = true
+
+# Set the font family used in the terminal
+# https://github.com/yuru7/PlemolJP
+# ❯ brew install font-plemol-jp
+font-family = "PlemolJP Console"
+# Set the font size
+font-size = 14
+# Enable synthetic font boldening (thickening)
+font-thicken = true
+# Control the strength of font thickening
+font-thicken-strength = 128
+
+# Set the color theme
+theme = "Dracula"
+# Set the window background transparency level
+background-opacity = 0.80
+# Enforce minimum contrast ratio between text and background
+minimum-contrast = 1.05
+# Apply background opacity per cell (improves visual consistency)
+background-opacity-cells = true
+
+# Start the window maximized
+maximize = true
+# # Disable window decorations (title bar, borders)
+# window-decoration = none
+# Disable macOS window shadow
+macos-window-shadow = false
+# Quit the app when the last window is closed
+quit-after-last-window-closed = true
+# Always save and restore window state
+window-save-state = always
+# Resize window in fixed steps (aligned to terminal grid)
+window-step-resize = true
+# Position the quick terminal at the center of the screen
+quick-terminal-position = center
+# Set animation duration for quick terminal (in seconds)
+quick-terminal-animation-duration = 0.2
+
+# Allow Clipboard use
+clipboard-read = allow
+clipboard-write = allow
+
+# tmux window
+# Ctrl+Tab sends Ctrl-Q + 'n'
+keybind = ctrl+tab=text:\x11\x6e
+# Ctrl+Shift+Tab sends Ctrl-Q + 'p'
+keybind = ctrl+shift+tab=text:\x11\x70
+
+# tmux window
+# Ctrl+Cmd+. sends Ctrl-Q + 'n'
+keybind = ctrl+cmd+.=text:\x11\x6e
+# Ctrl+Cmd+, sends Ctrl-Q + 'p'
+keybind = ctrl+cmd+,=text:\x11\x70
+
+# For Claude Code
+# Shift+Enter sends Alt+Enter
+keybind = shift+enter=text:\x1b\x0d
+# Cmd+Enter sends Enter
+keybind = cmd+enter=text:\x0d
+
+# Cmd+u toggle background opacity
+keybind = cmd+u=toggle_background_opacity

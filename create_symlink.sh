@@ -62,6 +62,9 @@ ln -sf $DIR/vim/.vimrc ~/.vimrc
 install -d ~/Library/Application\ Support/k9s
 ln -sf $DIR/terminal/k9s/hotkeys.yaml ~/Library/Application\ Support/k9s/hotkeys.yaml
 
+# ghostty
+install -d ~/Library/Application\ Support/com.mitchellh.ghostty
+ln -sf $DIR/tty/ghostty/config.ghostty ~/Library/Application\ Support/com.mitchellh.ghostty/config.ghostty
 
 # script
 install -d ~/.local/bin
