@@ -13,7 +13,7 @@ font-thicken = true
 font-thicken-strength = 128
 
 # Set the color theme
-theme = "Dracula"
+theme = "TokyoNight"
 # Set the window background transparency level
 background-opacity = 0.80
 # Enforce minimum contrast ratio between text and background
