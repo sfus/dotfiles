@@ -111,12 +111,17 @@
   (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\"\
                                    \\\"$BASE\\\" nil \\\"$MERGED\\\"))\"
 
+[mergetool "diffview"]
+    cmd = nvim -f -c "DiffviewOpen"
+    trustExitCode = true
+
 [mergetool]
     prompt = false
     keepBackup = false
 
 [merge]
-    tool = ediff
+    # tool = ediff
+    tool = diffview
     conflictStyle = zdiff3
 
 [filter "lfs"]
