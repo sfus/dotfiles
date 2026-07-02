@@ -37,6 +37,10 @@ ln -sf $DIR/terminal/tmux/.tmux.conf ~/.tmux.conf
 ln -sf $DIR/terminal/tmux/.tmux-powerlinerc ~/.config/tmux-powerline/config.sh
 ln -sf $DIR/terminal/tmux/mytheme.sh ~/.config/tmux-powerline/themes/mytheme.sh
 
+# herdr
+install -d ~/.config/herdr
+ln -sf $DIR/terminal/herdr/config.toml ~/.config/herdr/config.toml
+
 # vifm
 install -d ~/.vifm
 ln -sf $DIR/terminal/vifm/vifmrc ~/.vifm/vifmrc
