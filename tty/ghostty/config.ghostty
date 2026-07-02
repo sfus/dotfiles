@@ -62,3 +62,10 @@ keybind = cmd+enter=text:\x0d
 
 # Cmd+u toggle background opacity
 keybind = cmd+u=toggle_background_opacity
+
+# Send a literal Tab (0x09) for Ctrl+I instead of the kitty keyboard protocol
+# CSI-u encoding, so completion works in bare zsh and inside fzf (matches the
+# legacy behavior seen inside tmux). The real Tab key and other keys are
+# unaffected. Note: Ctrl-I becomes indistinguishable from Tab in apps run
+# directly in Ghostty (e.g. Neovim's jumplist), but not inside tmux.
+keybind = ctrl+i=text:\x09
