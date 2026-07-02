@@ -366,15 +366,15 @@ bind refs    <Esc>b ?git checkout -b "%(prompt Enter branch name: )" %(branch)
 bind main    <Esc>B ?git branch -m %(branch) "%(prompt Enter new branch name: )"
 bind refs    <Esc>B ?git branch -m %(branch) "%(prompt Enter new branch name: )"
 
-# M で merge
-bind main    M      ?git merge %(branch)
-bind diff    M      ?git merge %(branch)
-bind refs    M      ?git merge %(branch)
+# M で merge --no-edit
+bind main    M      ?git merge %(refname) --no-edit
+bind diff    M      ?git merge %(refname) --no-edit
+bind refs    M      ?git merge %(refname) --no-edit
 
 # Alt-m で merge --no-ff (必ずマージコミットを作る)
-bind main    <Esc>m ?git merge --no-ff %(branch)
-bind diff    <Esc>m ?git merge --no-ff %(branch)
-bind refs    <Esc>m ?git merge --no-ff %(branch)
+bind main    <Esc>m ?git merge %(refname) --no-edit --no-ff
+bind diff    <Esc>m ?git merge %(refname) --no-edit --no-ff
+bind refs    <Esc>m ?git merge %(refname) --no-edit --no-ff
 
 # R で rebase
 bind main    R      ?git rebase --allow-empty %(branch)
