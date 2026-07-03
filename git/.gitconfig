@@ -2,6 +2,12 @@
     templatedir = ~/.git_templates/
     defaultBranch = main
 
+[user]
+    # Never auto-guess name/email from the OS full name + hostname.
+    # If no [user] is resolved from config, fail the commit instead of
+    # recording e.g. "Full Name <user@host.local>".
+    useConfigOnly = true
+
 [commit]
     template = ~/.gitconfig_commit_template
 
