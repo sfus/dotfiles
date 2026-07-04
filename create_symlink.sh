@@ -12,6 +12,10 @@ ln -sf $DIR/shell/.zshrc ~/.zshrc
 ln -sf $DIR/shell/.zshrc-peco ~/.zshrc-peco
 ln -sf $DIR/shell/.zshrc-fzf ~/.zshrc-fzf
 
+# zsh completions (fpath includes ~/.zsh/completions)
+install -d ~/.zsh/completions
+ln -sf $DIR/shell/zsh-completions/_herdr ~/.zsh/completions/_herdr
+
 install -d ~/.oh-my-zsh/themes
 ln -sf $DIR/shell/zsh-theme/my-dpoggi.zsh-theme ~/.oh-my-zsh/themes/
 

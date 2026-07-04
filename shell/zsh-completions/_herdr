@@ -1,0 +1,52 @@
+#compdef herdr
+# Custom zsh completion for `herdr session` subcommands and session names.
+# herdr ships no completions of its own; this file provides tab-completion for:
+#   herdr session <list|attach|stop|delete> [<session-name>]
+# where <session-name> is drawn from `herdr session list`.
+#
+# Autoloaded via fpath (~/.zsh/completions/_herdr, symlinked from dotfiles).
+# `complete_aliases` is unset, so the hd*/hda/hds/hdd aliases expand to their
+# `herdr ...` form before completion and reuse this function automatically.
+
+_herdr_session_names() {
+  local -a names
+  names=(${(f)"$(herdr session list --json 2>/dev/null | jq -r '.sessions[].name' 2>/dev/null)"})
+  # Fallback to the plain table output if jq / --json is unavailable.
+  if (( ${#names} == 0 )); then
+    names=(${(f)"$(herdr session list 2>/dev/null | awk 'NR>1 {print $1}')"})
+  fi
+  _describe -t sessions 'herdr session' names
+}
+
+_herdr() {
+  local state line
+  local -a top_cmds session_cmds
+  session_cmds=(list attach stop delete)
+
+  _arguments -C \
+    '1: :->top' \
+    '2: :->second' \
+    '3: :->third' \
+    '*:: :->rest'
+
+  case $state in
+    top)
+      top_cmds=(session workspace worktree tab agent pane wait notification \
+                config channel integration status update server)
+      _describe -t commands 'herdr command' top_cmds
+      ;;
+    second)
+      [[ ${line[1]} == session ]] && \
+        _describe -t subcommands 'herdr session subcommand' session_cmds
+      ;;
+    third)
+      if [[ ${line[1]} == session ]]; then
+        case ${line[2]} in
+          attach|stop|delete) _herdr_session_names ;;
+        esac
+      fi
+      ;;
+  esac
+}
+
+_herdr "$@"

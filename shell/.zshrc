@@ -429,6 +429,12 @@ alias tml='tmux ls'
 alias tmk='tmux kill-session -t'
 alias tmz='tmux set-option -g prefix C-z'
 
+alias hd='herdr'
+alias hda='herdr session attach'
+alias hdl='herdr session list'
+alias hds='herdr session stop'
+alias hdd='herdr session delete'
+
 alias slog='svn log'
 alias sll='svn log -v -l 5'
 alias sdi='svn diff'
