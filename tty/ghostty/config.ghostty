@@ -70,8 +70,21 @@ keybind = cmd+u=toggle_background_opacity
 # directly in Ghostty (e.g. Neovim's jumplist), but not inside tmux.
 keybind = ctrl+i=text:\x09
 
-# Send 0x1F (C-_) for Ctrl+/ so Emacs undo works even inside herdr, which
-# otherwise strips the Ctrl modifier and delivers a bare '/'. Bare Ghostty and
-# tmux already send 0x1F, so this is a no-op outside herdr. Matches the ctrl+i
-# legacy-encoding workaround above.
+# --- herdr control-key workaround (interim) ----------------------------------
+# herdr mis-maps ambiguous "Ctrl + punctuation" keys (C0 codes 0x1C-0x1F): it
+# strips the Ctrl modifier and delivers the bare punctuation char to the pane,
+# breaking Emacs/readline/vim bindings (e.g. Ctrl+/ inserts '/' instead of undo).
+# Upstream: ogulcancelik/herdr #847 (canonical, label "preview-released"),
+# with #913 / #956 for Ctrl+/ (root cause: parse.rs mis-maps the C0 byte).
+# As of herdr 0.7.1 the fix is in the PREVIEW channel only, NOT stable, so these
+# send the raw C0 byte as an interim workaround. Bare Ghostty and tmux already
+# send these bytes, so they are no-ops outside herdr. Remove once the stable
+# release ships the fix.
+#   Ctrl+/        -> 0x1F (C-_)   e.g. Emacs undo
+#   Ctrl+\        -> 0x1C (C-\)
+#   Ctrl+]        -> 0x1D (C-])   e.g. vim tag jump
+#   Ctrl+Shift+6 (C-^) -> 0x1E (C-^)   e.g. vim alternate-file
 keybind = ctrl+/=text:\x1f
+keybind = ctrl+\=text:\x1c
+keybind = ctrl+]=text:\x1d
+keybind = ctrl+shift+6=text:\x1e
