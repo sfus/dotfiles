@@ -58,6 +58,13 @@ toggle_sidebar = "prefix+b"
 # so binding it would be invalid. Scrollback editing is available via the
 # default edit_scrollback = "prefix+e".
 
+# dagg toggle-dashboard — jump to / from the dagg-dashboard tab in the current
+# herdr workspace (toggles back to the previously focused tab).
+[[keys.command]]
+key = "alt+;"                        # mirrors the tmux Alt-; binding
+type = "shell"                       # run in the background; does not occupy the terminal
+command = "dagg toggle-dashboard"
+
 [theme]
 # TokyoNight, matching the previous tmux window-active-style colors.
 name = "tokyo-night"
@@ -79,6 +86,9 @@ mouse_scroll_lines = 3
 pane_borders = true
 pane_gaps = true
 
+# Show detected/reported agent labels (e.g. "claude", "codex", "planner") on
+# split pane borders when no manual pane name is set. Set to false to hide them.
+show_agent_labels_on_pane_borders = true
 [experimental]
 # Switch the macOS input source to ASCII while prefix mode is active so
 # ctrl+q prefix commands still register with a CJK IME turned on.
@@ -87,3 +97,6 @@ switch_ascii_input_source_in_prefix = true
 [advanced]
 # 10 MiB per pane. tmux used history-limit 10000 (lines); this is well beyond.
 scrollback_limit_bytes = 10485760
+
+[ui.toast]
+delivery = "herdr"
