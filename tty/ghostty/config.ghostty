@@ -69,3 +69,9 @@ keybind = cmd+u=toggle_background_opacity
 # unaffected. Note: Ctrl-I becomes indistinguishable from Tab in apps run
 # directly in Ghostty (e.g. Neovim's jumplist), but not inside tmux.
 keybind = ctrl+i=text:\x09
+
+# Send 0x1F (C-_) for Ctrl+/ so Emacs undo works even inside herdr, which
+# otherwise strips the Ctrl modifier and delivers a bare '/'. Bare Ghostty and
+# tmux already send 0x1F, so this is a no-op outside herdr. Matches the ctrl+i
+# legacy-encoding workaround above.
+keybind = ctrl+/=text:\x1f
