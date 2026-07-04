@@ -678,6 +678,9 @@ bindkey -s '\ei' '^a tig \n'
 # Esc \ -> exit
 bindkey -s '\e\\' '^a exit \n'
 
+# Esc ; -> dagg dashboard
+bindkey -s '\e;' '^a dagg dashboard \n'
+
 # Bind PageUp / PageDown
 bindkey '\e[5~' up-line-or-history    # PageUp
 bindkey '\e[6~' down-line-or-history  # PageDown
