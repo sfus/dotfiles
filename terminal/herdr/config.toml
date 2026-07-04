@@ -1,2 +1,83 @@
+# herdr configuration (symlinked to ~/.config/herdr/config.toml)
+# Ported from the previous tmux setup (terminal/tmux/.tmux.conf) as far as
+# herdr's named actions allow. This is a selective mapping, not a 1:1 port.
+
+# Skip the first-run onboarding notification.
+onboarding = false
+
 [keys]
-prefix = "ctrl+z"
+# Prefix key. Matches tmux's C-q so the existing muscle memory carries over.
+prefix = "ctrl+q"
+
+# --- Pane splits ---
+# tmux used `|` for a vertical (left/right) split and `-` for horizontal.
+# herdr cannot bind `|`, so vertical stays on the default `v`.
+split_vertical = "prefix+v"
+split_horizontal = "prefix+minus"
+
+# --- Pane focus (emacs-style, mirrors tmux prefix C-b/n/p/f) ---
+focus_pane_left = "prefix+ctrl+b"
+focus_pane_down = "prefix+ctrl+n"
+focus_pane_up = "prefix+ctrl+p"
+focus_pane_right = "prefix+ctrl+f"
+
+# --- Pane resize / zoom / close ---
+# reload stays on the herdr default prefix+shift+r, so the frequently used
+# resize gesture takes tmux's `prefix r` slot instead.
+resize_mode = "prefix+r"
+zoom = "prefix+z"
+close_pane = "prefix+x"
+
+# --- Tabs (tmux windows) ---
+# new_tab is the prefixless direct shortcut ctrl+t, matching tmux's C-t.
+new_tab = "ctrl+t"
+next_tab = "prefix+n"
+previous_tab = "prefix+p"
+switch_tab = "prefix+1..9"
+close_tab = "prefix+k"
+rename_tab = "prefix+comma"
+
+# --- Workspaces (tmux sessions) ---
+new_workspace = "prefix+ctrl+w"
+next_workspace = "prefix+ctrl+l"
+previous_workspace = "prefix+ctrl+h"
+workspace_picker = "prefix+w"
+close_workspace = "prefix+ctrl+k"
+
+# --- Misc ---
+detach = "prefix+d"
+reload_config = "prefix+shift+r"
+toggle_sidebar = "prefix+b"
+
+# Note: tmux's copy-mode (M-V / prefix [) is intentionally omitted. herdr has
+# no `copy_mode` action in its config schema (see `herdr --default-config`),
+# so binding it would be invalid. Scrollback editing is available via the
+# default edit_scrollback = "prefix+e".
+
+[theme]
+# TokyoNight, matching the previous tmux window-active-style colors.
+name = "tokyo-night"
+
+[terminal]
+# Match tmux's default-shell/-command.
+default_shell = "/bin/zsh"
+# Login shell on macOS (like tmux's reattach-to-user-namespace -l).
+shell_mode = "auto"
+
+[ui]
+# Accent roughly stands in for the tmux status colour31.
+accent = "cyan"
+# tmux `mouse on` equivalent.
+mouse_capture = true
+mouse_scroll_lines = 3
+pane_borders = true
+pane_gaps = true
+
+[experimental]
+# Switch the macOS input source to ASCII while prefix mode is active so
+# ctrl+q prefix commands still register with a CJK IME turned on.
+switch_ascii_input_source_in_prefix = true
+
+[advanced]
+# 10 MiB per pane. tmux used history-limit 10000 (lines); this is well beyond.
+scrollback_limit_bytes = 10485760
