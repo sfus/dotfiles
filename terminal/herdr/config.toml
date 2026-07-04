@@ -43,10 +43,14 @@ rename_tab = "prefix+comma"          # default: Prefix + T
 
 # --- Workspaces (tmux sessions) ---
 new_workspace = "prefix+ctrl+w"      # default: Prefix + N
-next_workspace = "prefix+ctrl+l"     # default: unset
-previous_workspace = "prefix+ctrl+h" # default: unset
+next_workspace = "ctrl+alt+j"        # prefixless direct shortcut
+previous_workspace = "ctrl+alt+k"    # prefixless direct shortcut
 workspace_picker = "prefix+w"
 close_workspace = "prefix+ctrl+k"    # default: Prefix + D
+
+# --- Agents (agent panel navigation) ---
+next_agent = "alt+shift+j"           # default: unset
+previous_agent = "alt+shift+k"       # default: unset
 
 # --- Misc ---
 detach = "prefix+d"                  # default: Prefix + q
