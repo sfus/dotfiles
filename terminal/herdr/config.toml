@@ -69,6 +69,13 @@ key = "alt+;"                        # mirrors the tmux Alt-; binding
 type = "shell"                       # run in the background; does not occupy the terminal
 command = "dagg toggle-dashboard"
 
+# herdr-unread — focus the next agent pane needing attention (blocked > done),
+# cycling within that group on repeated presses.
+[[keys.command]]
+key = "prefix+shift+u"
+type = "pane"                        # opens a temporary pane to show the echo output, then closes
+command = "/Users/fusanobu/.local/bin/herdr-unread"
+
 [theme]
 # TokyoNight, matching the previous tmux window-active-style colors.
 name = "tokyo-night"
