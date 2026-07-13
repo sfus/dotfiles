@@ -88,3 +88,35 @@ keybind = ctrl+/=text:\x1f
 keybind = ctrl+\=text:\x1c
 keybind = ctrl+]=text:\x1d
 keybind = ctrl+shift+6=text:\x1e
+
+# --- Meta + shifted symbol (US/ANSI layout) ----------------------------------
+# With macos-option-as-alt=true, Option+Shift+<key> drops the shifted glyph and
+# sends ESC + the BASE char (e.g. Option+Shift+. arrives as Alt-. not Alt->).
+# Re-map every shifted symbol on the US layout so Option+Shift+<key> sends
+# ESC + the intended shifted char. Values are hex (\x1b = ESC) to avoid the
+# config's own '#' comment and quoting rules. '=' uses the key name `equal`
+# because a literal '=' would collide with the trigger/action separator.
+# Mapping (physical key -> symbol):
+#   1 ! / 2 @ / 3 # / 4 $ / 5 % / 6 ^ / 7 & / 8 * / 9 ( / 0 )
+#   - _ / = + / [ { / ] } / \ | / ; : / ' " / , < / . > / / ? / ` ~
+keybind = alt+shift+1=text:\x1b\x21
+keybind = alt+shift+2=text:\x1b\x40
+keybind = alt+shift+3=text:\x1b\x23
+keybind = alt+shift+4=text:\x1b\x24
+keybind = alt+shift+5=text:\x1b\x25
+keybind = alt+shift+6=text:\x1b\x5e
+keybind = alt+shift+7=text:\x1b\x26
+keybind = alt+shift+8=text:\x1b\x2a
+keybind = alt+shift+9=text:\x1b\x28
+keybind = alt+shift+0=text:\x1b\x29
+keybind = alt+shift+-=text:\x1b\x5f
+keybind = alt+shift+equal=text:\x1b\x2b
+keybind = alt+shift+[=text:\x1b\x7b
+keybind = alt+shift+]=text:\x1b\x7d
+keybind = alt+shift+\=text:\x1b\x7c
+keybind = alt+shift+;=text:\x1b\x3a
+keybind = alt+shift+'=text:\x1b\x22
+keybind = alt+shift+,=text:\x1b\x3c
+keybind = alt+shift+.=text:\x1b\x3e
+keybind = alt+shift+/=text:\x1b\x3f
+keybind = alt+shift+`=text:\x1b\x7e
