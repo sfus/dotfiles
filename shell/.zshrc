@@ -87,7 +87,37 @@ compinit -u
 zplug "Aloxaf/fzf-tab"
 
 # source plugins and add commands to $PATH
-zplug load
+#
+# Serialize `zplug load` across shells that start at the same instant
+# (e.g. herdr/tmux session restore spawning many panes at once). zplug's
+# cache is a single shared directory; when several shells hit a stale cache
+# simultaneously, one shell's `rm -f`/regenerate in the cache dir collides
+# with another's `source`, producing errors such as:
+#   __zplug::core::load::from_cache:source: no such file or directory: .../lazy_plugin.zsh
+# Holding an exclusive lock while loading lets the first shell rebuild the
+# cache to completion; the rest then load the now-consistent cache read-only.
+# Uses zsh's own `zsystem flock` (the same mechanism zplug uses internally),
+# so there is no dependency on a flock(1) binary (absent from stock macOS).
+() {
+  # NOTE: do NOT `emulate -L zsh` here. It implies LOCAL_OPTIONS, which reverts
+  # every shell option a plugin sets during `zplug load` (e.g. pure's
+  # `setopt prompt_subst`) when this anonymous function returns — that silently
+  # breaks the prompt. The `local` vars below are already scoped by the
+  # anonymous function itself, so no emulate is needed.
+  local cache_dir="${ZPLUG_CACHE_DIR:-${ZPLUG_HOME:-$HOME/.zplug}/cache}"
+  local lockfile="$cache_dir/.load.lock"
+  local lockfd
+  [[ -d $cache_dir ]] || mkdir -p "$cache_dir"
+  if zmodload zsh/system 2>/dev/null \
+     && : >>| "$lockfile" 2>/dev/null \
+     && zsystem flock -f lockfd -t 10 "$lockfile" 2>/dev/null; then
+    zplug load
+    zsystem flock -u "$lockfd" 2>/dev/null
+  else
+    # Could not obtain a lock (module missing / timeout) — load anyway.
+    zplug load
+  fi
+}
 #zplug load --verbose
 
 
