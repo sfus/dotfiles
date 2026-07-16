@@ -45,6 +45,10 @@ ln -sf $DIR/terminal/tmux/mytheme.sh ~/.config/tmux-powerline/themes/mytheme.sh
 install -d ~/.config/herdr
 ln -sf $DIR/terminal/herdr/config.toml ~/.config/herdr/config.toml
 
+# hunk
+install -d ~/.config/hunk
+ln -sf $DIR/terminal/hunk/config.toml ~/.config/hunk/config.toml
+
 # vifm
 install -d ~/.vifm
 ln -sf $DIR/terminal/vifm/vifmrc ~/.vifm/vifmrc
