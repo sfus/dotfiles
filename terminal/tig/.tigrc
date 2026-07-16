@@ -70,10 +70,10 @@ set mouse = true
 set editor-line-number = yes
 
 # リフレッシュするタイミング
-set refresh-mode = auto
+#set refresh-mode = auto
 #set refresh-mode = after-command
-#set refresh-mode = periodic
-#set refresh-interval = 1
+set refresh-mode = periodic
+set refresh-interval = 2
 
 # 差分表示に diff-highlight を使う (要 tig 2.2.1 以降. diff-highlight が $PATH にあること)
 set diff-highlight = true
