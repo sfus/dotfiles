@@ -5,7 +5,19 @@ bindkey -e
 # curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 
 # zplug
-source ~/.zplug/init.zsh
+# Bootstrap zplug on first run if it is not installed yet. This is idempotent:
+# the network install only runs when init.zsh is missing, so it adds zero
+# overhead to normal startup (a single stat on init.zsh once it exists).
+export ZPLUG_HOME="${ZPLUG_HOME:-$HOME/.zplug}"
+if [[ ! -f "$ZPLUG_HOME/init.zsh" ]]; then
+  if command -v curl >/dev/null 2>&1; then
+    echo "zplug not found. Installing into $ZPLUG_HOME ..." >&2
+    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+  else
+    echo "zplug not found and curl is unavailable; skipping plugin setup." >&2
+  fi
+fi
+source "$ZPLUG_HOME/init.zsh"
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 
 # Async
