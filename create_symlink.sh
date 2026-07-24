@@ -49,6 +49,10 @@ ln -sf $DIR/terminal/herdr/config.toml ~/.config/herdr/config.toml
 install -d ~/.config/hunk
 ln -sf $DIR/terminal/hunk/config.toml ~/.config/hunk/config.toml
 
+# gwm (git worktree manager)
+install -d ~/.config/gwm
+ln -sf $DIR/terminal/gwm/config.toml ~/.config/gwm/config.toml
+
 # vifm
 install -d ~/.vifm
 ln -sf $DIR/terminal/vifm/vifmrc ~/.vifm/vifmrc
