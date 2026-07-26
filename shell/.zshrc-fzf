@@ -17,7 +17,7 @@ export FZF_COMPLETION_TRIGGER=',' # default: '**'
 # export FZF_DEFAULT_OPTS='--height 40% --reverse --border --info=inline'
 typeset -Tgx FZF_DEFAULT_OPTS fzf_default_opts " "
 fzf_default_opts=(
-  '--height=40%'
+  '--height=80%'
   '--reverse'
   '--border'
   '--info=inline'
