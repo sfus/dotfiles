@@ -1,66 +1,193 @@
 # herdr configuration (symlinked to ~/.config/herdr/config.toml)
-# Ported from the previous tmux setup (terminal/tmux/.tmux.conf) as far as
-# herdr's named actions allow. This is a selective mapping, not a 1:1 port.
+#
+# This file is `herdr --default-config` output (herdr 0.7.4) with our own
+# settings added as active lines on top of it. Two consequences:
+#   * Every option herdr supports is documented right here, with its stock
+#     default value visible on the commented line above ours.
+#   * `diff <(herdr --default-config) config.toml` is the full list of what we
+#     changed. On a herdr upgrade, diff the new default output against this
+#     file to pick up newly added options.
+# Keybindings were ported from the previous tmux setup
+# (terminal/tmux/.tmux.conf) as far as herdr's named actions allow. This is a
+# selective mapping, not a 1:1 port.
+#
+# Options left commented out are intentionally delegated to herdr's default.
 
-# Skip the first-run onboarding notification.
+# Show first-run notification setup on startup.
+# Missing also shows onboarding; set false after you've chosen.
+# onboarding = true
 onboarding = false
 
+[theme]
+# Built-in themes: catppuccin, terminal, tokyo-night, dracula, nord,
+#                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
+#                  vesper
+# name = "catppuccin"
+# TokyoNight, matching the previous tmux window-active-style colors.
+name = "tokyo-night"
+
+# Follow host terminal light/dark appearance and switch Herdr UI themes.
+# Existing manual behavior is unchanged unless this is true.
+# auto_switch = false
+# dark_name = "catppuccin"
+# light_name = "catppuccin-latte"
+
+# Override individual color tokens on top of the base theme.
+# Accepts: hex (#rrggbb), named colors, rgb(r,g,b), or panel_bg = "reset"
+# [theme.custom]
+# panel_bg = "reset"
+# accent = "#f5c2e7"
+# red = "#ff6188"
+# green = "#a6e3a1"
+
+[terminal]
+# Executable used for new interactive panes.
+# Empty means $SHELL, then /bin/sh.
+# default_shell = ""
+# Match tmux's default-shell/-command.
+default_shell = "/bin/zsh"
+
+# Startup mode for new interactive pane shells: "auto", "login", or "non_login".
+# "auto" uses login shells on macOS and keeps the current behavior elsewhere.
+# shell_mode = "auto"
+# Left at "auto": on macOS that already means a login shell, which is what the
+# old tmux setup got via reattach-to-user-namespace -l.
+
+# CWD policy for new panes, tabs, and workspaces when no explicit --cwd is provided.
+# Use "follow" to inherit the source pane/workspace, "home" for $HOME,
+# "current" for Herdr's process directory, or a fixed path such as "~/Projects".
+# new_cwd = "follow"
+
+[update]
+# Update channel used by background version checks and `herdr update`.
+# Defaults to "stable" on Linux/macOS and "preview" on Windows.
+# Set explicitly to choose stable releases or opt-in preview builds.
+# channel = "stable"
+
+# Check herdr.dev for new Herdr versions in the background.
+# version_check = true
+
+# Check herdr.dev for remote agent-detection manifest updates in the background.
+# manifest_check = true
+
 [keys]
-# Prefix key. Matches tmux's C-q so the existing muscle memory carries over.
-prefix = "ctrl+q"                    # default: Ctrl-b
+# Prefix key to enter prefix mode (default: "ctrl+b")
+# Examples: "ctrl+b", "f12", "esc", "-"
+# Action bindings use explicit syntax: "prefix+n" requires the prefix;
+# "ctrl+alt+n" is a direct terminal-mode shortcut.
+# Accepted key syntax: plain keys, ctrl/shift/alt/cmd/super modifiers, and special keys like enter/tab/esc/left/right/up/down.
+# Named punctuation such as minus, comma, ampersand, plus, and backtick is also accepted.
+# Most reliable direct bindings are ctrl+letter, function keys, and explicit modified chords.
+# alt+..., cmd/super, and punctuation-with-modifiers may depend on your terminal/tmux setup.
+# prefix = "ctrl+b"
+# Matches tmux's C-q so the existing muscle memory carries over.
+prefix = "ctrl+q"
 
-# --- Pane splits ---
-# tmux used `|` for a vertical (left/right) split and `-` for horizontal.
-# herdr cannot bind `|`, so vertical stays on the default `v`.
-split_vertical = "prefix+v"
-split_horizontal = "prefix+minus"
-
-# --- Pane focus (emacs-style, mirrors tmux prefix C-b/n/p/f) ---
-focus_pane_left = "prefix+ctrl+b"    # default: Prefix + h
-focus_pane_down = "prefix+ctrl+n"    # default: Prefix + j
-focus_pane_up = "prefix+ctrl+p"      # default: Prefix + k
-focus_pane_right = "prefix+ctrl+f"   # default: Prefix + l
-
-# --- Pane cycle (prefixless direct shortcuts) ---
-cycle_pane_next = "alt+o"            # default: Prefix + Tab
-cycle_pane_previous = "alt+shift+o"  # default: Prefix + Shift-Tab
-
-# --- Pane resize / zoom / close ---
-# reload stays on the herdr default prefix+shift+r, so the frequently used
-# resize gesture takes tmux's `prefix r` slot instead.
-resize_mode = "prefix+r"
-zoom = "prefix+z"
-close_pane = "prefix+x"
-
-# --- Tabs (tmux windows) ---
-# new_tab is the prefixless direct shortcut ctrl+t, matching tmux's C-t.
-new_tab = "ctrl+t"                   # default: Prefix + c
-next_tab = "prefix+n"
-previous_tab = "prefix+p"
-switch_tab = "prefix+1..9"
-close_tab = "prefix+k"               # default: Prefix + X
-rename_tab = "prefix+comma"          # default: Prefix + T
-
-# --- Workspaces (tmux sessions) ---
-new_workspace = "prefix+ctrl+w"      # default: Prefix + N
-next_workspace = "ctrl+alt+j"        # prefixless direct shortcut
-previous_workspace = "ctrl+alt+k"    # prefixless direct shortcut
+# Prefix-mode actions
+# help = "prefix+?"
+# settings = "prefix+s"
+# detach = "prefix+q"
+detach = "prefix+d"
+# reload_config = "prefix+shift+r"
+# open_notification_target = "prefix+o"
+# workspace_picker = "prefix+w"
+# Pinned to match tmux's `prefix w` (choose-tree).
 workspace_picker = "prefix+w"
-close_workspace = "prefix+ctrl+k"    # default: Prefix + D
-
-# --- Agents (agent panel navigation) ---
-next_agent = "alt+shift+j"           # default: unset
-previous_agent = "alt+shift+k"       # default: unset
-
-# --- Misc ---
-detach = "prefix+d"                  # default: Prefix + q
-reload_config = "prefix+shift+r"
-toggle_sidebar = "prefix+b"
+# goto = "prefix+g"
+# new_workspace = "prefix+shift+n"
+new_workspace = "prefix+ctrl+w"
+# new_worktree = "prefix+shift+g"
+# open_worktree = ""    # optional, unset by default
+# remove_worktree = ""  # optional, unset by default; opens confirmation
+# rename_workspace = "prefix+shift+w"
+# close_workspace = "prefix+shift+d"
+close_workspace = "prefix+ctrl+k"
+# previous_workspace = "" # optional, unset by default
+# next_workspace = ""     # optional, unset by default
+# Prefixless direct shortcuts.
+previous_workspace = "ctrl+alt+k"
+next_workspace = "ctrl+alt+j"
+# previous_agent = ""     # optional, unset by default
+# next_agent = ""         # optional, unset by default
+previous_agent = "alt+shift+k"
+next_agent = "alt+shift+j"
+# focus_agent = ""        # optional indexed binding, e.g. "prefix+alt+1..9"
+# remote_image_paste = "ctrl+v" # only active in herdr --remote; empty disables raw-key image paste
+# new_tab = "prefix+c"
+# Prefixless direct shortcut, matching tmux's C-t.
+new_tab = "ctrl+t"
+# rename_tab = "prefix+shift+t"
+rename_tab = "prefix+comma"
+# previous_tab = "prefix+p"
+# next_tab = "prefix+n"
+# switch_tab = "prefix+1..9"
+# Pinned to match tmux's `prefix p` / `prefix n` / `prefix 1-9`.
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+switch_tab = "prefix+1..9"
+# switch_workspace = ""   # optional indexed binding, e.g. "prefix+shift+1..9"
+# close_tab = "prefix+shift+x"
+close_tab = "prefix+k"
+# rename_pane = "prefix+shift+p"
+# edit_scrollback = "prefix+e"
+# focus_pane_left = "prefix+h"
+# focus_pane_down = "prefix+j"
+# focus_pane_up = "prefix+k"
+# focus_pane_right = "prefix+l"
+# Emacs-style, mirroring tmux's prefix C-b/n/p/f.
+focus_pane_left = "prefix+ctrl+b"
+focus_pane_down = "prefix+ctrl+n"
+focus_pane_up = "prefix+ctrl+p"
+focus_pane_right = "prefix+ctrl+f"
+# cycle_pane_next = "prefix+tab"
+# cycle_pane_previous = "prefix+shift+tab"
+# Prefixless direct shortcuts.
+cycle_pane_next = "alt+o"
+cycle_pane_previous = "alt+shift+o"
+# last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
+# split_vertical = "prefix+v"
+# tmux used `|` for the vertical split; herdr cannot bind `|`, so this stays on
+# herdr's default `v`.
+# split_horizontal = "prefix+minus"
+# tmux used `-` for the horizontal split.
+split_horizontal = "prefix+minus"
+# close_pane = "prefix+x"
+# Pinned to match tmux's `prefix x`.
+close_pane = "prefix+x"
+# zoom = "prefix+z"       # legacy alias: fullscreen
+# Pinned to match tmux's `prefix z`.
+zoom = "prefix+z"
+# resize_mode = "prefix+r"
+# reload_config stays on herdr's default prefix+shift+r, so tmux's `prefix r`
+# slot goes to the more frequently used resize gesture.
+resize_mode = "prefix+r"
+# toggle_sidebar = "prefix+b"
 
 # Note: tmux's copy-mode (M-V / prefix [) is intentionally omitted. herdr has
-# no `copy_mode` action in its config schema (see `herdr --default-config`),
-# so binding it would be invalid. Scrollback editing is available via the
-# default edit_scrollback = "prefix+e".
+# no `copy_mode` action in its config schema, so binding it would be invalid.
+# Scrollback editing is available via the default edit_scrollback = "prefix+e".
+
+# Navigate-mode movement. These local shortcuts win while navigate mode is open.
+# They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
+# navigate_workspace_up = "up"
+# navigate_workspace_down = "down"
+# navigate_pane_left = "h"      # left arrow always focuses the pane to the left
+# navigate_pane_down = "j"
+# navigate_pane_up = "k"
+# navigate_pane_right = "l"     # right arrow always focuses the pane to the right
+
+# Custom commands use the same binding syntax.
+# type = "shell" runs detached in the background.
+# type = "pane" opens a temporary pane and closes it when the command exits.
+# type = "popup" opens a session-modal terminal without changing the tab layout.
+# Popup width and height accept terminal cells or percentages such as "80%".
+# On Windows, command strings run through cmd.exe /d /c.
+# [[keys.command]]
+# key = "prefix+alt+g"
+# type = "popup"
+# command = "lazygit"
+# width = "80%"
+# height = "80%"
 
 # dagg toggle-dashboard — jump to / from the dagg-dashboard tab in the current
 # herdr workspace (toggles back to the previously focused tab).
@@ -88,48 +215,206 @@ type = "plugin_action"
 command = "termscope.open-links"
 description = "visible-screen link picker"
 
-[theme]
-# TokyoNight, matching the previous tmux window-active-style colors.
-name = "tokyo-night"
+# Legacy indexed shortcut config is still parsed for compatibility.
+# Prefer switch_tab, switch_workspace, and focus_agent for new configs.
+# [keys.indexed]
+# tabs = ""       # e.g. "ctrl" makes ctrl+1..9 switch tabs directly
+# workspaces = "" # e.g. "ctrl+shift" makes ctrl+shift+1..9 switch workspaces directly
+# agents = ""     # e.g. "alt" makes alt+1..9 focus agent rows directly
 
-[terminal]
-# Match tmux's default-shell/-command.
-default_shell = "/bin/zsh"
-# Login shell on macOS (like tmux's reattach-to-user-namespace -l).
-shell_mode = "auto"
+# [worktrees]
+# directory = "~/.herdr/worktrees"
 
 [ui]
+# Sidebar width (auto-scaled based on workspace names, this sets the default)
+# sidebar_width = 26
+
+# Minimum sidebar width when expanded (columns)
+# sidebar_min_width = 18
+
+# Maximum sidebar width when expanded (columns)
+# sidebar_max_width = 36
+
+# Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
+# sidebar_collapsed_mode = "compact"
+
+# Terminal width at or below which Herdr uses the mobile single-column layout.
+# Increase this for foldables, tablets, or wide phone terminals.
+# mobile_width_threshold = 64
+
+# Capture mouse input for Herdr's mouse UI.
+# Set false to let the terminal handle normal clicks, such as Cmd-clicking URLs.
+# Pane apps like lazygit and btop can still receive mouse when they request it.
+# mouse_capture = true
+
+# Copy text selected by mouse drag or double-click.
+# Set false to disable mouse text selection and copying.
+# copy_on_select = true
+
+# Host cursor policy: "auto", "native", or "drawn".
+# "auto" draws Herdr's own cursor on native Windows builds and WSL to avoid ConPTY cursor flicker, and uses the native terminal cursor elsewhere.
+# "native" always uses the outer terminal cursor. "drawn" always draws Herdr's cursor as terminal cell content.
+# host_cursor = "auto"
+
+# Optional modifier that forwards right-click hold/drag gestures to pane apps instead of opening Herdr's pane menu.
+# Empty/off disables this. Shift is intentionally unsupported because terminals commonly reserve Shift+mouse.
+# right_click_passthrough_modifier = ""
+
+# Force a full redraw when the outer terminal regains focus.
+# Set false to reduce visible flashing when switching back to Herdr.
+# Trade-off: rare host terminal surface corruption may persist until the next full redraw.
+# redraw_on_focus_gained = true
+
+# Pane scrollback lines to scroll per mouse wheel notch.
+# mouse_scroll_lines = 3
+
+# Ask for confirmation before closing a workspace
+# confirm_close = true
+
+# Ask for a tab name before creating a new tab.
+# Set false to create tabs immediately with generated names.
+# prompt_new_tab_name = true
 # Create new tabs immediately with a generated name instead of prompting.
 prompt_new_tab_name = false
-# Accent roughly stands in for the tmux status colour31.
-accent = "cyan"
-# tmux `mouse on` equivalent.
-mouse_capture = true
-mouse_scroll_lines = 3
-pane_borders = true
-pane_gaps = true
 
+# Draw borders around split panes.
+# pane_borders = true
+
+# Keep split panes visually separated instead of sharing divider borders.
+# pane_gaps = true
+
+# Show detected/reported agent labels in split pane borders when no manual pane name is set.
+# show_agent_labels_on_pane_borders = false
 # Show detected/reported agent labels (e.g. "claude", "codex", "planner") on
-# split pane borders when no manual pane name is set. Set to false to hide them.
+# split pane borders when no manual pane name is set.
 show_agent_labels_on_pane_borders = true
+
+# Hide the tab row when a workspace has exactly one tab.
+# New tabs can still be created with the configured keybinding.
+# hide_tab_bar_when_single_tab = false
+
+# Agent panel ordering: "spaces" (grouped by space) or "priority" (attention queue).
+# "workspaces" is accepted as an alias for "spaces".
+# agent_panel_sort = "spaces"
+
+# Expanded agent rows. Built-ins are state_icon, state_text, workspace, tab, pane, agent,
+# terminal_title, and terminal_title_stripped.
+# Custom values reported through pane metadata use a $name token.
+# [ui.sidebar.agents]
+# Blank rows between agent entries. Set to 1 to restore the previous spacing.
+# row_gap = 0
+# rows = [["state_icon", "workspace", "tab"], ["agent"]]
+# Optional canonical agent IDs replace the default rows for matching agents.
+# [ui.sidebar.agents.rows_by_agent]
+# claude = [["state_icon", "workspace", "tab"], ["terminal_title_stripped"], ["agent"]]
+
+# Expanded space rows. Built-ins are state_icon, state_text, workspace, branch, and git_status.
+# Custom values reported through workspace metadata use a $name token, for example $jj_status.
+# [ui.sidebar.spaces]
+# Blank rows between space entries. Set to 1 to restore the previous spacing.
+# row_gap = 0
+# rows = [["state_icon", "workspace"], ["branch", "git_status"]]
+
+# Accent color for highlights, borders, and navigation UI.
+# Accepts: hex (#89b4fa), named colors (cyan, blue, magenta), or rgb(r,g,b)
+# accent = "cyan"
+# Stands in for the old tmux status colour31, paired with the tokyo-night theme.
+accent = "cyan"
 
 # Custom sidebar rows fed by `herdr workspace report-metadata`. On top of the
 # default space rows, $cu_5h / $cu_7d are custom metadata tokens pushed by an
 # external scheduled job to show Claude Code 5h / 7d rate-limit usage
 # (progress bar + percent + reset) on a single workspace. Unreported tokens
 # simply collapse, so the rows appear only under the workspace that receives
-# them.
+# them. Placed here, after every [ui] scalar key, because an active
+# [ui.sidebar.spaces] header would otherwise capture the keys below it.
 [ui.sidebar.spaces]
 rows = [["state_icon", "workspace"], ["branch", "git_status"], ["$cu_5h"], ["$cu_7d"]]
 
+# Background notification popup delivery
+[ui.toast]
+# off = disable pop-up notifications
+# herdr = show in-app toasts
+# terminal = ask the outer terminal to show a desktop notification
+# system = ask the OS notification service directly
+# delivery = "off"
+delivery = "herdr"
+# delay_seconds = 1
+
+[ui.toast.herdr]
+# position = "bottom-right"
+
+[ui.toast.clipboard]
+# enabled = true
+# position = "bottom-center"
+
+# Play sounds when agents change state in background workspaces
+[ui.sound]
+# enabled = true
+# Optional custom mp3 sound files. Relative paths are resolved from this config file's directory.
+# path = "sounds/notification.mp3"   # one mp3 file for all sound notifications
+# done_path = "sounds/done.mp3"      # overrides only finished notifications
+# request_path = "sounds/request.mp3" # overrides only needs-attention notifications
+
+# Per-agent overrides: default | on | off
+# By default, droid is muted.
+# [ui.sound.agents]
+# droid = "off"
+
+[session]
+# Resume supported AI-agent panes into their native conversation sessions after
+# a Herdr server restart. Requires official integrations that report session refs.
+# resume_agents_on_restore = true
+
+[remote]
+# Whether herdr manages the ssh config used for `herdr --remote`.
+# When true (default), herdr runs remote ssh through a generated config that
+# includes your ~/.ssh/config first and adds ServerAliveInterval/
+# ServerAliveCountMax as fallbacks (so any keepalive values you set yourself
+# still win) to survive idle network/NAT timeouts. Herdr also uses a private
+# per-attach OpenSSH control socket to reuse the first authenticated connection.
+# Set false to run plain ssh against your ssh config unchanged — this does not
+# force keepalive or multiplexing off, it only stops herdr from adding its own.
+# manage_ssh_config = true
+
 [experimental]
-# Switch the macOS input source to ASCII while prefix mode is active so
-# ctrl+q prefix commands still register with a CJK IME turned on.
+# Allow launching herdr from inside a herdr-managed pane.
+# allow_nested = false
+# Experimental local Kitty graphics rendering for attached clients.
+# Requires a Kitty graphics-compatible outer terminal.
+# kitty_graphics = false
+# Save recent pane screen history across full server restarts.
+pane_history = false
+# While prefix mode is active, temporarily switch the macOS host input
+# source to an ASCII-capable keyboard layout so prefix commands register
+# even when a CJK IME is active, then restore the previous input source
+# when prefix mode exits. macOS only; best-effort. Default: false.
+# switch_ascii_input_source_in_prefix = false
 switch_ascii_input_source_in_prefix = true
+# Expose the focused pane's cursor to the outer terminal so macOS input
+# methods keep tracking the candidate window when TUIs paint their own
+# cursor (Claude Code, pi, codex). Trade-off: extra cursor visible for
+# apps that hide it without painting a replacement (vim normal mode, etc.).
+# reveal_hidden_cursor_for_cjk_ime = false
+# Enabled so the macOS IME candidate window keeps tracking the cursor in agent
+# panes that paint their own cursor. Scoped by cjk_ime_agents below to avoid
+# the trade-off (a stray cursor in apps that hide it without painting one,
+# e.g. vim in normal mode).
+reveal_hidden_cursor_for_cjk_ime = true
+# Optional allow-list: only reveal for focused panes whose detected agent
+# matches one of these names. Empty means apply to any focused pane.
+# If the list contains no valid names, the reveal does not apply.
+# Accepted: pi, claude, codex, gemini, cursor, devin, cline, opencode,
+# copilot, kimi, kiro, droid, amp, grok, hermes, kilo, qodercli, qoder.
+# cjk_ime_agents = []
+cjk_ime_agents = ["claude", "codex", "pi", "gemini"]
+# Cursor shape rendered when reveal_hidden_cursor_for_cjk_ime is true.
+# Values: block, steady_block (default), underline, steady_underline, bar, steady_bar.
+# cjk_ime_cursor_shape = "steady_block"
 
 [advanced]
+# Maximum scrollback buffer size in bytes retained per pane terminal.
+# Matches Ghostty's default scrollback-limit behavior.
+# scrollback_limit_bytes = 10000000
 # 10 MiB per pane. tmux used history-limit 10000 (lines); this is well beyond.
 scrollback_limit_bytes = 10485760
-
-[ui.toast]
-delivery = "herdr"
