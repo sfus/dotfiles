@@ -76,6 +76,18 @@ key = "prefix+shift+u"
 type = "pane"                        # opens a temporary pane to show the echo output, then closes
 command = "herdr-unread"
 
+[[keys.command]]
+key = "prefix+ctrl+r"
+type = "plugin_action"
+command = "termscope.open"
+description = "visible-screen file picker"
+
+[[keys.command]]
+key = "prefix+ctrl+e"
+type = "plugin_action"
+command = "termscope.open-links"
+description = "visible-screen link picker"
+
 [theme]
 # TokyoNight, matching the previous tmux window-active-style colors.
 name = "tokyo-night"
