@@ -53,6 +53,10 @@ ln -sf $DIR/terminal/hunk/config.toml ~/.config/hunk/config.toml
 install -d ~/.config/gwm
 ln -sf $DIR/terminal/gwm/config.toml ~/.config/gwm/config.toml
 
+# television (tv fuzzy finder)
+install -d ~/.config/television
+ln -sf $DIR/terminal/television/config.toml ~/.config/television/config.toml
+
 # vifm
 install -d ~/.vifm
 ln -sf $DIR/terminal/vifm/vifmrc ~/.vifm/vifmrc
