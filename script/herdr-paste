@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# TERMSCOPE_OPENER target. termscope appends whichever entry was picked, so:
+#   - an http(s) URL goes to the browser, preserving the behaviour that setting
+#     TERMSCOPE_OPENER would otherwise take away
+#   - anything else is a file path, and is typed into the pane the picker was
+#     opened from
+# termscope already puts the selection on the clipboard before it calls the
+# opener, so pasting is the only thing left to do here.
+set -euo pipefail
+
+TARGET="${1:-}"
+if [ -z "$TARGET" ]; then
+  echo "herdr-paste: no target given" >&2
+  exit 1
+fi
+
+# termscope's link picker only matches https?://, so this covers every URL it
+# can hand over.
+case "$TARGET" in
+  http://*|https://*)
+    exec open "$TARGET"
+    ;;
+esac
+
+# SOURCE_PANE_ID is exported by termscope's herdr plugin and names the pane the
+# picker was opened from — the popup running this script is a different pane, so
+# HERDR_PANE_ID would paste into the popup and vanish with it. HERDR_PANE_ID is
+# only the fallback for running this script straight from a pane.
+PANE_ID="${SOURCE_PANE_ID:-${HERDR_PANE_ID:-}}"
+if [ -z "$PANE_ID" ]; then
+  echo "herdr-paste: neither SOURCE_PANE_ID nor HERDR_PANE_ID is set" >&2
+  exit 1
+fi
+
+herdr pane send-text "$PANE_ID" "$TARGET"

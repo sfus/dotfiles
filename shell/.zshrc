@@ -374,6 +374,10 @@ export PERL5_DEBUG_PORT=5004
 
 export LESSCHARSET=utf-8
 
+# termscope: paste the picked file path into the source herdr pane (ctrl-o);
+# URLs still go to the browser. See script/herdr-paste.
+export TERMSCOPE_OPENER=herdr-paste
+
 # https://qiita.com/phenan/items/1c60a1123612a55e76d5
 # brew install less
 # lesskey -o ~/.lesskey lesskey.conf

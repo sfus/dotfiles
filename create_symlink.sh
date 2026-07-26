@@ -105,3 +105,7 @@ ln -sf $DIR/script/cursor_usage.py ~/.local/bin/cursor-usage
 
 # herdr-unread: focus the next agent pane needing attention (blocked > done)
 ln -sf $DIR/script/herdr-unread ~/.local/bin/herdr-unread
+
+# herdr-paste: TERMSCOPE_OPENER target — paste the picked path into the pane
+# termscope was opened from, and send URLs to the browser instead.
+ln -sf $DIR/script/herdr-paste ~/.local/bin/herdr-paste
