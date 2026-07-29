@@ -196,6 +196,16 @@ key = "alt+;"                        # mirrors the tmux Alt-; binding
 type = "shell"                       # run in the background; does not occupy the terminal
 command = "dagg toggle-dashboard"
 
+# dagg toggle-human — jump to / from the `human` tab (editor + terminal) in the
+# current herdr workspace. From any other tab it focuses `human`; from `human`
+# it goes to the dagg-dashboard tab. Workspaces without a `human` tab (the
+# standalone workflow) fall back to the plain dashboard toggle. Note: herdr
+# rejects the named form `alt+apostrophe`, so the literal `'` is used.
+[[keys.command]]
+key = "alt+'"                        # sits next to alt+; (dashboard toggle)
+type = "shell"                       # run in the background; does not occupy the terminal
+command = "dagg toggle-human"
+
 # herdr-unread — focus the next agent pane needing attention (blocked > done),
 # cycling within that group on repeated presses.
 [[keys.command]]
