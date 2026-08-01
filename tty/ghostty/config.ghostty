@@ -6,7 +6,7 @@ macos-option-as-alt = true
 # ❯ brew install font-plemol-jp
 font-family = "PlemolJP Console"
 # Set the font size
-font-size = 14
+font-size = 13
 # Enable synthetic font boldening (thickening)
 font-thicken = true
 # Control the strength of font thickening
