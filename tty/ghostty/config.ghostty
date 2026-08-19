@@ -41,6 +41,10 @@ quick-terminal-animation-duration = 0.2
 # Allow Clipboard use
 clipboard-read = allow
 clipboard-write = allow
+# Copy the selection to the system clipboard as soon as it is made.
+# The default `true` prefers the selection clipboard, which macOS cannot
+# paste from with Cmd+V; `clipboard` copies to both.
+copy-on-select = clipboard
 
 # tmux window
 # Ctrl+Tab sends Ctrl-Q + 'n'
