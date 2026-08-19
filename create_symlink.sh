@@ -78,6 +78,12 @@ ln -sf $DIR/tool/gradle/gradle.properties ~/.gradle/gradle.properties
 install -d ~/.config/markdownlint
 ln -sf $DIR/tool/markdownlint/markdownlint.jsonc ~/.config/markdownlint/config
 
+# hammerspoon
+# init.lua only requires the modules next to it; see tool/hammerspoon/README.md
+install -d ~/.hammerspoon
+ln -sf $DIR/tool/hammerspoon/init.lua ~/.hammerspoon/init.lua
+ln -sf $DIR/tool/hammerspoon/chrome-vertical-tab-sidebar-toggle.lua ~/.hammerspoon/chrome-vertical-tab-sidebar-toggle.lua
+
 # vim
 ln -sf $DIR/vim/.vimrc ~/.vimrc
 
