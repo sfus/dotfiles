@@ -1,0 +1,36 @@
+{
+  // Global markdownlint config for AI-facing prose documents
+  // (CLAUDE.md, skill definitions, notes). Linked to
+  // ~/.config/markdownlint/config by create_symlink.sh.
+  //
+  // A repository-local .markdownlint.json takes precedence over this file,
+  // so per-project rules keep working. Note that markdownlint resolves
+  // config from the current working directory only -- it does not walk up
+  // to parent directories.
+
+  // Line length. These documents are prose read by humans and LLMs alike;
+  // they are not bound to a paper or terminal width, and wrapping lines to
+  // satisfy a column limit only hurts readability.
+  "MD013": false,
+
+  // Table column style. Aligning the delimiter row is not maintainable in
+  // tables containing full-width Japanese text, and it carries no meaning.
+  "MD060": false,
+
+  // Fenced code language. Pasted terminal output and ASCII diagrams have no
+  // meaningful language to declare.
+  "MD040": false,
+
+  // Bare URLs. Writing full URLs verbatim is a deliberate convention here:
+  // a shorthand like #123 resolves against whichever repository is being
+  // viewed, so cross-repository references must be full URLs.
+  "MD034": false,
+
+  // Inline HTML. HTML comments are used as machine-readable metadata, and
+  // pseudo-tags appear inside quoted agent transcripts.
+  "MD033": false,
+
+  // First-line heading. Instruction documents commonly open with a lead
+  // paragraph or a metadata comment rather than an h1.
+  "MD041": false
+}

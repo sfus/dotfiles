@@ -74,6 +74,10 @@ ln -sf $DIR/tool/global/.globalrc ~/.globalrc
 install -d ~/.gradle
 ln -sf $DIR/tool/gradle/gradle.properties ~/.gradle/gradle.properties
 
+# markdownlint
+install -d ~/.config/markdownlint
+ln -sf $DIR/tool/markdownlint/markdownlint.jsonc ~/.config/markdownlint/config
+
 # vim
 ln -sf $DIR/vim/.vimrc ~/.vimrc
 
