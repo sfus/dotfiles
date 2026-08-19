@@ -403,15 +403,15 @@ alias e='emacsclient -nw -a ""'
 alias em='emacsclient -nw -a ""'
 alias ekill='emacsclient -e "(kill-emacs)"'
 
-## Use visual editor onclick `v' on less (or others)
-#if command -v emacsclient >/dev/null 2>&1; then
-#  export VISUAL='emacsclient -nw -a ""'
-#elif command -v nvim >/dev/null 2>&1; then
-if command -v nvim >/dev/null 2>&1; then
+# Use visual editor onclick `v' on less (or others)
+if command -v emacsclient >/dev/null 2>&1; then
+  export VISUAL='emacsclient -nw -a ""'
+elif command -v nvim >/dev/null 2>&1; then
   export VISUAL="nvim"
 else
   export VISUAL="vim"
 fi
+export EDITOR=$VISUAL
 
 alias v="nvim"
 
@@ -789,3 +789,7 @@ fi
 
 # # kubectl completion (after compinit)
 # [ $commands[kubectl] ] && source <(kubectl completion zsh)
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="$HOME/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
