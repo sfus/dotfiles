@@ -7,9 +7,6 @@
 #   * `diff <(herdr --default-config) config.toml` is the full list of what we
 #     changed. On a herdr upgrade, diff the new default output against this
 #     file to pick up newly added options.
-# Keybindings were ported from the previous tmux setup
-# (terminal/tmux/.tmux.conf) as far as herdr's named actions allow. This is a
-# selective mapping, not a 1:1 port.
 #
 # Options left commented out are intentionally delegated to herdr's default.
 
@@ -23,7 +20,6 @@ onboarding = false
 #                  gruvbox, one-dark, solarized, kanagawa, rose-pine,
 #                  vesper
 # name = "catppuccin"
-# TokyoNight, matching the previous tmux window-active-style colors.
 name = "tokyo-night"
 
 # Follow host terminal light/dark appearance and switch Herdr UI themes.
@@ -44,14 +40,11 @@ name = "tokyo-night"
 # Executable used for new interactive panes.
 # Empty means $SHELL, then /bin/sh.
 # default_shell = ""
-# Match tmux's default-shell/-command.
 default_shell = "/bin/zsh"
 
 # Startup mode for new interactive pane shells: "auto", "login", or "non_login".
 # "auto" uses login shells on macOS and keeps the current behavior elsewhere.
 # shell_mode = "auto"
-# Left at "auto": on macOS that already means a login shell, which is what the
-# old tmux setup got via reattach-to-user-namespace -l.
 
 # CWD policy for new panes, tabs, and workspaces when no explicit --cwd is provided.
 # Use "follow" to inherit the source pane/workspace, "home" for $HOME,
@@ -80,7 +73,6 @@ default_shell = "/bin/zsh"
 # Most reliable direct bindings are ctrl+letter, function keys, and explicit modified chords.
 # alt+..., cmd/super, and punctuation-with-modifiers may depend on your terminal/tmux setup.
 # prefix = "ctrl+b"
-# Matches tmux's C-q so the existing muscle memory carries over.
 prefix = "ctrl+q"
 
 # Prefix-mode actions
@@ -91,7 +83,6 @@ detach = "prefix+d"
 # reload_config = "prefix+shift+r"
 # open_notification_target = "prefix+o"
 # workspace_picker = "prefix+w"
-# Pinned to match tmux's `prefix w` (choose-tree).
 workspace_picker = "prefix+w"
 # goto = "prefix+g"
 # new_workspace = "prefix+shift+n"
@@ -101,10 +92,8 @@ new_workspace = "prefix+ctrl+w"
 # remove_worktree = ""  # optional, unset by default; opens confirmation
 # rename_workspace = "prefix+shift+w"
 # close_workspace = "prefix+shift+d"
-close_workspace = "prefix+ctrl+k"
 # previous_workspace = "" # optional, unset by default
 # next_workspace = ""     # optional, unset by default
-# Prefixless direct shortcuts.
 previous_workspace = "ctrl+alt+k"
 next_workspace = "ctrl+alt+j"
 # previous_agent = ""     # optional, unset by default
@@ -114,14 +103,12 @@ next_agent = "alt+shift+j"
 # focus_agent = ""        # optional indexed binding, e.g. "prefix+alt+1..9"
 # remote_image_paste = "ctrl+v" # only active in herdr --remote; empty disables raw-key image paste
 # new_tab = "prefix+c"
-# Prefixless direct shortcut, matching tmux's C-t.
 new_tab = "ctrl+t"
 # rename_tab = "prefix+shift+t"
 rename_tab = "prefix+comma"
 # previous_tab = "prefix+p"
 # next_tab = "prefix+n"
 # switch_tab = "prefix+1..9"
-# Pinned to match tmux's `prefix p` / `prefix n` / `prefix 1-9`.
 previous_tab = "prefix+p"
 next_tab = "prefix+n"
 switch_tab = "prefix+1..9"
@@ -134,38 +121,25 @@ close_tab = "prefix+k"
 # focus_pane_down = "prefix+j"
 # focus_pane_up = "prefix+k"
 # focus_pane_right = "prefix+l"
-# Emacs-style, mirroring tmux's prefix C-b/n/p/f.
-focus_pane_left = "prefix+ctrl+b"
-focus_pane_down = "prefix+ctrl+n"
-focus_pane_up = "prefix+ctrl+p"
-focus_pane_right = "prefix+ctrl+f"
+focus_pane_left = ""
+focus_pane_down = ""
+focus_pane_up = ""
+focus_pane_right = ""
 # cycle_pane_next = "prefix+tab"
 # cycle_pane_previous = "prefix+shift+tab"
-# Prefixless direct shortcuts.
 cycle_pane_next = "alt+o"
 cycle_pane_previous = "alt+shift+o"
 # last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
 # split_vertical = "prefix+v"
-# tmux used `|` for the vertical split; herdr cannot bind `|`, so this stays on
-# herdr's default `v`.
 # split_horizontal = "prefix+minus"
-# tmux used `-` for the horizontal split.
 split_horizontal = "prefix+minus"
 # close_pane = "prefix+x"
-# Pinned to match tmux's `prefix x`.
 close_pane = "prefix+x"
 # zoom = "prefix+z"       # legacy alias: fullscreen
-# Pinned to match tmux's `prefix z`.
-zoom = "prefix+z"
+zoom = "prefix+ctrl+z"
 # resize_mode = "prefix+r"
-# reload_config stays on herdr's default prefix+shift+r, so tmux's `prefix r`
-# slot goes to the more frequently used resize gesture.
 resize_mode = "prefix+r"
 # toggle_sidebar = "prefix+b"
-
-# Note: tmux's copy-mode (M-V / prefix [) is intentionally omitted. herdr has
-# no `copy_mode` action in its config schema, so binding it would be invalid.
-# Scrollback editing is available via the default edit_scrollback = "prefix+e".
 
 # Navigate-mode movement. These local shortcuts win while navigate mode is open.
 # They are independent from focus_pane_*. Do not include prefix+, esc, enter, tab, or 1..9 here.
@@ -224,6 +198,26 @@ key = "prefix+ctrl+e"
 type = "plugin_action"
 command = "termscope.open-links"
 description = "visible-screen link picker"
+
+[[keys.command]]
+key = "prefix+ctrl+h"
+type = "shell"
+command = "herdr pane swap --direction left"
+
+[[keys.command]]
+key = "prefix+ctrl+j"
+type = "shell"
+command = "herdr pane swap --direction down"
+
+[[keys.command]]
+key = "prefix+ctrl+k"
+type = "shell"
+command = "herdr pane swap --direction up"
+
+[[keys.command]]
+key = "prefix+ctrl+l"
+type = "shell"
+command = "herdr pane swap --direction right"
 
 # Legacy indexed shortcut config is still parsed for compatibility.
 # Prefer switch_tab, switch_workspace, and focus_agent for new configs.
@@ -284,7 +278,6 @@ description = "visible-screen link picker"
 # Ask for a tab name before creating a new tab.
 # Set false to create tabs immediately with generated names.
 # prompt_new_tab_name = true
-# Create new tabs immediately with a generated name instead of prompting.
 prompt_new_tab_name = false
 
 # Draw borders around split panes.
@@ -295,8 +288,6 @@ prompt_new_tab_name = false
 
 # Show detected/reported agent labels in split pane borders when no manual pane name is set.
 # show_agent_labels_on_pane_borders = false
-# Show detected/reported agent labels (e.g. "claude", "codex", "planner") on
-# split pane borders when no manual pane name is set.
 show_agent_labels_on_pane_borders = true
 
 # Hide the tab row when a workspace has exactly one tab.
@@ -306,6 +297,7 @@ show_agent_labels_on_pane_borders = true
 # Agent panel ordering: "spaces" (grouped by space) or "priority" (attention queue).
 # "workspaces" is accepted as an alias for "spaces".
 # agent_panel_sort = "spaces"
+agent_panel_sort = "priority"
 
 # Expanded agent rows. Built-ins are state_icon, state_text, workspace, tab, pane, agent,
 # terminal_title, and terminal_title_stripped.
@@ -328,7 +320,6 @@ show_agent_labels_on_pane_borders = true
 # Accent color for highlights, borders, and navigation UI.
 # Accepts: hex (#89b4fa), named colors (cyan, blue, magenta), or rgb(r,g,b)
 # accent = "cyan"
-# Stands in for the old tmux status colour31, paired with the tokyo-night theme.
 accent = "cyan"
 
 # Custom sidebar rows fed by `herdr workspace report-metadata`. On top of the
@@ -348,7 +339,7 @@ rows = [["state_icon", "workspace"], ["branch", "git_status"], ["$cu_5h"], ["$cu
 # terminal = ask the outer terminal to show a desktop notification
 # system = ask the OS notification service directly
 # delivery = "off"
-delivery = "herdr"
+delivery = "terminal"
 # delay_seconds = 1
 
 [ui.toast.herdr]
@@ -426,5 +417,4 @@ cjk_ime_agents = ["claude", "codex", "pi", "gemini"]
 # Maximum scrollback buffer size in bytes retained per pane terminal.
 # Matches Ghostty's default scrollback-limit behavior.
 # scrollback_limit_bytes = 10000000
-# 10 MiB per pane. tmux used history-limit 10000 (lines); this is well beyond.
 scrollback_limit_bytes = 10485760
