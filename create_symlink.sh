@@ -119,3 +119,7 @@ ln -sf $DIR/script/herdr-unread ~/.local/bin/herdr-unread
 # herdr-paste: TERMSCOPE_OPENER target — paste the picked path into the pane
 # termscope was opened from, and send URLs to the browser instead.
 ln -sf $DIR/script/herdr-paste ~/.local/bin/herdr-paste
+
+# zplug-cache-rebuild: force a clean single-writer regeneration of the zplug
+# cache, then report whether any entry ended up duplicated.
+ln -sf $DIR/script/zplug-cache-rebuild ~/.local/bin/zplug-cache-rebuild

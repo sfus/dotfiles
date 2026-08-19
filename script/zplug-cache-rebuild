@@ -1,0 +1,42 @@
+#!/usr/bin/env zsh
+# Rebuild the zplug cache from scratch and report the result.
+#
+# The cache holds every plugin entry once per shell that regenerated it
+# concurrently, and it is never deduplicated on its own -- a duplicated cache
+# just makes every subsequent shell startup slower. Run this to force a clean
+# single-writer regeneration.
+
+set -u
+
+cache_dir="${ZPLUG_CACHE_DIR:-${ZPLUG_HOME:-$HOME/.zplug}/cache}"
+
+if [[ ! -d $cache_dir ]]; then
+  print -u2 "zplug-cache-rebuild: no such cache dir: $cache_dir"
+  exit 1
+fi
+
+print "removing cache files in $cache_dir"
+rm -f $cache_dir/*.zsh(N) $cache_dir/interface(N) $cache_dir/.integrity(N)
+
+print "regenerating (starting one interactive zsh)"
+time zsh -i -c true
+
+print "\nresult:"
+wc -l $cache_dir/*.zsh(N)
+
+typeset -i dup=0
+for f in $cache_dir/*.zsh(N); do
+  total=$(wc -l < $f)
+  uniq_count=$(sort -u $f | wc -l)
+  if (( total != uniq_count )); then
+    print -u2 "WARNING: $f is duplicated ($total lines, $uniq_count unique)"
+    dup=1
+  fi
+done
+
+if (( dup )); then
+  print -u2 "\nthe cache is still duplicated -- something regenerated it concurrently"
+  exit 1
+fi
+
+print "\ncache is clean"

@@ -100,16 +100,30 @@ zplug "Aloxaf/fzf-tab"
 
 # source plugins and add commands to $PATH
 #
-# Serialize `zplug load` across shells that start at the same instant
-# (e.g. herdr/tmux session restore spawning many panes at once). zplug's
-# cache is a single shared directory; when several shells hit a stale cache
-# simultaneously, one shell's `rm -f`/regenerate in the cache dir collides
-# with another's `source`, producing errors such as:
+# zplug's cache is a single shared directory, and `zplug load` writes to it
+# only when the cache is stale: __zplug::core::cache::diff truncates every
+# cache file, and the plugins are then appended back in parallel. Two shells
+# doing that at the same instant each append their own copy, so the cache ends
+# up holding every entry N times -- and a duplicated cache is never repaired on
+# its own, it only makes the next `zplug load` slower. That is how 183 unique
+# lines had grown to 14,274 here, turning a 0.36s startup into 4.3s. It is also
+# the origin of the errors this block originally guarded against, e.g.
 #   __zplug::core::load::from_cache:source: no such file or directory: .../lazy_plugin.zsh
-# Holding an exclusive lock while loading lets the first shell rebuild the
-# cache to completion; the rest then load the now-consistent cache read-only.
-# Uses zsh's own `zsystem flock` (the same mechanism zplug uses internally),
-# so there is no dependency on a flock(1) binary (absent from stock macOS).
+# which is one shell's truncate/regenerate racing another shell's `source`.
+#
+# So hold the lock only around a regeneration, and load without any lock while
+# the cache is up to date -- the common case, and read-only. Serializing every
+# load instead (as this block used to) costs the worst of 8 simultaneous shells
+# 7.6s even with a healthy cache; skipping the lock brings that to 0.75s.
+#
+# "Up to date" is two checks, both free of subprocesses:
+#   - the stored interface still matches the current `zplug` declarations
+#     (the same comparison zplug itself makes before deciding to regenerate),
+#   - every cache file still has the byte size recorded when it was generated,
+#     which is what catches duplication and half-written files.
+# The size stamp is written only while holding the lock, so a shell that gave
+# up waiting never blesses a cache it may have just corrupted; the next startup
+# sees the mismatch and regenerates under the lock instead.
 () {
   # NOTE: do NOT `emulate -L zsh` here. It implies LOCAL_OPTIONS, which reverts
   # every shell option a plugin sets during `zplug load` (e.g. pure's
@@ -118,17 +132,67 @@ zplug "Aloxaf/fzf-tab"
   # anonymous function itself, so no emulate is needed.
   local cache_dir="${ZPLUG_CACHE_DIR:-${ZPLUG_HOME:-$HOME/.zplug}/cache}"
   local lockfile="$cache_dir/.load.lock"
+  local stampfile="$cache_dir/.integrity"
   local lockfd
   [[ -d $cache_dir ]] || mkdir -p "$cache_dir"
-  if zmodload zsh/system 2>/dev/null \
-     && : >>| "$lockfile" 2>/dev/null \
-     && zsystem flock -f lockfd -t 10 "$lockfile" 2>/dev/null; then
+
+  # The interface file is deliberately left out of the stamp: zplug rewrites it
+  # on every startup (even on a cache hit), so stamping it would never match.
+  __zzplug_stampable() {
+    local key
+    for key in ${(k)_zplug_cache}; do
+      [[ $key == interface ]] || print -r -- "$key"
+    done
+  }
+
+  __zzplug_cache_is_fresh() {
+    local key line name size
+    local -a seen
+    (( $+functions[__zplug::core::interface::expose] )) || return 1
+    zmodload zsh/stat 2>/dev/null || return 1
+    [[ -s $_zplug_cache[interface] && -s $stampfile ]] || return 1
+    [[ "$(<$_zplug_cache[interface])" == "$(__zplug::core::interface::expose)" ]] || return 1
+    for line in ${(f)"$(<$stampfile)"}; do
+      name="${line%% *}"
+      size="${line##* }"
+      [[ -n ${_zplug_cache[$name]:-} ]] || return 1
+      [[ "$(zstat -L +size ${_zplug_cache[$name]} 2>/dev/null)" == "$size" ]] || return 1
+      seen+=( "$name" )
+    done
+    # Every stampable cache file must be covered by the stamp.
+    for key in $(__zzplug_stampable); do
+      (( $seen[(I)$key] )) || return 1
+    done
+    return 0
+  }
+
+  __zzplug_cache_write_stamp() {
+    local key
+    zmodload zsh/stat 2>/dev/null || return 1
+    : >|"$stampfile" 2>/dev/null || return 1
+    for key in $(__zzplug_stampable); do
+      print -r -- "$key $(zstat -L +size ${_zplug_cache[$key]} 2>/dev/null)" >>|"$stampfile"
+    done
+  }
+
+  if __zzplug_cache_is_fresh; then
+    # Read-only path: no lock, nothing to serialize.
     zplug load
+  elif zmodload zsh/system 2>/dev/null \
+     && : >>|"$lockfile" 2>/dev/null \
+     && zsystem flock -f lockfd -t 10 "$lockfile" 2>/dev/null; then
+    # May regenerate the cache; we hold the lock while it does.
+    zplug load
+    __zzplug_cache_write_stamp
     zsystem flock -u "$lockfd" 2>/dev/null
   else
-    # Could not obtain a lock (module missing / timeout) — load anyway.
+    # Could not obtain a lock (module missing / timed out) — load anyway, but do
+    # NOT stamp: if this run duplicated the cache, the next startup has to catch
+    # it and regenerate under the lock.
     zplug load
   fi
+
+  unfunction __zzplug_stampable __zzplug_cache_is_fresh __zzplug_cache_write_stamp
 }
 #zplug load --verbose
 
