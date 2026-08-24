@@ -1,21 +1,143 @@
+#!/usr/bin/osascript
 -- http://www.genuinecuriosity.com/genuinecuriosity/2016/6/5/clear-away-multiple-os-x-alerts-with-a-keystroke
 -- http://swat.hatenadiary.com/entry/2017/11/01/005546
-my closeNotif()
-on closeNotif()
+--
+-- The NotificationCenter process also hosts desktop widgets, whose windows have
+-- no close button. Clicking `button 1` of every window and recursing whenever
+-- that failed meant a single widget window drove this into unbounded recursion
+-- and a -2706 stack overflow. Target the notification alerts themselves and
+-- invoke the accessibility action they already expose, within a bounded loop.
 
+-- Localized labels of the action that dismisses notifications. Matched as a
+-- substring: NotificationCenter reports its custom actions as
+-- "Name:<label>\nTarget:0x0\nSelector:(null)", not as a bare label.
+property dismissActionNames : {"すべて消去", "Clear All", "消去", "Clear", "閉じる", "Close"}
+property closeButtonNames : {"閉じる", "Close", "消去", "Clear"}
+property maxPasses : 10
+
+on run
     tell application "System Events"
-        tell process "NotificationCenter"
-            set theWindows to every window
-            repeat with i from 1 to number of items in theWindows
-                set this_item to item i of theWindows
-                try
-                    click button 1 of this_item
-                on error
-
-                    my closeNotif()
-                end try
-            end repeat
-        end tell
+        if not (exists process "NotificationCenter") then return
     end tell
+    repeat maxPasses times
+        if my dismissVisibleAlerts() is 0 then exit repeat
+        delay 0.3
+    end repeat
+end run
 
-end closeNotif
+-- Dismiss every alert currently on screen; return how many were dismissed.
+on dismissVisibleAlerts()
+    tell application "System Events"
+        set theWindows to every window of process "NotificationCenter"
+    end tell
+    set theAlerts to {}
+    repeat with w in theWindows
+        set theAlerts to my collectAlerts(w, 0, theAlerts)
+    end repeat
+    set dismissed to 0
+    repeat with a in theAlerts
+        if my dismissAlert(a) then set dismissed to dismissed + 1
+    end repeat
+    return dismissed
+end dismissVisibleAlerts
+
+-- Collect notification alert elements, leaving widgets and other windows alone.
+on collectAlerts(el, depth, acc)
+    if depth > 12 then return acc
+    tell application "System Events"
+        set theSubrole to ""
+        try
+            set theSubrole to (subrole of el) as text
+        end try
+        if theSubrole starts with "AXNotificationCenter" then
+            set end of acc to el
+            return acc
+        end if
+        set theChildren to {}
+        try
+            set theChildren to UI elements of el
+        end try
+    end tell
+    repeat with child in theChildren
+        set acc to my collectAlerts(child, depth + 1, acc)
+    end repeat
+    return acc
+end collectAlerts
+
+-- Dismiss one alert, preferring its own action over a close button.
+on dismissAlert(el)
+    if my performDismissAction(el) then return true
+    return my clickCloseButton(el, 0)
+end dismissAlert
+
+-- Invoke the first dismissing accessibility action the element offers.
+on performDismissAction(el)
+    tell application "System Events"
+        set theActions to {}
+        try
+            set theActions to actions of el
+        end try
+    end tell
+    repeat with theAction in theActions
+        set actionName to ""
+        try
+            tell application "System Events"
+                set actionName to (name of theAction) as text
+            end tell
+        end try
+        repeat with candidate in dismissActionNames
+            if actionName contains (candidate as text) then
+                try
+                    tell application "System Events"
+                        perform theAction
+                    end tell
+                    return true
+                on error
+                    return false
+                end try
+            end if
+        end repeat
+    end repeat
+    return false
+end performDismissAction
+
+-- Fall back to a close button, which banners expose but the alert stack does not.
+on clickCloseButton(el, depth)
+    if depth > 12 then return false
+    tell application "System Events"
+        set theButtons to {}
+        try
+            set theButtons to every button of el
+        end try
+    end tell
+    repeat with b in theButtons
+        set label to ""
+        try
+            tell application "System Events"
+                set label to ((name of b) as text) & " " & ((description of b) as text)
+            end tell
+        end try
+        repeat with candidate in closeButtonNames
+            if label contains (candidate as text) then
+                try
+                    tell application "System Events"
+                        click b
+                    end tell
+                    return true
+                on error
+                    return false
+                end try
+            end if
+        end repeat
+    end repeat
+    tell application "System Events"
+        set theChildren to {}
+        try
+            set theChildren to UI elements of el
+        end try
+    end tell
+    repeat with child in theChildren
+        if my clickCloseButton(child, depth + 1) then return true
+    end repeat
+    return false
+end clickCloseButton
