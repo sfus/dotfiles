@@ -7,6 +7,10 @@
 -- that failed meant a single widget window drove this into unbounded recursion
 -- and a -2706 stack overflow. Target the notification alerts themselves and
 -- invoke the accessibility action they already expose, within a bounded loop.
+--
+-- After clearing, bring the terminal back: an alert that wants something names
+-- its originating herdr workspace as a bracketed label, so read the labels
+-- before dismissing and focus whichever workspace one of them names.
 
 -- Localized labels of the action that dismisses notifications. Matched as a
 -- substring: NotificationCenter reports its custom actions as
@@ -15,33 +19,70 @@ property dismissActionNames : {"すべて消去", "Clear All", "消去", "Clear"
 property closeButtonNames : {"閉じる", "Close", "消去", "Clear"}
 property maxPasses : 10
 
+-- A launched script is handed almost no environment, so name the PATH outright
+-- rather than relying on the shell's own.
+property shellPath : "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+property terminalBundleId : "com.mitchellh.ghostty"
+
+-- Prints the name of every running herdr server, one per line.
+property listServersProgram : "import json,sys; print(chr(10).join(s[\"name\"] for s in json.load(sys.stdin).get(\"sessions\",[]) if s.get(\"running\")))"
+
+-- Reads one server's workspace list and prints the id of the first alert label
+-- that names a workspace there, or nothing when none of them do.
+property pickWorkspaceProgram : "import json,os,sys; d=json.load(sys.stdin); by={w.get(\"label\"): w.get(\"workspace_id\") for w in d.get(\"result\",{}).get(\"workspaces\",[])}; print(next((by[l] for l in os.environ.get(\"WS_LABELS\",\"\").split(chr(10)) if l in by), \"\"))"
+
 on run
     tell application "System Events"
         if not (exists process "NotificationCenter") then return
     end tell
+    set theAlerts to my visibleAlerts()
+    set theLabels to my labelsFrom(theAlerts)
     repeat maxPasses times
-        if my dismissVisibleAlerts() is 0 then exit repeat
-        delay 0.3
+        if (count of theAlerts) is 0 then exit repeat
+        set dismissed to 0
+        repeat with a in theAlerts
+            if my dismissAlert(a) then set dismissed to dismissed + 1
+        end repeat
+        if dismissed is 0 then exit repeat
+        delay 0.2
+        set theAlerts to my visibleAlerts()
     end repeat
+    my focusHerdrWorkspace(theLabels)
+    my activateTerminal()
 end run
 
--- Dismiss every alert currently on screen; return how many were dismissed.
-on dismissVisibleAlerts()
+-- Every bracketed token in the given alerts. The date stamp is bracketed too,
+-- so return all of them and let the workspace lookup decide which one names a
+-- workspace.
+on labelsFrom(theAlerts)
+    set theTexts to {}
+    repeat with a in theAlerts
+        set theTexts to my collectStaticTexts(a, 0, theTexts)
+    end repeat
+    set theLabels to {}
+    repeat with t in theTexts
+        repeat with token in my bracketedTokens(t as text)
+            set end of theLabels to (token as text)
+        end repeat
+    end repeat
+    return theLabels
+end labelsFrom
+
+-- The notification alert elements, with widgets and other windows left alone.
+on visibleAlerts()
+    -- NotificationCenter also owns a window per desktop widget, and walking
+    -- those is most of the cost of a run. Every alert lives in the single
+    -- AXSystemDialog window, so descend into that one alone.
     tell application "System Events"
-        set theWindows to every window of process "NotificationCenter"
+        set theWindows to (every window of process "NotificationCenter" whose subrole is "AXSystemDialog")
     end tell
     set theAlerts to {}
     repeat with w in theWindows
         set theAlerts to my collectAlerts(w, 0, theAlerts)
     end repeat
-    set dismissed to 0
-    repeat with a in theAlerts
-        if my dismissAlert(a) then set dismissed to dismissed + 1
-    end repeat
-    return dismissed
-end dismissVisibleAlerts
+    return theAlerts
+end visibleAlerts
 
--- Collect notification alert elements, leaving widgets and other windows alone.
 on collectAlerts(el, depth, acc)
     if depth > 12 then return acc
     tell application "System Events"
@@ -63,6 +104,29 @@ on collectAlerts(el, depth, acc)
     end repeat
     return acc
 end collectAlerts
+
+on collectStaticTexts(el, depth, acc)
+    if depth > 12 then return acc
+    tell application "System Events"
+        set theRole to ""
+        try
+            set theRole to (role of el) as text
+        end try
+        if theRole is "AXStaticText" then
+            try
+                set end of acc to (name of el) as text
+            end try
+        end if
+        set theChildren to {}
+        try
+            set theChildren to UI elements of el
+        end try
+    end tell
+    repeat with child in theChildren
+        set acc to my collectStaticTexts(child, depth + 1, acc)
+    end repeat
+    return acc
+end collectStaticTexts
 
 -- Dismiss one alert, preferring its own action over a close button.
 on dismissAlert(el)
@@ -111,14 +175,14 @@ on clickCloseButton(el, depth)
         end try
     end tell
     repeat with b in theButtons
-        set label to ""
+        set theLabel to ""
         try
             tell application "System Events"
-                set label to ((name of b) as text) & " " & ((description of b) as text)
+                set theLabel to ((name of b) as text) & " " & ((description of b) as text)
             end tell
         end try
         repeat with candidate in closeButtonNames
-            if label contains (candidate as text) then
+            if theLabel contains (candidate as text) then
                 try
                     tell application "System Events"
                         click b
@@ -141,3 +205,57 @@ on clickCloseButton(el, depth)
     end repeat
     return false
 end clickCloseButton
+
+-- Focus the herdr workspace one of the labels names, on whichever running
+-- server holds it. Several servers can run at once, so ask each in turn and
+-- stop at the first hit. No hit, or no herdr at all, leaves the focus alone.
+on focusHerdrWorkspace(theLabels)
+    if (count of theLabels) is 0 then return
+    set theCommand to "export PATH=" & quoted form of shellPath & "; " & ¬
+        "export WS_LABELS=" & quoted form of my joinText(theLabels, linefeed) & "; " & ¬
+        "command -v herdr >/dev/null 2>&1 || exit 0; " & ¬
+        "names=$(herdr session list --json 2>/dev/null | python3 -c " & quoted form of listServersProgram & " 2>/dev/null); " & ¬
+        "printf '%s\\n' \"$names\" | while IFS= read -r s; do " & ¬
+        "  [ -n \"$s\" ] || continue; " & ¬
+        "  id=$(herdr --session \"$s\" workspace list 2>/dev/null | python3 -c " & quoted form of pickWorkspaceProgram & " 2>/dev/null); " & ¬
+        "  if [ -n \"$id\" ]; then herdr --session \"$s\" workspace focus \"$id\" >/dev/null 2>&1; break; fi; " & ¬
+        "done; exit 0"
+    try
+        do shell script theCommand
+    end try
+end focusHerdrWorkspace
+
+on activateTerminal()
+    try
+        tell application id terminalBundleId to activate
+    end try
+end activateTerminal
+
+-- Every "[...]" token in a string, in the order they appear.
+on bracketedTokens(theText)
+    set tokens to {}
+    set savedDelimiters to AppleScript's text item delimiters
+    try
+        set AppleScript's text item delimiters to "["
+        set chunks to text items of theText
+        repeat with i from 2 to (count of chunks)
+            set AppleScript's text item delimiters to "]"
+            set parts to text items of (item i of chunks)
+            if (count of parts) > 1 then
+                set token to item 1 of parts
+                if token is not "" then set end of tokens to token
+            end if
+            set AppleScript's text item delimiters to "["
+        end repeat
+    end try
+    set AppleScript's text item delimiters to savedDelimiters
+    return tokens
+end bracketedTokens
+
+on joinText(theList, theDelimiter)
+    set savedDelimiters to AppleScript's text item delimiters
+    set AppleScript's text item delimiters to theDelimiter
+    set joined to theList as text
+    set AppleScript's text item delimiters to savedDelimiters
+    return joined
+end joinText
