@@ -36,7 +36,10 @@ on run
         if not (exists process "NotificationCenter") then return
     end tell
     set theAlerts to my visibleAlerts()
-    set theLabels to my labelsFrom(theAlerts)
+    -- Move first, clear second: the point of a run is to get back to whatever
+    -- asked for attention, and the clearing is what the wait would be spent on.
+    my focusHerdrWorkspace(my labelsFrom(theAlerts))
+    my activateTerminal()
     repeat maxPasses times
         if (count of theAlerts) is 0 then exit repeat
         set dismissed to 0
@@ -47,8 +50,6 @@ on run
         delay 0.2
         set theAlerts to my visibleAlerts()
     end repeat
-    my focusHerdrWorkspace(theLabels)
-    my activateTerminal()
 end run
 
 -- Every bracketed token in the given alerts. The date stamp is bracketed too,
