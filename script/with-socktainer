@@ -1,0 +1,37 @@
+#!/bin/sh
+# Run a command against socktainer instead of Rancher Desktop.
+#
+#   with-socktainer make check-gitleaks
+#   with-socktainer docker compose up
+#
+# DOCKER_HOST is set only for the command being run, so a plain `docker` in any
+# other shell keeps reaching Rancher Desktop.
+set -eu
+
+SOCK="/opt/homebrew/var/run/socktainer/.socktainer/container.sock"
+
+# `brew services stop socktainer` leaves the socket file behind, so its presence
+# says nothing about whether the daemon is there to answer. Ask the API instead.
+socktainer_alive() {
+  [ -S "$SOCK" ] &&
+    curl -s -o /dev/null --connect-timeout 1 --max-time 2 \
+      --unix-socket "$SOCK" http://localhost/_ping
+}
+
+if ! socktainer_alive; then
+  echo "with-socktainer: starting the socktainer service" >&2
+  brew services start socktainer >&2
+  i=0
+  while ! socktainer_alive; do
+    i=$((i + 1))
+    if [ "$i" -gt 50 ]; then
+      echo "with-socktainer: socktainer did not answer at $SOCK" >&2
+      exit 1
+    fi
+    sleep 0.2
+  done
+fi
+
+# DOCKER_BUILDKIT=0: the default buildx driver fails against socktainer. Drop it
+# once buildx works there.
+exec env DOCKER_HOST="unix://$SOCK" DOCKER_BUILDKIT=0 "$@"

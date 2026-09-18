@@ -123,3 +123,7 @@ ln -sf $DIR/script/herdr-paste ~/.local/bin/herdr-paste
 # zplug-cache-rebuild: force a clean single-writer regeneration of the zplug
 # cache, then report whether any entry ended up duplicated.
 ln -sf $DIR/script/zplug-cache-rebuild ~/.local/bin/zplug-cache-rebuild
+
+# with-socktainer: run a command with DOCKER_HOST pointed at socktainer, so
+# compose-driven Makefile targets work without Rancher Desktop.
+ln -sf $DIR/script/with-socktainer ~/.local/bin/with-socktainer
