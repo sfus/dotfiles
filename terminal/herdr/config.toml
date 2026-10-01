@@ -232,12 +232,14 @@ command = "herdr pane swap --direction right"
 [ui]
 # Sidebar width (auto-scaled based on workspace names, this sets the default)
 # sidebar_width = 26
+sidebar_width = 32
 
 # Minimum sidebar width when expanded (columns)
 # sidebar_min_width = 18
 
 # Maximum sidebar width when expanded (columns)
 # sidebar_max_width = 36
+sidebar_max_width = 50
 
 # Collapsed sidebar presentation: "compact" keeps the narrow status rail, "hidden" uses zero width.
 # sidebar_collapsed_mode = "compact"
