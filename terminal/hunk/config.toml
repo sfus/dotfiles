@@ -1,4 +1,4 @@
-watch = true
+watch = false
 theme = "github-dark-default"
 mode = "stack"
 line_numbers = true
