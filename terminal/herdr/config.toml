@@ -421,3 +421,14 @@ cjk_ime_agents = ["claude", "codex", "pi", "gemini"]
 # Matches Ghostty's default scrollback-limit behavior.
 # scrollback_limit_bytes = 10000000
 scrollback_limit_bytes = 10485760
+
+# tig — browse the history of the focused pane's worktree in a popup, so the
+# tab layout keeps the dialogue pane full width. It loads ~/.tigrc-popup so
+# that Ctrl-g closes the popup.
+[[keys.command]]
+key = "prefix+tab"
+type = "popup"
+command = '''cd "$(herdr pane current --current | jq -r '.result.pane.foreground_cwd // .result.pane.cwd')" 2>/dev/null; exec env TIGRC_USER="$HOME/.tigrc-popup" tig'''
+width = "90%"
+height = "90%"
+description = "tig for the focused pane's worktree"

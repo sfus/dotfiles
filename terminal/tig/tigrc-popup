@@ -1,0 +1,7 @@
+# Config for tig opened from the herdr popup (prefix+tab).
+# Loads the regular ~/.tigrc first, then overrides only what differs here.
+source ~/.tigrc
+
+# Close the view with Ctrl-g, like q. In a regular tig session Ctrl-g stays
+# bound to refresh (see .tigrc); periodic refresh covers it here.
+bind generic <Ctrl-g> view-close

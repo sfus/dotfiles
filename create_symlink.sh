@@ -34,6 +34,7 @@ ln -sf $DIR/terminal/peco/config.json ~/.peco/config.json
 
 # tig
 ln -sf $DIR/terminal/tig/.tigrc ~/.tigrc
+ln -sf $DIR/terminal/tig/tigrc-popup ~/.tigrc-popup
 
 # tmux
 install -d ~/.config/tmux-powerline/themes
