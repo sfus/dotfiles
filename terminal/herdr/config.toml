@@ -188,18 +188,6 @@ type = "pane"                        # opens a temporary pane to show the echo o
 command = "herdr-unread"
 
 [[keys.command]]
-key = "prefix+ctrl+r"
-type = "plugin_action"
-command = "termscope.open"
-description = "visible-screen file picker"
-
-[[keys.command]]
-key = "prefix+ctrl+e"
-type = "plugin_action"
-command = "termscope.open-links"
-description = "visible-screen link picker"
-
-[[keys.command]]
 key = "prefix+ctrl+h"
 type = "shell"
 command = "herdr pane swap --direction left"
