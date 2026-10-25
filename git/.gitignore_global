@@ -16,3 +16,4 @@ kls_database.db
 .claude/settings.local.json
 remote-setting.json
 CLAUDE.local.md
+.tmp-*.md
