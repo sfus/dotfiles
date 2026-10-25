@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Inspired by script/claude_usage.py and script/codex_usage.py
+# Inspired by claude-usage (dot-claude: scripts/claude-usage)
 #
 """cursor_usage.py — Show local Cursor Agent metrics from state
 
@@ -34,7 +34,7 @@ Commands:
 
 Short line output (single line):
   cursor:#[fg=…]█░░░…#[default] NN% used/limit [~MM-DD hh:mm] (JST)
-  Color thresholds match claude_usage (green / yellow / red)
+  Color thresholds match claude-usage (green / yellow / red)
 """
 
 from __future__ import annotations
@@ -424,13 +424,13 @@ def _fmt_reset_short(dt: datetime | None) -> str:
 
 
 def pct_bar(v: float, width: int = 10) -> str:
-    """Block progress bar (0..1), same as claude_usage."""
+    """Block progress bar (0..1), same as claude-usage."""
     filled = round(max(0.0, min(1.0, v)) * width)
     return "█" * filled + "░" * (width - filled)
 
 
 def tmux_color(v: float) -> str:
-    """tmux #[fg=…] by utilization ratio (same thresholds as claude_usage / statusline).
+    """tmux #[fg=…] by utilization ratio (same thresholds as claude-usage / statusline).
 
     green  < 70 %
     yellow  70–89 %
@@ -444,7 +444,7 @@ def tmux_color(v: float) -> str:
 
 
 def fmt_pct(v: float) -> str:
-    """Format ratio 0..1 as percent string (same as claude_usage)."""
+    """Format ratio 0..1 as percent string (same as claude-usage)."""
     return f"{v * 100:.0f}%"
 
 
