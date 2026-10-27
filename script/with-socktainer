@@ -32,6 +32,21 @@ if ! socktainer_alive; then
   done
 fi
 
+# socktainer exports every build to builder/<uuid>/out.tar, loads the image from
+# it, and never removes it, so each build leaves hundreds of megabytes behind.
+# Sweep them once the command is done. The 60-minute floor spares exports that a
+# build running elsewhere has yet to load.
+sweep_build_exports() {
+  dir="$HOME/Library/Application Support/com.apple.container/builder"
+  [ -d "$dir" ] || return 0
+  find "$dir" -mindepth 2 -maxdepth 2 -name out.tar -mmin +60 \
+    -exec sh -c 'for f; do rm -f "$f"; rmdir "${f%/*}" 2>/dev/null; done' sh {} + ||
+    true
+}
+
 # DOCKER_BUILDKIT=0: the default buildx driver fails against socktainer. Drop it
 # once buildx works there.
-exec env DOCKER_HOST="unix://$SOCK" DOCKER_BUILDKIT=0 "$@"
+status=0
+env DOCKER_HOST="unix://$SOCK" DOCKER_BUILDKIT=0 "$@" || status=$?
+sweep_build_exports
+exit "$status"
