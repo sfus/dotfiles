@@ -484,11 +484,8 @@ fi
 
 alias c='claude'
 alias cc='claude --continue'
-alias ccd='claude --continue --dangerously-skip-permissions'
-alias yoloclaude='claude --dangerously-skip-permissions'
-alias yolocodex='codex --yolo'
-alias yologemini='gemini --approval-mode=yolo'
 alias ca='agent'
+alias claude-chrome='env -u CLAUDE_CODE_OAUTH_TOKEN claude --chrome'
 
 # alias pd=perldoc
 alias pd=cpandoc -i
