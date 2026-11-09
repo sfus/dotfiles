@@ -58,6 +58,15 @@ keybind = ctrl+cmd+.=text:\x11\x6e
 # Ctrl+Cmd+, sends Ctrl-Q + 'p'
 keybind = ctrl+cmd+,=text:\x11\x70
 
+# herdr pane focus: Cmd+h/j/k/l sends Ctrl-Q + Ctrl+h/j/k/l
+# (focus_pane_left/down/up/right in terminal/herdr/config.toml).
+# Ctrl+<letter> is sent as a kitty keyboard protocol CSI-u sequence, not as a
+# raw C0 byte, because 0x08 / 0x0a would read as Backspace / Enter.
+keybind = super+h=text:\x11\x1b[104;5u
+keybind = super+j=text:\x11\x1b[106;5u
+keybind = super+k=text:\x11\x1b[107;5u
+keybind = super+l=text:\x11\x1b[108;5u
+
 # For Claude Code
 # Shift+Enter sends Alt+Enter
 keybind = shift+enter=text:\x1b\x0d

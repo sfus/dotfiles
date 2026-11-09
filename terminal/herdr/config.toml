@@ -121,10 +121,10 @@ close_tab = "prefix+k"
 # focus_pane_down = "prefix+j"
 # focus_pane_up = "prefix+k"
 # focus_pane_right = "prefix+l"
-focus_pane_left = ""
-focus_pane_down = ""
-focus_pane_up = ""
-focus_pane_right = ""
+focus_pane_left = "prefix+ctrl+h"
+focus_pane_down = "prefix+ctrl+j"
+focus_pane_up = "prefix+ctrl+k"
+focus_pane_right = "prefix+ctrl+l"
 # cycle_pane_next = "prefix+tab"
 # cycle_pane_previous = "prefix+shift+tab"
 cycle_pane_next = "alt+o"
@@ -197,22 +197,22 @@ type = "pane"                        # opens a temporary pane to show the echo o
 command = "herdr-unread"
 
 [[keys.command]]
-key = "prefix+ctrl+h"
+key = "prefix+shift+h"
 type = "shell"
 command = "herdr pane swap --direction left"
 
 [[keys.command]]
-key = "prefix+ctrl+j"
+key = "prefix+shift+j"
 type = "shell"
 command = "herdr pane swap --direction down"
 
 [[keys.command]]
-key = "prefix+ctrl+k"
+key = "prefix+shift+k"
 type = "shell"
 command = "herdr pane swap --direction up"
 
 [[keys.command]]
-key = "prefix+ctrl+l"
+key = "prefix+shift+l"
 type = "shell"
 command = "herdr pane swap --direction right"
 
