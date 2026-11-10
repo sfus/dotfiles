@@ -180,14 +180,16 @@ key = "alt+'"                        # sits next to alt+; (dashboard toggle)
 type = "shell"                       # run in the background; does not occupy the terminal
 command = "dagg toggle-human"
 
-# dagg plan-overview swap — in a solo-dev session's plan window, swap the plan
-# overview (HTML) and the hunk pane in the right column, so either can be read
-# large. Bound here so it works from any pane, hunk included; elsewhere (other
-# workflows, tmux) it does nothing and logs why to ~/.dagg/logs/toggle-<date>.log.
+# dagg html-pane swap — swap the HTML pane (plan overview or review report) and
+# the hunk pane in the right column of a dagg dialogue window (solo-dev's plan
+# window, pr-review / code-review's analyze window), so either can be read
+# large. Bound here so it works from any pane, hunk included; where there are no
+# such panes (tmux, other workflows) it does nothing and logs why to
+# ~/.dagg/logs/toggle-<date>.log.
 [[keys.command]]
 key = "alt+/"                        # next to alt+; and alt+' (the other dagg keys)
 type = "shell"                       # run in the background; does not occupy the terminal
-command = "dagg plan-overview swap"
+command = "dagg html-pane swap"
 
 # herdr-unread — focus the next agent pane needing attention (blocked > done),
 # cycling within that group on repeated presses.
