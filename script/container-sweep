@@ -1,0 +1,83 @@
+#!/bin/sh
+# Clean up what Apple's `container` leaves to grow on its own.
+#
+#   container-sweep            # both steps below (run hourly by dagg cron)
+#   container-sweep exports    # only the build exports (run by with-socktainer)
+#
+# 1. Build exports. socktainer exports every build to builder/<uuid>/out.tar,
+#    loads the image from it, and never removes it, so each build leaves
+#    hundreds of megabytes behind. The 60-minute floor spares exports that a
+#    build running elsewhere has yet to load.
+# 2. The builder's BuildKit cache. The builder container keeps its cache in its
+#    rootfs and nothing prunes it; one grew to 113G. It is deleted (and created
+#    again by the next build, which then runs without a cache) only when the
+#    apiserver answers, the builder is stopped, and the rootfs uses more than
+#    CONTAINER_BUILDER_MAX_GB (default 30). A running builder may be mid-build,
+#    and the apiserver is never started just to clean up.
+#
+# Each step prints one line saying what it did or why it did nothing.
+set -u
+
+ROOT="$HOME/Library/Application Support/com.apple.container"
+MAX_GB="${CONTAINER_BUILDER_MAX_GB:-30}"
+
+say() { echo "container-sweep: $*"; }
+
+sweep_exports() {
+  dir="$ROOT/builder"
+  if [ ! -d "$dir" ]; then
+    say "exports: no builder directory"
+    return 0
+  fi
+  n=$(find "$dir" -mindepth 2 -maxdepth 2 -name out.tar -mmin +60 | wc -l | tr -d ' ')
+  find "$dir" -mindepth 2 -maxdepth 2 -name out.tar -mmin +60 \
+    -exec sh -c 'for f; do rm -f "$f"; rmdir "${f%/*}" 2>/dev/null; done' sh {} + ||
+    true
+  say "exports: removed $n older than 60 minutes"
+}
+
+sweep_builder() {
+  if ! command -v container >/dev/null 2>&1; then
+    say "builder: container is not installed"
+    return 0
+  fi
+  if ! json=$(container builder status --format json 2>/dev/null); then
+    say "builder: the container apiserver is not running; left alone"
+    return 0
+  fi
+  state=$(printf '%s' "$json" | jq -r '.[0].status.state // empty' 2>/dev/null)
+  if [ -z "$state" ]; then
+    say "builder: none"
+    return 0
+  fi
+  rootfs="$ROOT/containers/buildkit/rootfs.ext4"
+  kb=$(du -k "$rootfs" 2>/dev/null | cut -f1)
+  if [ -z "$kb" ]; then
+    say "builder: $state, but $rootfs cannot be measured; left alone"
+    return 0
+  fi
+  gb=$((kb / 1048576))
+  if [ "$state" != "stopped" ]; then
+    say "builder: ${gb}G, $state (may be building); left alone"
+    return 0
+  fi
+  if [ "$gb" -le "$MAX_GB" ]; then
+    say "builder: ${gb}G, within ${MAX_GB}G; left alone"
+    return 0
+  fi
+  if container builder delete >/dev/null 2>&1; then
+    say "builder: ${gb}G over ${MAX_GB}G; deleted (the next build creates it again)"
+  else
+    say "builder: ${gb}G over ${MAX_GB}G, but container builder delete failed"
+  fi
+}
+
+case "${1:-all}" in
+  exports) sweep_exports ;;
+  all) sweep_exports; sweep_builder ;;
+  *)
+    echo "usage: container-sweep [exports]" >&2
+    exit 2
+    ;;
+esac
+exit 0
