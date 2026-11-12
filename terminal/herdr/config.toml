@@ -324,14 +324,16 @@ agent_panel_sort = "priority"
 accent = "cyan"
 
 # Custom sidebar rows fed by `herdr workspace report-metadata`. On top of the
-# default space rows, $cu_5h / $cu_7d are custom metadata tokens pushed by an
-# external scheduled job to show Claude Code 5h / 7d rate-limit usage
+# default space rows, $dagg_status / $dagg_task are reported by dagg for each
+# dagg session (state emoji + what it waits on / the task), and $cu_5h /
+# $cu_7d are custom metadata tokens pushed by an external scheduled job to
+# show Claude Code 5h / 7d rate-limit usage
 # (progress bar + percent + reset) on a single workspace. Unreported tokens
 # simply collapse, so the rows appear only under the workspace that receives
 # them. Placed here, after every [ui] scalar key, because an active
 # [ui.sidebar.spaces] header would otherwise capture the keys below it.
 [ui.sidebar.spaces]
-rows = [["state_icon", "workspace"], ["branch", "git_status"], ["$cu_5h"], ["$cu_7d"]]
+rows = [["state_icon", "workspace"], ["$dagg_status"], ["$dagg_task"], ["branch", "git_status"], ["$cu_5h"], ["$cu_7d"]]
 
 # Background notification popup delivery
 [ui.toast]
