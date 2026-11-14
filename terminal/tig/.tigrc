@@ -81,9 +81,13 @@ set diff-highlight = true
 # カラー設定
 # diff-view で境界が見やすくなるように変更
 #color default           white   black
-color  diff-header       default magenta
+color  diff-header       black   magenta
 #color diff-index        default blue
 color  diff-chunk        black   white
+color  cursor            black   green   bold
+color  cursor-blur       default 8
+color  title-focus       black   blue    bold
+color  title-blur        default 8
 #color "Reported-by:"    default green
 #color tree.date         black   cyan    bold
 
