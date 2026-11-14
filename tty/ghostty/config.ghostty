@@ -15,7 +15,7 @@ font-thicken-strength = 128
 # Set the color theme
 theme = "TokyoNight"
 # Set the window background transparency level
-background-opacity = 0.80
+background-opacity = 0.95
 # Enforce minimum contrast ratio between text and background
 minimum-contrast = 1.05
 # Apply background opacity per cell (improves visual consistency)
