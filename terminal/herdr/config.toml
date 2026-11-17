@@ -438,3 +438,14 @@ command = '''cd "$(herdr pane current --current | jq -r '.result.pane.foreground
 width = "90%"
 height = "90%"
 description = "tig for the focused pane's worktree"
+
+# vifm — browse the focused pane's worktree in a popup, like the tig binding
+# above, so the tab layout stays untouched. Ctrl-g in normal mode quits vifm,
+# which closes the popup, matching Ctrl-g in the tig popup.
+[[keys.command]]
+key = "prefix+ctrl+o"
+type = "popup"
+command = '''cd "$(herdr pane current --current | jq -r '.result.pane.foreground_cwd // .result.pane.cwd')" 2>/dev/null; exec vifm -c 'nnoremap <c-g> :quit<cr>' .'''
+width = "90%"
+height = "90%"
+description = "vifm for the focused pane's worktree"
