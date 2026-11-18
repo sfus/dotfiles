@@ -441,11 +441,13 @@ description = "tig for the focused pane's worktree"
 
 # vifm — browse the focused pane's worktree in a popup, like the tig binding
 # above, so the tab layout stays untouched. Ctrl-g in normal mode quits vifm,
-# which closes the popup, matching Ctrl-g in the tig popup.
+# which closes the popup, matching Ctrl-g in the tig popup. x opens a new herdr
+# tab with a shell in the directory being shown and closes the popup (vifmrc
+# maps x to a tmux split, which does not work here).
 [[keys.command]]
 key = "prefix+ctrl+o"
 type = "popup"
-command = '''cd "$(herdr pane current --current | jq -r '.result.pane.foreground_cwd // .result.pane.cwd')" 2>/dev/null; exec vifm -c 'nnoremap <c-g> :quit<cr>' .'''
+command = '''cd "$(herdr pane current --current | jq -r '.result.pane.foreground_cwd // .result.pane.cwd')" 2>/dev/null; exec vifm -c 'nnoremap <c-g> :quit<cr>' -c 'nnoremap x :!herdr tab create --cwd %d --focus<cr>:quit<cr>' .'''
 width = "90%"
 height = "90%"
 description = "vifm for the focused pane's worktree"
