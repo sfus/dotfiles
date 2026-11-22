@@ -135,6 +135,8 @@ focus_pane_right = "prefix+ctrl+l"
 cycle_pane_next = "alt+o"
 cycle_pane_previous = "alt+shift+o"
 # last_pane = ""          # optional, unset by default; bind e.g. "prefix+tab" for global back-and-forth
+# Cmd+o in Ghostty sends this.
+last_pane = "prefix+shift+o"
 # split_vertical = "prefix+v"
 # split_horizontal = "prefix+minus"
 split_horizontal = "prefix+minus"

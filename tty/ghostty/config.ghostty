@@ -67,6 +67,10 @@ keybind = super+j=text:\x11\x1b[106;5u
 keybind = super+k=text:\x11\x1b[107;5u
 keybind = super+l=text:\x11\x1b[108;5u
 
+# herdr last pane: Cmd+o sends Ctrl-Q + O (last_pane in
+# terminal/herdr/config.toml).
+keybind = super+o=text:\x11O
+
 # For Claude Code
 # Shift+Enter sends Alt+Enter
 keybind = shift+enter=text:\x1b\x0d
