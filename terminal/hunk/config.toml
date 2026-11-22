@@ -9,3 +9,7 @@ agent_notes = true
 copy_decorations = false
 cursor_line = "row"
 sidebar = true
+
+[keybindings]
+"hunk.app.toggleFocusArea" = "shift+tab"
+"hunk.review.saveNote" = ["alt+enter", "ctrl+s"]
