@@ -45,6 +45,10 @@ ln -sf $DIR/terminal/tmux/mytheme.sh ~/.config/tmux-powerline/themes/mytheme.sh
 # herdr
 install -d ~/.config/herdr
 ln -sf $DIR/terminal/herdr/config.toml ~/.config/herdr/config.toml
+# config.toml resolves relative sound paths from ~/.config/herdr, not from its
+# symlink target
+install -d ~/.config/herdr/sounds
+ln -sf $DIR/terminal/herdr/sounds/silent.mp3 ~/.config/herdr/sounds/silent.mp3
 
 # hunk
 install -d ~/.config/hunk

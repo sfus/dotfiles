@@ -363,6 +363,9 @@ delivery = "terminal"
 # Optional custom mp3 sound files. Relative paths are resolved from this config file's directory.
 # path = "sounds/notification.mp3"   # one mp3 file for all sound notifications
 # done_path = "sounds/done.mp3"      # overrides only finished notifications
+done_path = "sounds/silent.mp3"
+# silent.mp3 is terminal/herdr/sounds/silent.mp3, linked into ~/.config/herdr
+# by create_symlink.sh; [ui.sound] has no per-sound on/off switch.
 # request_path = "sounds/request.mp3" # overrides only needs-attention notifications
 
 # Per-agent overrides: default | on | off
